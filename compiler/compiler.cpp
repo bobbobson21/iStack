@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 
 	ist::IstackModuleExacuteor exec = ist::IstackModuleExacuteor();
 	
-	ist::modules::LoadVarModule(&exec, &parser);
+	ist::modules::LoadVarModules(&exec, &parser);
 	ist::modules::LoadScopeModules(&exec, &parser);
 	ist::modules::LoadIoModules(&exec, &parser);
 	ist::modules::LoadLogicModules(&exec, &parser);

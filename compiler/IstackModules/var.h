@@ -26,7 +26,7 @@ namespace ist
 			}
 		}
 
-		void LoadVarModule(IstackModuleExacuteor* module, IstackLexParser* parser)
+		void LoadVarModules(IstackModuleExacuteor* module, IstackLexParser* parser)
 		{
 			ist::IstackModuleType byte = ist::IstackModuleType();
 			byte.FreeData = raw::FreeData_Single;
