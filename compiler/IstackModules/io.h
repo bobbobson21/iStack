@@ -54,6 +54,7 @@ namespace ist
 			ist::IstackModuleType selfPrint = ist::IstackModuleType();
 			selfPrint.ValidateSelf = raw::ValidateSelf_SelfPrint;
 			selfPrint.FreeData = raw::FreeData_Single;
+			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
 			module->AddModule(selfPrint);
 			if (parser != nullptr) { parser->AddWords("SelfPrint"); }

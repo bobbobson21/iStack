@@ -230,6 +230,7 @@ namespace ist
 			ist::IstackModuleType ifMod = ist::IstackModuleType();
 			ifMod.ValidateStack = raw::ValidateStack_If;
 			ifMod.ValidateSelf = raw::ValidateSelf_Fail;
+			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->AddModule(ifMod);
 			if (parser != nullptr) { parser->AddWords("If"); }
@@ -238,6 +239,8 @@ namespace ist
 			ist::IstackModuleType notMod = ist::IstackModuleType();
 			notMod.ValidateStack = raw::ValidateStack_Not;
 			notMod.ValidateSelf = raw::ValidateSelf_Success;
+			notMod.FreeData = raw::FreeData_Single;
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(notMod);
 			if (parser != nullptr) { parser->AddWords("Not"); }
@@ -246,6 +249,7 @@ namespace ist
 			ist::IstackModuleType orMod = ist::IstackModuleType();
 			orMod.ValidateStack = raw::ValidateStack_Or;
 			orMod.ValidateSelf = raw::ValidateSelf_Success;
+			orMod.FreeData = raw::FreeData_Single;
 
 			module->AddModule(orMod);
 			if (parser != nullptr) { parser->AddWords("Or"); }
