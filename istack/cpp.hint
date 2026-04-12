@@ -1,0 +1,2 @@
+#define ISTACK_API __declspec(dllexport)
+#define ISTACK_API __declspec(dllimport)
