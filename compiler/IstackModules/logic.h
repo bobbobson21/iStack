@@ -250,6 +250,62 @@ namespace ist
 			module->AddModule(orMod);
 			if (parser != nullptr) { parser->AddWords("Or"); }
 
+
+			ist::IstackModuleType set = ist::IstackModuleType();
+			set.ValidateStack = raw::ValidateStack_StringEqualThan;
+			set.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(set);
+			if (parser != nullptr) { parser->AddWords("s=="); }
+
+
+			ist::IstackModuleType iet = ist::IstackModuleType();
+			iet.ValidateStack = raw::ValidateStack_IntEqualThan;
+			iet.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(iet);
+			if (parser != nullptr) { parser->AddWords("i=="); }
+
+
+			ist::IstackModuleType imt = ist::IstackModuleType();
+			imt.ValidateStack = raw::ValidateStack_IntMoreThan;
+			imt.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(imt);
+			if (parser != nullptr) { parser->AddWords("i>"); }
+
+
+			ist::IstackModuleType ilt = ist::IstackModuleType();
+			ilt.ValidateStack = raw::ValidateStack_IntLessThan;
+			ilt.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(ilt);
+			if (parser != nullptr) { parser->AddWords("i<"); }
+
+
+			ist::IstackModuleType fet = ist::IstackModuleType();
+			fet.ValidateStack = raw::ValidateStack_FloatEqualThan;
+			fet.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(fet);
+			if (parser != nullptr) { parser->AddWords("f=="); }
+
+
+			ist::IstackModuleType fmt = ist::IstackModuleType();
+			fmt.ValidateStack = raw::ValidateStack_FloatMoreThan;
+			fmt.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(fmt);
+			if (parser != nullptr) { parser->AddWords("f>"); }
+
+
+			ist::IstackModuleType flt = ist::IstackModuleType();
+			flt.ValidateStack = raw::ValidateStack_FloatLessThan;
+			flt.ValidateSelf = raw::ValidateSelf_Success;
+
+			module->AddModule(flt);
+			if (parser != nullptr) { parser->AddWords("f<"); }
+
 		}
 	}
 }

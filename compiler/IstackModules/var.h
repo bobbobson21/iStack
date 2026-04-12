@@ -36,22 +36,6 @@ namespace ist
 			if (parser != nullptr) { parser->AddWords("Byte"); }
 
 
-			ist::IstackModuleType twoByte = ist::IstackModuleType();
-			twoByte.FreeData = raw::FreeData_Single;
-			twoByte.CopyData = raw::CopyData_TwoChar;
-
-			module->AddModule(twoByte);
-			if (parser != nullptr) { parser->AddWords("TwoByte"); }
-
-
-			ist::IstackModuleType threeByte = ist::IstackModuleType();
-			threeByte.FreeData = raw::FreeData_Single;
-			threeByte.CopyData = raw::CopyData_ThreeChar;
-
-			module->AddModule(threeByte);
-			if (parser != nullptr) { parser->AddWords("ThreeByte"); }
-
-
 			ist::IstackModuleType fourByte = ist::IstackModuleType();
 			fourByte.FreeData = raw::FreeData_Single;
 			fourByte.CopyData = raw::CopyData_FourChar;

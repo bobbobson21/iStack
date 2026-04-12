@@ -26,26 +26,21 @@ namespace ist
 			void CopyData_Char(void** copyFrom, void** copyTo)
 			{
 				delete (*copyTo);
-				memcpy((*copyFrom), (*copyTo), 1);
-			}
+				char* buffer = new char;
 
-			void CopyData_TwoChar(void** copyFrom, void** copyTo)
-			{
-				delete (*copyTo);
-				memcpy((*copyFrom), (*copyTo), 2);
-			}
-
-			void CopyData_ThreeChar(void** copyFrom, void** copyTo)
-			{
-				delete (*copyTo);
-				memcpy((*copyFrom), (*copyTo), 3);
+				memcpy(buffer, (*copyFrom), 1);
+				(*copyTo) = buffer;
 			}
 
 			void CopyData_FourChar(void** copyFrom, void** copyTo)
 			{
 				delete (*copyTo);
-				memcpy((*copyFrom), (*copyTo), 4);
+				char* buffer = new char[4];
+
+				memcpy(buffer, (*copyFrom), 4);
+				(*copyTo) = buffer;
 			}
+
 
 			//void FreeData_Array(void** data)
 			//{

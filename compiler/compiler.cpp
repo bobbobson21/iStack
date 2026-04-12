@@ -98,6 +98,8 @@ int main(int argc, char* argv[])
 	ist::modules::LoadVarModule(&exec, &parser);
 	ist::modules::LoadScopeModules(&exec, &parser);
 	ist::modules::LoadIoModules(&exec, &parser);
+	ist::modules::LoadLogicModules(&exec, &parser);
+
 
 	//istack exacutes from bottom to top so the instruction lowest down will be doe first the the one highest up will be done last and parser is what compiles the code so exec can run it
 	// istack code here ///////////////////////////////////////////////////////////////////
@@ -106,8 +108,13 @@ int main(int argc, char* argv[])
 	parser << "{;";
 	parser << "   SelfPrint(c);";
 
-	parser << "   Exec();";
-	parser << "   Exec();";
+	//parser << "   Exec();";
+	//parser << "   Exec();";
+
+	parser << "   If;";
+	parser << "   i==;";
+	parser << "   FourByte(2);";
+	parser << "   FourByte(2);";
 	parser << "   {;";
 	parser << "      PopPrint();";
 	parser << "      String(wowo);";
