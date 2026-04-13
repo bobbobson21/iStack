@@ -119,11 +119,11 @@ int main(int argc, char* argv[])
 	parser << "   i==;";
 	parser << "   FourByte(69);";
 	//parser << "   FourByte(2);";
-	parser << "str>>i;";
-	parser << "SelfInput();";
+	parser << "   str>>i;";
+	parser << "   SelfInput();";
 	parser << "   {;";
 	parser << "      PopPrint();";
-	parser << "      String(The guy who made this is a gay furry who licks to fuck in the woods);";
+	parser << "      String(The guy who made this is a gay furry who likes to fuck in the woods);";
 	parser << "   };";
 
 	parser << "   SelfPrint(a);";

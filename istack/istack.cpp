@@ -263,7 +263,7 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 		
 		if (doDeleteOfPipeFramesAsWell == true)
 		{
-			delete (*frame->GetPipe());
+			delete (IstackStackFrame*)(*frame->GetPipe());
 			(*frame->GetPipe()) = nullptr;
 		}
 	}
@@ -274,7 +274,7 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 
 		if (doDeleteOfPipeFramesAsWell == true)
 		{
-			delete (*frame->GetClearedPipe());
+			delete (IstackStackFrame*)(*frame->GetClearedPipe());
 			(*frame->GetClearedPipe()) = nullptr;
 		}
 	}
