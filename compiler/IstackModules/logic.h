@@ -271,7 +271,6 @@ namespace ist
 
 				return true;
 			}
-
 		}
 
 		void LoadLogicModules(IstackModuleExacuteor* module, IstackLexParser* parser)
@@ -318,7 +317,7 @@ namespace ist
 			set.ValidateSelf = raw::ValidateSelf_Success;
 
 			module->AddModule(set);
-			if (parser != nullptr) { parser->AddWords("s=="); }
+			if (parser != nullptr) { parser->AddWords("str=="); }
 
 
 			ist::IstackModuleType iet = ist::IstackModuleType();

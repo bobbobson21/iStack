@@ -28,7 +28,7 @@ namespace ist
 				delete (*copyTo);
 				char* buffer = new char;
 
-				memcpy(buffer, (*copyFrom), 1);
+				memcpy(buffer, (*copyFrom), sizeof(char) * 1);
 				(*copyTo) = buffer;
 			}
 
@@ -37,7 +37,7 @@ namespace ist
 				delete (*copyTo);
 				char* buffer = new char[4];
 
-				memcpy(buffer, (*copyFrom), 4);
+				memcpy(buffer, (*copyFrom), sizeof(char) * 4);
 				(*copyTo) = buffer;
 			}
 

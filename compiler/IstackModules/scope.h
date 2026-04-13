@@ -33,19 +33,6 @@ namespace ist
 			}
 
 
-			bool ValidateSelfPiped_ScopeEnd(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
-			{
-				dumpFrame->PopPipeDepthContext();
-
-				if (dumpFrame->TopPipeDepthContext() == 0)
-				{
-					dumpFrame->ClearPipe();
-					return false;
-				}
-
-				return true;
-			}
-
 			bool ValidateSelfPiped_ScopeEndFliped(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				dumpFrame->PopPipeDepthContext();
@@ -104,14 +91,6 @@ namespace ist
 
 			module->AddModule(scopeStart);
 			if (parser != nullptr) { parser->AddWords("}"); }
-
-
-			ist::IstackModuleType scopeEnd = ist::IstackModuleType();
-			scopeEnd.ValidateStack = raw::ValidateSelf_Fail;
-			scopeEnd.ValidateSelfPiped = raw::ValidateSelfPiped_ScopeEnd;
-
-			module->AddModule(scopeEnd);
-			if (parser != nullptr) { parser->AddWords("!{"); }
 
 
 			ist::IstackModuleType scopeEndFliped = ist::IstackModuleType();

@@ -52,19 +52,19 @@ void DataParse(char* string, unsigned int stringLength, ist::IstackUnit* unit)
 
 	try
 	{
-		float data = std::stof(stringProper);
+		int data = std::stoi(stringProper);
 
-		unit->m_data = new float();
-		(*((float*)unit->m_data)) = data;
+		unit->m_data = new int();
+		(*((int*)unit->m_data)) = data;
 	}
 	catch (...)
 	{
 		try
 		{
-			int data = std::stof(stringProper);
+			float data = std::stof(stringProper);
 
-			unit->m_data = new int();
-			(*((int*)unit->m_data)) = data;
+			unit->m_data = new float();
+			(*((float*)unit->m_data)) = data;
 		}
 		catch (...)
 		{
@@ -117,11 +117,13 @@ int main(int argc, char* argv[])
 
 	parser << "   If;";
 	parser << "   i==;";
-	parser << "   FourByte(2);";
-	parser << "   FourByte(2);";
+	parser << "   FourByte(69);";
+	//parser << "   FourByte(2);";
+	parser << "str>>i;";
+	parser << "SelfInput();";
 	parser << "   {;";
 	parser << "      PopPrint();";
-	parser << "      String(wowo);";
+	parser << "      String(The guy who made this is a gay furry who licks to fuck in the woods);";
 	parser << "   };";
 
 	parser << "   SelfPrint(a);";

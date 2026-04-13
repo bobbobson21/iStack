@@ -226,13 +226,189 @@ namespace ist
 				return true;
 			}
 
+
+			bool ValidateStack_DupeByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->Length() < 1) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+
+				ist::IstackUnit typeToAdd = ist::IstackUnit();
+				typeToAdd.m_modualTypeCode = 0 + m_varLibLocationForConversionLib; //0 + ?: is byte type
+				typeToAdd.m_data = new char;
+
+				memcpy(typeToAdd.m_data, (*data), sizeof(char) * 1);
+
+				dumpFrame->Push(typeToAdd);
+			}
+
+			bool ValidateStack_DupeFourByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->Length() < 1) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+
+				ist::IstackUnit typeToAdd = ist::IstackUnit();
+				typeToAdd.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+				typeToAdd.m_data = new char[4];
+				
+				memcpy(typeToAdd.m_data, (*data), sizeof(char) * 4);
+
+				dumpFrame->Push(typeToAdd);
+			}
+
+			bool ValidateStack_DupeString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->Length() < 1) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+
+				ist::IstackUnit typeToAdd = ist::IstackUnit();
+				typeToAdd.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+				typeToAdd.m_data = new std::string;
+
+				for (size_t i = 0; i < (*(std::string*)(*data)).size(); i++)
+				{
+					(*(std::string*)(typeToAdd.m_data)) += (*(std::string*)(*data))[i];
+				}
+
+				dumpFrame->Push(typeToAdd);
+			}
 		}
 
 		void LoadConversionModules(IstackModuleExacuteor* module, IstackLexParser* parser, unsigned int varLibOffset)
 		{
 			raw::m_varLibLocationForConversionLib = varLibOffset;
 
+			
+			ist::IstackModuleType ItF = ist::IstackModuleType();
+			ItF.ValidateStack = raw::ValidateStack_IntToFloat;
+			ItF.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
+			module->AddModule(ItF);
+			if (parser != nullptr) { parser->AddWords("i>>f"); }
+
+
+			ist::IstackModuleType FtI = ist::IstackModuleType();
+			FtI.ValidateStack = raw::ValidateStack_FloatToInt;
+			FtI.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(FtI);
+			if (parser != nullptr) { parser->AddWords("f>>i"); }
+
+
+			ist::IstackModuleType ItS = ist::IstackModuleType();
+			ItS.ValidateStack = raw::ValidateStack_IntToString;
+			ItS.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(ItS);
+			if (parser != nullptr) { parser->AddWords("i>>str"); }
+
+
+			ist::IstackModuleType StI = ist::IstackModuleType();
+			StI.ValidateStack = raw::ValidateStack_StringToInt;
+			StI.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(StI);
+			if (parser != nullptr) { parser->AddWords("str>>i"); }
+
+
+			ist::IstackModuleType FtS = ist::IstackModuleType();
+			FtS.ValidateStack = raw::ValidateStack_FloatToString;
+			FtS.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(FtS);
+			if (parser != nullptr) { parser->AddWords("f>>str"); }
+
+
+			ist::IstackModuleType StF = ist::IstackModuleType();
+			StF.ValidateStack = raw::ValidateStack_StringToFloat;
+			StF.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(StF);
+			if (parser != nullptr) { parser->AddWords("str>>f"); }
+
+
+			ist::IstackModuleType StB = ist::IstackModuleType();
+			StB.ValidateStack = raw::ValidateStack_StringToBool;
+			StB.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(StB);
+			if (parser != nullptr) { parser->AddWords("str>>b"); }
+
+
+			ist::IstackModuleType BtS = ist::IstackModuleType();
+			BtS.ValidateStack = raw::ValidateStack_BoolToString;
+			BtS.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(BtS);
+			if (parser != nullptr) { parser->AddWords("b>>str"); }
+
+
+			ist::IstackModuleType BtI = ist::IstackModuleType();
+			BtI.ValidateStack = raw::ValidateStack_BoolToInt;
+			BtI.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(BtI);
+			if (parser != nullptr) { parser->AddWords("b>>i"); }
+
+
+			ist::IstackModuleType ItB = ist::IstackModuleType();
+			ItB.ValidateStack = raw::ValidateStack_IntToBool;
+			ItB.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(ItB);
+			if (parser != nullptr) { parser->AddWords("i>>b"); }
+
+
+			ist::IstackModuleType Bcpy = ist::IstackModuleType();
+			Bcpy.ValidateStack = raw::ValidateStack_DupeByte;
+			Bcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(Bcpy);
+			if (parser != nullptr) { parser->AddWords("Byte<<"); }
+
+
+			ist::IstackModuleType FBcpy = ist::IstackModuleType();
+			FBcpy.ValidateStack = raw::ValidateStack_DupeFourByte;
+			FBcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(FBcpy);
+			if (parser != nullptr) { parser->AddWords("FourByte<<"); }
+
+
+			ist::IstackModuleType STRcpy = ist::IstackModuleType();
+			STRcpy.ValidateStack = raw::ValidateStack_DupeString;
+			STRcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->AddModule(STRcpy);
+			if (parser != nullptr) { parser->AddWords("String<<"); }
 		}
 	}
 }
