@@ -26,6 +26,8 @@ namespace ist
 					return false;
 				}
 
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
 				std::cout << "output: " << (*(std::string*)(dumpFrame->Top().m_data)) << std::endl;
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();

@@ -39,6 +39,7 @@ namespace ist
 			bool ValidateStack_Not(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 1) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				bool A = (*(bool*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -56,10 +57,13 @@ namespace ist
 			bool ValidateStack_Or(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				bool A = (*(bool*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				bool B = (*(bool*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -74,14 +78,41 @@ namespace ist
 				return true;
 			}
 
+			bool ValidateStack_And(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+				bool A = (*(bool*)(dumpFrame->Top().m_data));
+				exec->FreeUnit(dumpFrame->TopPtr());
+				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+				bool B = (*(bool*)(dumpFrame->Top().m_data));
+				exec->FreeUnit(dumpFrame->TopPtr());
+				dumpFrame->Pop();
+
+
+				delete (*data);
+
+				(*data) = new bool;
+				(*(bool*)(*data)) = (A && B);
+
+				return true;
+			}
+
 
 			bool ValidateStack_StringEqualThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				std::string A = (*(std::string*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				std::string B = (*(std::string*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -99,10 +130,13 @@ namespace ist
 			bool ValidateStack_IntEqualThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -120,10 +154,13 @@ namespace ist
 			bool ValidateStack_IntMoreThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -141,10 +178,13 @@ namespace ist
 			bool ValidateStack_IntLessThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -163,10 +203,13 @@ namespace ist
 			bool ValidateStack_FloatEqualThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				float A = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				float B = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -184,10 +227,13 @@ namespace ist
 			bool ValidateStack_FloatMoreThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				float A = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				float B = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -205,10 +251,13 @@ namespace ist
 			bool ValidateStack_FloatLessThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->Length() < 2) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				float A = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
+
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
 
 				float B = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -253,6 +302,15 @@ namespace ist
 
 			module->AddModule(orMod);
 			if (parser != nullptr) { parser->AddWords("Or"); }
+
+
+			ist::IstackModuleType andMod = ist::IstackModuleType();
+			andMod.ValidateStack = raw::ValidateStack_And;
+			andMod.ValidateSelf = raw::ValidateSelf_Success;
+			andMod.FreeData = raw::FreeData_Single;
+
+			module->AddModule(andMod);
+			if (parser != nullptr) { parser->AddWords("And"); }
 
 
 			ist::IstackModuleType set = ist::IstackModuleType();

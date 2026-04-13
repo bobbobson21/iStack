@@ -9,6 +9,8 @@
 #include "IstackModules/scope.h"
 #include "IstackModules/var.h"
 #include "IstackModules/logic.h"
+#include "IstackModules/math.h"
+#include "IstackModules/conversion.h"
 
 #include "istack/istack.h"
 
@@ -96,9 +98,11 @@ int main(int argc, char* argv[])
 	ist::IstackModuleExacuteor exec = ist::IstackModuleExacuteor();
 	
 	ist::modules::LoadVarModules(&exec, &parser);
+	ist::modules::LoadConversionModules(&exec, &parser, 0);
 	ist::modules::LoadScopeModules(&exec, &parser);
 	ist::modules::LoadIoModules(&exec, &parser);
 	ist::modules::LoadLogicModules(&exec, &parser);
+	ist::modules::LoadMathModules(&exec, &parser);
 
 
 	//istack exacutes from bottom to top so the instruction lowest down will be doe first the the one highest up will be done last and parser is what compiles the code so exec can run it
