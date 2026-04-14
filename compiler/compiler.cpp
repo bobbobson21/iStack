@@ -11,6 +11,7 @@
 #include "IstackModules/logic.h"
 #include "IstackModules/math.h"
 #include "IstackModules/conversion.h"
+#include "IstackModules/loops.h"
 
 #include "istack/istack.h"
 
@@ -99,6 +100,7 @@ int main(int argc, char* argv[])
 	
 	ist::modules::LoadVarModules(&exec, &parser);
 	ist::modules::LoadConversionModules(&exec, &parser, 0);
+	ist::modules::LoadLoopsModules(&exec, &parser, 0);
 	ist::modules::LoadScopeModules(&exec, &parser);
 	ist::modules::LoadIoModules(&exec, &parser);
 	ist::modules::LoadLogicModules(&exec, &parser);

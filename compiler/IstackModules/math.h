@@ -2,8 +2,6 @@
 
 #include <string>
 
-#include "istack/istack.h"
-
 #include "generics.h"
 
 namespace ist

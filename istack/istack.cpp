@@ -323,8 +323,6 @@ void ist::IstackModuleExacuteor::CopyIstackAndModuleDataFromAndTo(IstackStackFra
 	for (unsigned int i = 0; i < copyFrom->Length(); i++)
 	{
 		IstackUnit newUnit = IstackUnit();
-		
-		newUnit.m_modualTypeCode = transferBuffer[i].m_modualTypeCode;
 		CopyUnitFromAndTo(&transferBuffer[i], &newUnit);
 
 		copyTo->Push(newUnit);
@@ -341,6 +339,8 @@ void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackU
 	{
 		copyTo->m_data = copyFrom->m_data;
 	}
+
+	copyTo->m_modualTypeCode = copyFrom->m_modualTypeCode;
 }
 
 

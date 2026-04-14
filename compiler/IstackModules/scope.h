@@ -3,8 +3,6 @@
 #include <iostream>
 #include <string>
 
-#include "istack/istack.h"
-
 #include "generics.h"
 
 namespace ist
@@ -81,6 +79,55 @@ namespace ist
 
 				return success;
 			}
+		
+
+			bool ValidateStack_PullData(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->Length() < 1) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+				int popAmount = (*(int*)(dumpFrame->Top().m_data));
+				exec->FreeUnit(dumpFrame->TopPtr());
+				dumpFrame->Pop();
+
+				IstackStackFrame codeFrameBeta = IstackStackFrame();
+				exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+
+				exec->FreeFrame(&codeFrameBeta);
+
+				for (int i = 0; i < popAmount; i++)
+				{
+					codeFrameBeta.Pop();
+				}
+
+				IstackUnit newUnit = IstackUnit();
+				newUnit.m_modualTypeCode = codeFrameBeta.Top().m_modualTypeCode;
+				exec->CopyUnitFromAndTo(codeFrameBeta.TopPtr(), &newUnit);
+
+				dumpFrame->Push(newUnit);
+			}
+
+			bool ValidateStack_PullDataPop(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->Length() < 1) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { return false; }
+
+				int popAmount = (*(int*)(dumpFrame->Top().m_data));
+				exec->FreeUnit(dumpFrame->TopPtr());
+				dumpFrame->Pop();
+
+				for (int i = 0; i < popAmount; i++)
+				{
+					(*dumpFrame->GetClearedPipe())->Pop();
+				}
+
+				IstackUnit newUnit = IstackUnit();
+				newUnit.m_modualTypeCode = dumpFrame->Top().m_modualTypeCode;
+				exec->CopyUnitFromAndTo(dumpFrame->TopPtr(), &newUnit);
+
+				dumpFrame->Push(newUnit);
+			}
+			
 		}
 
 		void LoadScopeModules(IstackModuleExacuteor* module, IstackLexParser* parser)
