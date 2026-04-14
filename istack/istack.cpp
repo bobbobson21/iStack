@@ -4,8 +4,6 @@
 #include "pch.h"
 #include "istack.h"
 
-#include <memory>
-
 ist::IstackStackFrame::IstackStackFrame(void)
 {
 }
@@ -302,7 +300,7 @@ void ist::IstackModuleExacuteor::FreeUnit(IstackUnit* unit)
 }
 
 
-void ist::IstackModuleExacuteor::CopyIstackAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo)
+void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo)
 {
 	FreeFrame(copyTo);
 

@@ -54,8 +54,8 @@
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="lib\istack\istack.pdb" />
-    <None Include="lib\istack\istack.dll" />
     <None Include="lib\istack\istack.exp" />
+    <None Include="lib\istack\istack.dll" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />

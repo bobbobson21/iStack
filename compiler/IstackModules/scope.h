@@ -50,14 +50,21 @@ namespace ist
 			{
 				if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
 
-				IstackStackFrame dumpFrameBeta = IstackStackFrame();
-
-				bool success = exec->ExacuteFrame((*dumpFrame->GetClearedPipe()), &dumpFrameBeta);
+				IstackStackFrame* dumpFrameBeta = new IstackStackFrame(); //the dump frame
+				bool success = exec->ExacuteFrame((*dumpFrame->GetClearedPipe()), dumpFrameBeta); //exacutes the dump frame
 				
-				exec->FreeFrameRecursive(&dumpFrameBeta);
-				exec->FreeFrameRecursive((*dumpFrame->GetClearedPipe()));
-
+				exec->FreeFrameRecursive((*dumpFrame->GetClearedPipe())); //deletes the code frame
 				(*dumpFrame->GetClearedPipe()) = nullptr;
+
+				if (dumpFrameBeta->Length() > 0) //inserts the dump frame into the code frames memory space or deletes the dump frame.
+				{
+					(*dumpFrame->GetClearedPipe()) = dumpFrameBeta; //inserts because theres dater in the dump which may be useful
+				}
+				else
+				{
+					exec->FreeFrameRecursive(dumpFrameBeta); //deletes
+					delete dumpFrameBeta;
+				}
 
 				return success;
 			}
@@ -70,7 +77,7 @@ namespace ist
 				IstackStackFrame dumpFrameBeta = IstackStackFrame();
 
 				//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-				exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+				exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
 
 				bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
@@ -83,49 +90,55 @@ namespace ist
 
 			bool ValidateStack_PullData(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
-
-				int popAmount = (*(int*)(dumpFrame->Top().m_data));
+				int popAmount = (*(int*)(dumpFrame->Top().m_data)); //get amount
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
 				IstackStackFrame codeFrameBeta = IstackStackFrame();
-				exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+				exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta); //access a copy of the scope
 
-				exec->FreeFrame(&codeFrameBeta);
-
-				for (int i = 0; i < popAmount; i++)
+				for (int i = 0; i < popAmount; i++) //pop untill amount is reached or untill failure
 				{
 					codeFrameBeta.Pop();
+					if (codeFrameBeta.Length() < 1) { return false; }
 				}
 
+				if (codeFrameBeta.Top().m_data == nullptr) { return false; } //is data valid
+
 				IstackUnit newUnit = IstackUnit();
-				newUnit.m_modualTypeCode = codeFrameBeta.Top().m_modualTypeCode;
 				exec->CopyUnitFromAndTo(codeFrameBeta.TopPtr(), &newUnit);
 
-				dumpFrame->Push(newUnit);
+				dumpFrame->Push(newUnit); //copy data to dump
+				exec->FreeFrame(&codeFrameBeta);
+
+
+				return true;
 			}
 
 			bool ValidateStack_PullDataPop(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
-
-				int popAmount = (*(int*)(dumpFrame->Top().m_data));
+				int popAmount = (*(int*)(dumpFrame->Top().m_data)); //get amount
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				for (int i = 0; i < popAmount; i++)
+				for (int i = 0; i < popAmount; i++) //pop untill amount is reached or untill failure in live dump
 				{
 					(*dumpFrame->GetClearedPipe())->Pop();
+					if ((*dumpFrame->GetClearedPipe())->Length() < 1) { return false; }
 				}
 
-				IstackUnit newUnit = IstackUnit();
-				newUnit.m_modualTypeCode = dumpFrame->Top().m_modualTypeCode;
-				exec->CopyUnitFromAndTo(dumpFrame->TopPtr(), &newUnit);
+				if ((*dumpFrame->GetClearedPipe())->Top().m_data == nullptr) { return false; } //is data valid
 
-				dumpFrame->Push(newUnit);
+				dumpFrame->Push(dumpFrame->Top()); //move data to dump
+				(*dumpFrame->GetClearedPipe())->Pop();
+
+				if ((*dumpFrame->GetClearedPipe())->Length() > 0) //deletes the scope if theres no longer stuff inside
+				{
+					exec->FreeFrameRecursive((*dumpFrame->GetClearedPipe()));
+					(*dumpFrame->GetClearedPipe()) = nullptr;
+				}
+
+				return true;
 			}
 			
 		}
@@ -160,6 +173,22 @@ namespace ist
 
 			module->AddModule(scopeExecPop);
 			if (parser != nullptr) { parser->AddWords("ExecPop"); }
+
+
+			ist::IstackModuleType pullData = ist::IstackModuleType();
+			pullData.ValidateStack = raw::ValidateStack_PullData;
+			pullData.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->AddModule(pullData);
+			if (parser != nullptr) { parser->AddWords("iPullDataFromScope"); }
+
+
+			ist::IstackModuleType pullDataPop = ist::IstackModuleType();
+			pullDataPop.ValidateStack = raw::ValidateStack_PullDataPop;
+			pullDataPop.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->AddModule(pullDataPop);
+			if (parser != nullptr) { parser->AddWords("iPullDataFromScopePop"); }
 
 		}
 	}

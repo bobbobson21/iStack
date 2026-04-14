@@ -25,7 +25,7 @@ namespace ist
 
 					bool success = exec->ExacuteFrame((*dumpFrame->GetClearedPipe()), &dumpFrameBeta);
 
-					exec->FreeFrameRecursive(&dumpFrameBeta);
+					exec->FreeFrameRecursive(&dumpFrameBeta); //there is no way to acesss the dump frames cotents for an if
 					exec->FreeFrameRecursive((*dumpFrame->GetClearedPipe()));
 
 					(*dumpFrame->GetClearedPipe()) = nullptr;

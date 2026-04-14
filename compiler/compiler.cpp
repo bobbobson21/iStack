@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
 	//istack exacutes from bottom to top so the instruction lowest down will be doe first the the one highest up will be done last and parser is what compiles the code so exec can run it
 	// istack code here ///////////////////////////////////////////////////////////////////
 
-	parser << "Exec();";
+	/*parser << "Exec();";
 	parser << "{;";
 	parser << "   SelfPrint(c);";
 
@@ -133,14 +133,28 @@ int main(int argc, char* argv[])
 	parser << "SelfPrint(===============================);";
 	parser << "SelfPrint(a);";
 	parser << "SelfPrint(b);";
-	parser << "SelfPrint(c);";
+	parser << "SelfPrint(c);";*/
+
+	parser << "PopPrint();";
+	parser << "iPullDataFromScope();";
+	parser << "str>>i;";
+	parser << "SelfInput();";
+	parser << "{;";
+	parser << "   String(The guy who made this is a gay furry who likes to fuck in the woods);";
+	parser << "   String(gay furry sex is kinda tight);";
+	parser << "   String(cums on u uwu);";
+	parser << "   String(ah);";
+	parser << "   String(ahhhhhhhhhhhhhhhhh);";
+	parser << "   String(ohaaaaaaaaaaaaaaaaaaa);";
+	parser << "   String(cums);";
+	parser << "};";
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	exec.ExacuteFrame(&codeScope, &dump);
 	
-	exec.FreeFrameRecursive(&codeScope);
-	exec.FreeFrame(&dump);
+	exec.FreeFrame(&codeScope);
+	exec.FreeFrameRecursive(&dump);
 
 	return 0;
 }

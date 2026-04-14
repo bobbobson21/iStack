@@ -103,7 +103,7 @@ namespace ist
 		void FreeFrame(IstackStackFrame* frame);
 		void FreeUnit(IstackUnit* unit);
 
-		void CopyIstackAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo);
+		void CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo);
 		void CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo);
 
 		unsigned int AddModule(IstackModuleType module);

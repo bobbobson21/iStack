@@ -44,7 +44,7 @@ namespace ist
 					dumpFrameBeta.Push(LoopIndexUnit);
 
 					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
 
 					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
@@ -88,7 +88,7 @@ namespace ist
 					dumpFrameBeta.Push(LoopIndexUnit); //allows loop code to access loop index
 
 					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
 
 					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
@@ -138,7 +138,7 @@ namespace ist
 					dumpFrameBeta.Push(LoopIndexUnit); //allows loop code to access loop index
 
 					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
 
 					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
@@ -182,7 +182,7 @@ namespace ist
 					dumpFrameBeta.Push(LoopIndexUnit); //so it knows the index of the loop
 
 					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
 
 					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
