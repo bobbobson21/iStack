@@ -135,18 +135,25 @@ int main(int argc, char* argv[])
 	parser << "SelfPrint(b);";
 	parser << "SelfPrint(c);";*/
 
-	parser << "PopPrint();";
-	parser << "iPullDataFromScope();";
-	parser << "str>>i;";
-	parser << "SelfInput();";
+	parser << "iFor<<i;";
+	parser << "FourByte(7);";
 	parser << "{;";
-	parser << "   String(The guy who made this is a gay furry who likes to fuck in the woods);";
-	parser << "   String(gay furry sex is kinda tight);";
-	parser << "   String(cums on u uwu);";
-	parser << "   String(ah);";
-	parser << "   String(ahhhhhhhhhhhhhhhhh);";
-	parser << "   String(ohaaaaaaaaaaaaaaaaaaa);";
-	parser << "   String(cums);";
+	parser << "   PopPrint();";
+	parser << "   iPullDataFromScope();";
+
+	parser << "   PopPrint();";
+	parser << "   #i>>str;";
+	parser << "   #FourByte<<;";
+
+	parser << "   {;";
+	parser << "      String(The guy who made this is a gay furry who likes to fuck in the woods);";
+	parser << "      String(gay furry sex is kinda tight);";
+	parser << "      String(cums on u uwu);";
+	parser << "      String(ah);";
+	parser << "      String(ahhhhhhhhhhhhhhhhh);";
+	parser << "      String(ohaaaaaaaaaaaaaaaaaaa);";
+	parser << "      String(cums);";
+	parser << "   };";
 	parser << "};";
 
 	//////////////////////////////////////////////////////////////////////////////////////

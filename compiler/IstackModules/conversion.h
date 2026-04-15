@@ -235,7 +235,7 @@ namespace ist
 				typeToAdd.m_modualTypeCode = 0 + m_varLibLocationForConversionLib; //0 + ?: is byte type
 				typeToAdd.m_data = new char;
 
-				memcpy(typeToAdd.m_data, (*data), sizeof(char) * 1);
+				memcpy(typeToAdd.m_data, dumpFrame->Top().m_data, sizeof(char) * 1);
 
 				dumpFrame->Push(typeToAdd);
 			}
@@ -250,7 +250,7 @@ namespace ist
 				typeToAdd.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
 				typeToAdd.m_data = new char[4];
 				
-				memcpy(typeToAdd.m_data, (*data), sizeof(char) * 4);
+				memcpy(typeToAdd.m_data, dumpFrame->Top().m_data, sizeof(char) * 4);
 
 				dumpFrame->Push(typeToAdd);
 			}
@@ -265,9 +265,9 @@ namespace ist
 				typeToAdd.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
 				typeToAdd.m_data = new std::string;
 
-				for (size_t i = 0; i < (*(std::string*)(*data)).size(); i++)
+				for (size_t i = 0; i < (*(std::string*)(dumpFrame->Top().m_data)).size(); i++)
 				{
-					(*(std::string*)(typeToAdd.m_data)) += (*(std::string*)(*data))[i];
+					(*(std::string*)(typeToAdd.m_data)) += (*(std::string*)(dumpFrame->Top().m_data))[i];
 				}
 
 				dumpFrame->Push(typeToAdd);
@@ -286,7 +286,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(ItF);
-			if (parser != nullptr) { parser->AddWords("i>>f"); }
+			if (parser != nullptr) { parser->AddWords("#i>>f"); }
 
 
 			ist::IstackModuleType FtI = ist::IstackModuleType();
@@ -296,7 +296,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(FtI);
-			if (parser != nullptr) { parser->AddWords("f>>i"); }
+			if (parser != nullptr) { parser->AddWords("#f>>i"); }
 
 
 			ist::IstackModuleType ItS = ist::IstackModuleType();
@@ -306,7 +306,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(ItS);
-			if (parser != nullptr) { parser->AddWords("i>>str"); }
+			if (parser != nullptr) { parser->AddWords("#i>>str"); }
 
 
 			ist::IstackModuleType StI = ist::IstackModuleType();
@@ -316,7 +316,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(StI);
-			if (parser != nullptr) { parser->AddWords("str>>i"); }
+			if (parser != nullptr) { parser->AddWords("#str>>i"); }
 
 
 			ist::IstackModuleType FtS = ist::IstackModuleType();
@@ -326,7 +326,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(FtS);
-			if (parser != nullptr) { parser->AddWords("f>>str"); }
+			if (parser != nullptr) { parser->AddWords("#f>>str"); }
 
 
 			ist::IstackModuleType StF = ist::IstackModuleType();
@@ -336,7 +336,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(StF);
-			if (parser != nullptr) { parser->AddWords("str>>f"); }
+			if (parser != nullptr) { parser->AddWords("#str>>f"); }
 
 
 			ist::IstackModuleType StB = ist::IstackModuleType();
@@ -346,7 +346,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(StB);
-			if (parser != nullptr) { parser->AddWords("str>>b"); }
+			if (parser != nullptr) { parser->AddWords("#str>>b"); }
 
 
 			ist::IstackModuleType BtS = ist::IstackModuleType();
@@ -356,7 +356,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(BtS);
-			if (parser != nullptr) { parser->AddWords("b>>str"); }
+			if (parser != nullptr) { parser->AddWords("#b>>str"); }
 
 
 			ist::IstackModuleType BtI = ist::IstackModuleType();
@@ -366,7 +366,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(BtI);
-			if (parser != nullptr) { parser->AddWords("b>>i"); }
+			if (parser != nullptr) { parser->AddWords("#b>>i"); }
 
 
 			ist::IstackModuleType ItB = ist::IstackModuleType();
@@ -376,7 +376,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(ItB);
-			if (parser != nullptr) { parser->AddWords("i>>b"); }
+			if (parser != nullptr) { parser->AddWords("#i>>b"); }
 
 
 			ist::IstackModuleType Bcpy = ist::IstackModuleType();
@@ -386,7 +386,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(Bcpy);
-			if (parser != nullptr) { parser->AddWords("Byte<<"); }
+			if (parser != nullptr) { parser->AddWords("#Byte<<"); }
 
 
 			ist::IstackModuleType FBcpy = ist::IstackModuleType();
@@ -396,7 +396,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(FBcpy);
-			if (parser != nullptr) { parser->AddWords("FourByte<<"); }
+			if (parser != nullptr) { parser->AddWords("#FourByte<<"); }
 
 
 			ist::IstackModuleType STRcpy = ist::IstackModuleType();
@@ -406,7 +406,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->AddModule(STRcpy);
-			if (parser != nullptr) { parser->AddWords("String<<"); }
+			if (parser != nullptr) { parser->AddWords("#String<<"); }
 		}
 	}
 }

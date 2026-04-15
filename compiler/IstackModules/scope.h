@@ -19,7 +19,7 @@ namespace ist
 					(*dumpFrame->GetClearedPipe()) = nullptr;
 				}
 
-				dumpFrame->SetPipe(new IstackStackFrame());
+				dumpFrame->CreatePipe();
 				dumpFrame->PushPipeDepthContext();
 				return false;
 			}

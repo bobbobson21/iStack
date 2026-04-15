@@ -56,6 +56,7 @@ namespace ist
 		IstackStackFrame(void);
 		~IstackStackFrame(void);
 
+		void CreatePipe();
 		void SetPipe(IstackStackFrame* OtherFrame);
 		IstackStackFrame** GetPipe(void);
 		IstackStackFrame** GetClearedPipe(void);

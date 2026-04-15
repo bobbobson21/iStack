@@ -13,6 +13,11 @@ ist::IstackStackFrame::~IstackStackFrame(void)
 	delete[] m_stackUnits;
 }
 
+void ist::IstackStackFrame::CreatePipe()
+{
+	m_pipeTo = new IstackStackFrame();
+}
+
 void ist::IstackStackFrame::SetPipe(IstackStackFrame* OtherFrame)
 {
 	if (m_pipeTo != nullptr) { m_pipeCleared = m_pipeTo; }
@@ -272,7 +277,7 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 
 		if (doDeleteOfPipeFramesAsWell == true)
 		{
-			delete (IstackStackFrame*)(*frame->GetClearedPipe());
+			//delete (IstackStackFrame*)(*frame->GetClearedPipe());
 			(*frame->GetClearedPipe()) = nullptr;
 		}
 	}
