@@ -1,9 +1,13 @@
 #pragma once
 
-#ifdef ISTACK_EXPORTS
-#define ISTACK_API __declspec(dllexport)
+#ifdef _WIN32
+	#ifdef ISTACK_EXPORTS
+		#define ISTACK_API __declspec(dllexport)
+	#else
+		#define ISTACK_API __declspec(dllimport)
+	#endif
 #else
-#define ISTACK_API __declspec(dllimport)
+#define ISTACK_API
 #endif
 
 /// <summary>
