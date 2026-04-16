@@ -277,7 +277,7 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 
 		if (doDeleteOfPipeFramesAsWell == true)
 		{
-			//delete (IstackStackFrame*)(*frame->GetClearedPipe());
+			delete (IstackStackFrame*)(*frame->GetClearedPipe());
 			(*frame->GetClearedPipe()) = nullptr;
 		}
 	}
@@ -330,6 +330,9 @@ void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackSta
 
 		copyTo->Push(newUnit);
 	}
+
+	transferFrame.Free();
+	delete[] transferBuffer;
 }
 
 void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo)

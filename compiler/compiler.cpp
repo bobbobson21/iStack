@@ -148,13 +148,13 @@ int main(int argc, char* argv[])
 	parser << "   #FourByte<<;";
 
 	parser << "   {;";
-	parser << "      String(The guy who made this is a gay furry who likes to fuck in the woods);";
-	parser << "      String(gay furry sex is kinda tight);";
-	parser << "      String(cums on u uwu);";
-	parser << "      String(ah);";
-	parser << "      String(ahhhhhhhhhhhhhhhhh);";
-	parser << "      String(ohaaaaaaaaaaaaaaaaaaa);";
-	parser << "      String(cums);";
+	parser << "      String(aaaaaaaaaaa);";
+	parser << "      String(gay);";
+	parser << "      String(bbbbbbbbb);";
+	parser << "      String(cccccccc);";
+	parser << "      String(ddddddd);";
+	parser << "      String(eeeeee);";
+	parser << "      String(fffff);";
 	parser << "   };";
 	parser << "};";
 

@@ -238,6 +238,8 @@ namespace ist
 				memcpy(typeToAdd.m_data, dumpFrame->Top().m_data, sizeof(char) * 1);
 
 				dumpFrame->Push(typeToAdd);
+
+				return true;
 			}
 
 			bool ValidateStack_DupeFourByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
@@ -253,6 +255,8 @@ namespace ist
 				memcpy(typeToAdd.m_data, dumpFrame->Top().m_data, sizeof(char) * 4);
 
 				dumpFrame->Push(typeToAdd);
+
+				return true;
 			}
 
 			bool ValidateStack_DupeString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
@@ -271,6 +275,8 @@ namespace ist
 				}
 
 				dumpFrame->Push(typeToAdd);
+
+				return true;
 			}
 		}
 
