@@ -384,6 +384,8 @@ unsigned int ist::IstackModuleExacuteor::GetModuleCount(void)
 
 void ist::IstackLexParser::pushChar(char charter)
 {
+	m_isParsingSucessful = true;
+
 	if (charter == '\n') { return; }
 	if (charter == '\r') { return; }
 	if (charter == '\t') { return; }
@@ -404,33 +406,53 @@ void ist::IstackLexParser::pushChar(char charter)
 
 	if (m_inputStringBufferIndex >= m_maxInputStringBufferLength) { return; }
 
-	if (charter == ';')
+	if (charter == ';') //every symbol has this is the end
 	{
-		for (unsigned int i = 0; i < m_arrayKeywordsLength; i++)
-		{
-			bool success = true;
+		unsigned int lagestSymbolMatchSize = 0;
+		IstackUnit unitToPush = IstackUnit();
 
-			for (size_t o = 0; o < strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength); o++)
+		for (unsigned int i = 0; i < m_arrayKeywordsLength; i++) //loop thougth words
+		{
+			bool sucessfulMatch = true;
+			unsigned int symbolLength = strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength);
+
+			for (size_t o = 0; o < symbolLength; o++)
 			{
-				if (m_inputStringBuffer[o] != m_arrayKeywords[i][o])
+				if (m_inputStringBuffer[o] != m_arrayKeywords[i][o]) //word dosent match input buffers contents
 				{
-					success = false;
+					sucessfulMatch = false; //failure
 					break;
 				}
 			}
 
-			if (success == true)
+			if (sucessfulMatch == true && symbolLength > lagestSymbolMatchSize) //word dose match but is it the best match
 			{
-				IstackUnit newUnit = IstackUnit();
-				newUnit.m_modualTypeCode = i;
-
-				if (m_f_DataParseFunc != nullptr)
-				{
-					m_f_DataParseFunc(m_inputStringBuffer, m_inputStringBufferIndex, &newUnit);
-				}
-
-				m_outputFrame->Push(newUnit);
+				lagestSymbolMatchSize = symbolLength; //it is the bestest match so far but save resuts for later matches
+				unitToPush.m_modualTypeCode = i;				
 			}
+		}
+
+		if (lagestSymbolMatchSize > 0) //was there any matches
+		{
+			bool isSucessfulAtParsingData = true;
+
+			if (m_f_DataParseFunc != nullptr)
+			{
+				isSucessfulAtParsingData = m_f_DataParseFunc(m_inputStringBuffer, m_inputStringBufferIndex, &unitToPush);
+			}
+
+			if (isSucessfulAtParsingData == true) //can parse data
+			{
+				m_outputFrame->Push(unitToPush);
+			}
+			else //no so fail
+			{
+				m_isParsingSucessful = false;
+			}
+		}
+		else //no matches so fail
+		{
+			m_isParsingSucessful = false;
 		}
 
 		m_scopeInputDepth = 0;
@@ -460,14 +482,14 @@ ist::IstackLexParser::~IstackLexParser(void)
 
 	for (unsigned int i = 0; i < m_arrayKeywordsLength; i++)
 	{
-		//delete[] m_arrayKeywords[i];
+		delete[] m_arrayKeywords[i];
 	}
 
-	//delete[] m_arrayKeywords;
+	delete[] m_arrayKeywords;
 }
 
 
-void ist::IstackLexParser::SetDataParse(void(*DataParseFunc)(char*, unsigned int, IstackUnit*))
+void ist::IstackLexParser::SetDataParse(bool(*DataParseFunc)(char*, unsigned int, IstackUnit*))
 {
 	m_f_DataParseFunc = DataParseFunc;
 }
@@ -522,6 +544,11 @@ void ist::IstackLexParser::operator<<(const char* charters)
 void ist::IstackLexParser::operator<<(char charter)
 {
 	pushChar(charter);
+}
+
+bool ist::IstackLexParser::IsParsingSucessful()
+{
+	return m_isParsingSucessful;
 }
 
 bool ist::IstackLexParser::InputBufferOverflowed()

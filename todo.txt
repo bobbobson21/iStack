@@ -1,0 +1,3 @@
+   --o make it so the parser goes with the word that has the most matches
+   o make it so that strings are in quotes
+   o add file support

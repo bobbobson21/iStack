@@ -129,9 +129,11 @@ namespace ist
 		char* m_inputStringBuffer = nullptr;
 		unsigned int m_scopeInputDepth = 0;
 
+		bool m_isParsingSucessful = true;
+
 		void pushChar(char charter);
 
-		void(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr;
+		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr;
 
 	public:
 		IstackLexParser& operator=(const IstackLexParser& t) = delete;
@@ -140,7 +142,7 @@ namespace ist
 		IstackLexParser(void);
 		~IstackLexParser(void);
 		
-		void SetDataParse(void(*DataParseFunc)(char*, unsigned int, IstackUnit*));
+		void SetDataParse(bool(*DataParseFunc)(char*, unsigned int, IstackUnit*));
 
 		void SetFrame(IstackStackFrame* frame);
 		void AddWords(const char* keyword);
@@ -150,6 +152,8 @@ namespace ist
 		void operator<<(const char* charters);
 		void operator<<(char charter);
 
+
+		bool IsParsingSucessful();
 		bool InputBufferOverflowed();
 		void FlushInputBuffer();
 	};

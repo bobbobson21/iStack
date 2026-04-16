@@ -15,7 +15,7 @@
 
 #include "istack/istack.h"
 
-void DataParse(char* string, unsigned int stringLength, ist::IstackUnit* unit)
+bool DataParse(char* string, unsigned int stringLength, ist::IstackUnit* unit)
 {
 	std::string stringProper = "";
 	bool inParseMode = false;
@@ -34,21 +34,21 @@ void DataParse(char* string, unsigned int stringLength, ist::IstackUnit* unit)
 
 	if (stringProper == "")
 	{
-		return;
+		return true;
 	}
 
 	if (stringProper == "true") 
 	{
 		unit->m_data = new bool; 
 		(*((bool*)unit->m_data)) = true;
-		return; 
+		return true; 
 	}
 
 	if (stringProper == "false") 
 	{
 		unit->m_data = new bool;
 		(*((bool*) unit->m_data)) = false;
-		return;
+		return true;
 	}
 
 	try
@@ -73,6 +73,8 @@ void DataParse(char* string, unsigned int stringLength, ist::IstackUnit* unit)
 			(*((std::string*)unit->m_data)) = stringProper;
 		}
 	}
+
+	return true;
 }
 
 int main(int argc, char* argv[])
