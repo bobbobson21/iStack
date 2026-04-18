@@ -1,5 +1,6 @@
 SelfInput();
 
+//testing
 iFor<<i;
 FourByte(7);
 {;
@@ -10,13 +11,13 @@ FourByte(7);
    #i>>str;
    #FourByte<<;
 
-   {;
-      String('aaaaaaaaaaa');
-      String('gay');
-      String('bbbbbbbbb');
-      String('cccccccc');
-      String('ddddddd');
-      String('eeeeee');
-      String('fffff');
-   };
+    {;
+       String('aaaaaaaaaaa');
+       String('gay');
+       String('bbbbbbbbb');
+       String('cccccccc');
+       String('ddddddd');
+       String('eeeeee');
+       String('fffff');
+    };
 };
