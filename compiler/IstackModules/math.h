@@ -8,18 +8,25 @@ namespace ist
 {
 	namespace modules
 	{
+		enum moduleMathErrorCodes : unsigned int
+		{
+			StackElementSizeNotMetMath = 601,
+			StackElementFirstInvalidMath = 602,
+			StackElementSecondInvalidMath = 603,
+		};
+
 		namespace raw
 		{
 			bool ValidateStack_IntAdd(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -36,14 +43,14 @@ namespace ist
 
 			bool ValidateStack_IntTake(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -60,14 +67,14 @@ namespace ist
 
 			bool ValidateStack_IntTimes(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -84,14 +91,14 @@ namespace ist
 
 			bool ValidateStack_IntDivide(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -108,14 +115,14 @@ namespace ist
 
 			bool ValidateStack_IntMod(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -132,14 +139,14 @@ namespace ist
 
 			bool ValidateStack_IntPow(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -157,14 +164,14 @@ namespace ist
 
 			bool ValidateStack_FloatAdd(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -181,14 +188,14 @@ namespace ist
 
 			bool ValidateStack_FloatTake(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -205,14 +212,14 @@ namespace ist
 
 			bool ValidateStack_FloatTimes(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -229,14 +236,14 @@ namespace ist
 
 			bool ValidateStack_FloatDivide(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
 
 				int A = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
 
 				int B = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());

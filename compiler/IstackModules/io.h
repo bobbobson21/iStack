@@ -11,6 +11,12 @@ namespace ist
 	{
 		namespace raw
 		{
+			enum moduleIoErrorCodes : unsigned int
+			{
+				StackEmptyPopPrintIo = 401,
+				DataIsNullPopPrintIo = 402,
+			};
+
 			bool ValidateSelf_SelfPrint(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::cout << "output: " << *((std::string*)(*data)) << std::endl;
@@ -21,10 +27,11 @@ namespace ist
 			{
 				if (dumpFrame->Length() < 1)
 				{
+					exec->SetErrorCode(StackEmptyPopPrintIo);
 					return false;
 				}
 
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullPopPrintIo); return false; }
 
 				std::cout << "output: " << (*(std::string*)(dumpFrame->Top().m_data)) << std::endl;
 				exec->FreeUnit(dumpFrame->TopPtr());

@@ -9,6 +9,17 @@ namespace ist
 {
 	namespace modules
 	{
+		enum moduleScopeErrorCodes : unsigned int
+		{
+			CantAccessFrameInExecPopScope = 301,
+			CantAccessFrameInExecScope = 302,
+
+			StackEmptyPullDataScope = 303,
+			DataIsNullPullDataScope = 304,
+			PullIsNullPullDataScope = 305,
+			PullIsBeyondStackLengthScope = 306,
+		};
+
 		namespace raw
 		{
 			bool ValidateSelf_ScopeStart(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
@@ -48,7 +59,7 @@ namespace ist
 
 			bool ValidateStack_ScopeExecPop(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
+				if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(CantAccessFrameInExecPopScope); return false; }
 
 				IstackStackFrame* dumpFrameBeta = new IstackStackFrame(); //the dump frame
 				bool success = exec->ExacuteFrame((*dumpFrame->GetClearedPipe()), dumpFrameBeta); //exacutes the dump frame
@@ -71,7 +82,7 @@ namespace ist
 
 			bool ValidateStack_ScopeExec(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
+				if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(CantAccessFrameInExecScope); return false; }
 
 				IstackStackFrame codeFrameBeta = IstackStackFrame();
 				IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -90,6 +101,9 @@ namespace ist
 
 			bool ValidateStack_PullData(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyPullDataScope); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullPullDataScope); return false; }
+
 				int popAmount = (*(int*)(dumpFrame->Top().m_data)); //get amount
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
@@ -100,10 +114,10 @@ namespace ist
 				for (int i = 0; i < popAmount; i++) //pop untill amount is reached or untill failure
 				{
 					codeFrameBeta.Pop();
-					if (codeFrameBeta.Length() < 1) { return false; }
+					if (codeFrameBeta.Length() < 1) { exec->SetErrorCode(PullIsBeyondStackLengthScope); return false; }
 				}
 
-				if (codeFrameBeta.Top().m_data == nullptr) { return false; } //is data valid
+				if (codeFrameBeta.Top().m_data == nullptr) { exec->SetErrorCode(PullIsNullPullDataScope); return false; } //is data valid
 
 				IstackUnit newUnit = IstackUnit();
 				exec->CopyUnitFromAndTo(codeFrameBeta.TopPtr(), &newUnit);
@@ -117,6 +131,9 @@ namespace ist
 
 			bool ValidateStack_PullDataPop(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyPullDataScope); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullPullDataScope); return false; }
+
 				int popAmount = (*(int*)(dumpFrame->Top().m_data)); //get amount
 				exec->FreeUnit(dumpFrame->TopPtr());
 				dumpFrame->Pop();
@@ -124,10 +141,10 @@ namespace ist
 				for (int i = 0; i < popAmount; i++) //pop untill amount is reached or untill failure in live dump
 				{
 					(*dumpFrame->GetClearedPipe())->Pop();
-					if ((*dumpFrame->GetClearedPipe())->Length() < 1) { return false; }
+					if ((*dumpFrame->GetClearedPipe())->Length() < 1) { exec->SetErrorCode(PullIsBeyondStackLengthScope); return false; }
 				}
 
-				if ((*dumpFrame->GetClearedPipe())->Top().m_data == nullptr) { return false; } //is data valid
+				if ((*dumpFrame->GetClearedPipe())->Top().m_data == nullptr) { exec->SetErrorCode(PullIsNullPullDataScope); return false; } //is data valid
 
 				dumpFrame->Push(dumpFrame->Top()); //move data to dump
 				(*dumpFrame->GetClearedPipe())->Pop();

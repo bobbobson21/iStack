@@ -8,14 +8,21 @@ namespace ist
 {
 	namespace modules
 	{
+		enum moduleConversionErrorCodes : unsigned int
+		{
+			StackEmptyConversion = 101,
+			DataIsNullConversion = 102,
+		};
+
 		namespace raw
 		{
 			static unsigned int m_varLibLocationForConversionLib = 0;
 
 			bool ValidateStack_IntToFloat(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
+
 
 				int typeToConvertFrom = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -33,8 +40,8 @@ namespace ist
 
 			bool ValidateStack_FloatToInt(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				float typeToConvertFrom = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -52,8 +59,8 @@ namespace ist
 
 			bool ValidateStack_IntToString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				int typeToConvertFrom = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -71,8 +78,8 @@ namespace ist
 
 			bool ValidateStack_StringToInt(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				std::string typeToConvertFrom = (*(std::string*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -98,8 +105,8 @@ namespace ist
 
 			bool ValidateStack_FloatToString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				float typeToConvertFrom = (*(float*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -117,8 +124,8 @@ namespace ist
 
 			bool ValidateStack_StringToFloat(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				std::string typeToConvertFrom = (*(std::string*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -143,8 +150,8 @@ namespace ist
 
 			bool ValidateStack_StringToBool(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				std::string typeToConvertFrom = (*(std::string*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -167,8 +174,8 @@ namespace ist
 
 			bool ValidateStack_BoolToString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				bool typeToConvertFrom = (*(bool*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -188,8 +195,8 @@ namespace ist
 
 			bool ValidateStack_BoolToInt(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				bool typeToConvertFrom = (*(bool*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -207,8 +214,8 @@ namespace ist
 
 			bool ValidateStack_IntToBool(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 				int typeToConvertFrom = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -227,8 +234,8 @@ namespace ist
 
 			bool ValidateStack_DupeByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 
 				ist::IstackUnit typeToAdd = ist::IstackUnit();
@@ -244,8 +251,8 @@ namespace ist
 
 			bool ValidateStack_DupeFourByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 
 				ist::IstackUnit typeToAdd = ist::IstackUnit();
@@ -261,8 +268,8 @@ namespace ist
 
 			bool ValidateStack_DupeString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyConversion); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullConversion); return false; }
 
 
 				ist::IstackUnit typeToAdd = ist::IstackUnit();

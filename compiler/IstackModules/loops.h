@@ -6,6 +6,16 @@ namespace ist
 {
 	namespace modules
 	{
+		enum moduleLoopsErrorCodes : unsigned int
+		{
+			StackEmptyLoops = 201,
+			DataIsNullLoops = 202,
+			PipeCantBeFoundLoops = 203,
+
+			BreakInBreakFailureLoops = 204,
+			ExitInEndFailureLoops = 205,
+		};
+
 		namespace raw
 		{
 			static bool m_breakingLoopsForLoopsLib = false;
@@ -19,8 +29,8 @@ namespace ist
 
 			bool ValidateStack_For(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyLoops); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullLoops); return false; }
 
 				int LoopAmount = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -30,7 +40,7 @@ namespace ist
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
+					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops); return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -53,6 +63,7 @@ namespace ist
 
 					if (success == false) //error has occored so pass errror on
 					{
+						//no error codes here
 						return false;
 					}
 
@@ -73,7 +84,7 @@ namespace ist
 
 				while(true)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
+					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops);  return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -113,8 +124,8 @@ namespace ist
 
 			bool ValidateStack_ForBreakFail(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyLoops); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullLoops); return false; }
 
 				int LoopAmount = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -124,7 +135,7 @@ namespace ist
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
+					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops); return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -148,6 +159,7 @@ namespace ist
 					if (m_breakingLoopsForLoopsLib == true) //a break has occoured so exit the loop and invalidate the stack
 					{
 						m_breakingLoopsForLoopsLib = false;
+						exec->SetErrorCode(BreakInBreakFailureLoops);
 						return false;
 					}
 				}
@@ -157,8 +169,8 @@ namespace ist
 
 			bool ValidateStack_ForEndFail(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { return false; }
-				if (dumpFrame->Top().m_data == nullptr) { return false; }
+				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyLoops); return false; }
+				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullLoops); return false; }
 
 				int LoopAmount = (*(int*)(dumpFrame->Top().m_data));
 				exec->FreeUnit(dumpFrame->TopPtr());
@@ -168,7 +180,7 @@ namespace ist
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { return false; }
+					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops); return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -197,6 +209,7 @@ namespace ist
 
 				if (m_breakingLoopsForLoopsLib == false) //was loop exited because it ended
 				{
+					exec->SetErrorCode(ExitInEndFailureLoops);
 					return false; //if so invalidate stack
 				}
 

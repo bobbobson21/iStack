@@ -93,7 +93,7 @@ namespace ist
 	private:
 		IstackModuleType* m_arrayModules = nullptr;
 		unsigned int m_arrayModulesLength = 0;
-		unsigned int m_pointOfFailure = 0;
+		unsigned int m_errorCode = 0;
 
 	public:
 		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
@@ -101,8 +101,9 @@ namespace ist
 		IstackModuleExacuteor(void);
 		~IstackModuleExacuteor(void);
 
+		void SetErrorCode(unsigned int code);
+		unsigned int GetErrorCode();
 		bool ExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
-		unsigned int GetPointOfFailure();
 
 		void FreeFrameRecursive(IstackStackFrame* frame, bool doDeleteOfPipeFramesAsWell = true);
 		void FreeFrame(IstackStackFrame* frame);

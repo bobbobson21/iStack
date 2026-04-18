@@ -1,0 +1,22 @@
+SelfInput();
+
+iFor<<i;
+FourByte(7);
+{;
+   PopPrint();
+   iPullDataFromScope();
+
+   PopPrint();
+   #i>>str;
+   #FourByte<<;
+
+   {;
+      String('aaaaaaaaaaa');
+      String('gay');
+      String('bbbbbbbbb');
+      String('cccccccc');
+      String('ddddddd');
+      String('eeeeee');
+      String('fffff');
+   };
+};

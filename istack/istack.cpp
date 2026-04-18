@@ -211,10 +211,20 @@ ist::IstackModuleExacuteor::~IstackModuleExacuteor(void)
 	delete[] m_arrayModules;
 }
 
+
+void ist::IstackModuleExacuteor::SetErrorCode(unsigned int code)
+{
+	m_errorCode = code;
+}
+
+unsigned int ist::IstackModuleExacuteor::GetErrorCode()
+{
+	return m_errorCode;
+}
+
+
 bool ist::IstackModuleExacuteor::ExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
 {
-	m_pointOfFailure = 0;
-
 	while (frameIn->Length() > 0)
 	{
 		IstackUnit* unit = frameIn->TopPtr();
@@ -223,13 +233,11 @@ bool ist::IstackModuleExacuteor::ExacuteFrame(IstackStackFrame* frameIn, IstackS
 		{
 			if (unit->m_modualTypeCode >= m_arrayModulesLength)
 			{
-				m_pointOfFailure = frameIn->Length() -1;
 				return false;
 			}
 
 			if (m_arrayModules[unit->m_modualTypeCode].ValidateStack != nullptr && m_arrayModules[unit->m_modualTypeCode].ValidateStack(frameOut, this, &unit->m_data) == false)
 			{
-				m_pointOfFailure = frameIn->Length() -1;
 				return false;
 			}
 
@@ -250,11 +258,6 @@ bool ist::IstackModuleExacuteor::ExacuteFrame(IstackStackFrame* frameIn, IstackS
 	}
 
 	return true;
-}
-
-unsigned int ist::IstackModuleExacuteor::GetPointOfFailure()
-{
-	return m_pointOfFailure;
 }
 
 
