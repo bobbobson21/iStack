@@ -15,9 +15,9 @@
 
 #include "istack/istack.h"
 
-#define COMPILE_MODE__FILE_UNCOMPILED 0 //compiles sourcew code files //istf
+#define COMPILE_MODE__FILE_UNCOMPILED 1 //compiles sourcew code files //istf
 #define COMPILE_MODE__COMMAND_LINE 0 //runs command line code //istcmd
-#define COMPILE_MODE__FILE_COMPILE 1 //compiles a file for faster exacution //istfc
+#define COMPILE_MODE__FILE_COMPILE 0 //compiles a file for faster exacution //istfc
 #define COMPILE_MODE__FILE_LOAD 0 //runs a compiled file //istfe
 
 //argument parsing has to be handled in compiler
@@ -218,6 +218,15 @@ namespace compiler
 		std::fstream fileWiter = std::fstream();
 
 		fileReader.open(filePath, std::ios::binary);
+
+		if (fileReader.is_open() == false || fileReader.good() == false)
+		{
+			std::cout << "error: could not read from input file" << std::endl;
+
+			fileReader.close();
+			return false;
+		}
+
 		fileWiter.open(filePath + "o", std::ios::out | std::ios::in | std::ios::trunc);
 
 		if (fileWiter.is_open() == false || fileWiter.good() == false)
@@ -229,7 +238,7 @@ namespace compiler
 			return false;
 		}
 
-		while (fileReader.good() == true && fileReader.good() == true && fileReader.eof() == false)
+		while (fileReader.is_open() == true && fileReader.good() == true && fileReader.eof() == false)
 		{
 			std::string parserLine = "";
 			std::getline(fileReader, parserLine);

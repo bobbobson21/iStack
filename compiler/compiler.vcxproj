@@ -144,7 +144,6 @@
     <None Include="lib\istack\istack.dll" />
     <None Include="lib\istack\istack.exp" />
     <None Include="lib\istack\istack.pdb" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />

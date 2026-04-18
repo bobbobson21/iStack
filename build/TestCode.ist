@@ -1,15 +1,20 @@
+SelfPrintNewLine();
 SelfInput();
+SelfPrint("press enter to exit: ");
 
 //testing
+
 iFor<<i;
 FourByte(7);
 {;
-   PopPrint();
-   iPullDataFromScope();
+	SelfPrintNewLine();
+    PopPrint();
+    iPullDataFromScope();
 
-   PopPrint();
-   #i>>str;
-   #FourByte<<;
+	SelfPrintNewLine();
+    PopPrint();
+    #i>>str;
+    #FourByte<<;
 
     {;
        String('aaaaaaaaaaa');
