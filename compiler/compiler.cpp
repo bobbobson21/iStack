@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <cctype>
 #include <fstream>
 
 #include "IstackModules/io.h"
@@ -183,7 +184,7 @@ namespace compiler
 		while (true)
 		{
 			std::string data = "";
-			std::cin >> data;
+			std::getline(std::cin, data);
 
 			(*parser) << data.c_str();
 
@@ -199,7 +200,7 @@ namespace compiler
 				return false;
 			}
 
-			if (data == "RUN" || data == "run")
+			if (data == "run" || data == "RUN" || data == "Run")
 			{
 				break;
 			}
