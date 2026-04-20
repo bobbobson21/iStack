@@ -97,7 +97,7 @@ namespace ist
 
 				return success;
 			}
-		
+
 
 			bool ValidateStack_PullData(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
@@ -171,7 +171,7 @@ namespace ist
 
 
 			ist::IstackModuleType scopeEndFliped = ist::IstackModuleType();
-			scopeEndFliped.ValidateStack = raw::ValidateSelf_Fail;
+			scopeEndFliped.ValidateSelf = raw::ValidateSelf_Fail;
 			scopeEndFliped.ValidateSelfPiped = raw::ValidateSelfPiped_ScopeEndFliped;
 
 			module->AddModule(scopeEndFliped);
@@ -179,14 +179,16 @@ namespace ist
 
 
 			ist::IstackModuleType scopeExec = ist::IstackModuleType();
-			scopeExec.ValidateSelf = raw::ValidateStack_ScopeExec;
+			scopeExec.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeExec.ValidateStack = raw::ValidateStack_ScopeExec;
 
 			module->AddModule(scopeExec);
 			if (parser != nullptr) { parser->AddWords("Exec"); }
 
 
 			ist::IstackModuleType scopeExecPop = ist::IstackModuleType();
-			scopeExecPop.ValidateSelf = raw::ValidateStack_ScopeExecPop;
+			scopeExecPop.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeExecPop.ValidateStack = raw::ValidateStack_ScopeExecPop;
 
 			module->AddModule(scopeExecPop);
 			if (parser != nullptr) { parser->AddWords("ExecPop"); }
