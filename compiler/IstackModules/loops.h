@@ -29,18 +29,18 @@ namespace ist
 
 			bool ValidateStack_For(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyLoops); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullLoops); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyLoops); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullLoops); return false; }
 
-				int LoopAmount = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int LoopAmount = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 				m_breakingLoopsForLoopsLib = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops); return false; }
+					if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(PipeCantBeFoundLoops); return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -51,12 +51,12 @@ namespace ist
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = i;
 
-					dumpFrameBeta.Push(LoopIndexUnit);
+					dumpFrameBeta.UnitPush(LoopIndexUnit);
 
-					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
 
-					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+					bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
@@ -84,7 +84,7 @@ namespace ist
 
 				while(true)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops);  return false; }
+					if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(PipeCantBeFoundLoops);  return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -96,12 +96,12 @@ namespace ist
 					(*((int*)LoopIndexUnit.m_data)) = loopIndex;
 					loopIndex++;
 
-					dumpFrameBeta.Push(LoopIndexUnit); //allows loop code to access loop index
+					dumpFrameBeta.UnitPush(LoopIndexUnit); //allows loop code to access loop index
 
-					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
 
-					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+					bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
@@ -124,18 +124,18 @@ namespace ist
 
 			bool ValidateStack_ForBreakFail(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyLoops); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullLoops); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyLoops); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullLoops); return false; }
 
-				int LoopAmount = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int LoopAmount = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 				m_breakingLoopsForLoopsLib = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops); return false; }
+					if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(PipeCantBeFoundLoops); return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -146,12 +146,12 @@ namespace ist
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = i;
 
-					dumpFrameBeta.Push(LoopIndexUnit); //allows loop code to access loop index
+					dumpFrameBeta.UnitPush(LoopIndexUnit); //allows loop code to access loop index
 
-					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
 
-					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+					bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
@@ -159,7 +159,7 @@ namespace ist
 					if (m_breakingLoopsForLoopsLib == true) //a break has occoured so exit the loop and invalidate the stack
 					{
 						m_breakingLoopsForLoopsLib = false;
-						exec->SetErrorCode(BreakInBreakFailureLoops);
+						exec->ErrorSetCode(BreakInBreakFailureLoops);
 						return false;
 					}
 				}
@@ -169,18 +169,18 @@ namespace ist
 
 			bool ValidateStack_ForEndFail(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyLoops); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullLoops); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyLoops); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullLoops); return false; }
 
-				int LoopAmount = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int LoopAmount = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 				m_breakingLoopsForLoopsLib = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLoops); return false; }
+					if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(PipeCantBeFoundLoops); return false; }
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
@@ -191,12 +191,12 @@ namespace ist
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = i;
 
-					dumpFrameBeta.Push(LoopIndexUnit); //so it knows the index of the loop
+					dumpFrameBeta.UnitPush(LoopIndexUnit); //so it knows the index of the loop
 
-					//(*dumpFrame->GetClearedPipe())->CopyIStackTo(&codeFrameBeta);
-					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->GetClearedPipe()), &codeFrameBeta);
+					//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+					exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
 
-					bool success = exec->ExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+					bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
 
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
@@ -209,7 +209,7 @@ namespace ist
 
 				if (m_breakingLoopsForLoopsLib == false) //was loop exited because it ended
 				{
-					exec->SetErrorCode(ExitInEndFailureLoops);
+					exec->ErrorSetCode(ExitInEndFailureLoops);
 					return false; //if so invalidate stack
 				}
 
@@ -228,8 +228,8 @@ namespace ist
 			breakMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->AddModule(breakMod);
-			if (parser != nullptr) { parser->AddWords("Break"); }
+			module->ModuleAdd(breakMod);
+			if (parser != nullptr) { parser->AddWord("Break"); }
 
 
 			ist::IstackModuleType forMod = ist::IstackModuleType();
@@ -237,8 +237,8 @@ namespace ist
 			forMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->AddModule(forMod);
-			if (parser != nullptr) { parser->AddWords("iFor<<i"); }
+			module->ModuleAdd(forMod);
+			if (parser != nullptr) { parser->AddWord("iFor<<i"); }
 
 
 			ist::IstackModuleType whileMod = ist::IstackModuleType();
@@ -246,8 +246,8 @@ namespace ist
 			whileMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->AddModule(whileMod);
-			if (parser != nullptr) { parser->AddWords("While<<i"); }
+			module->ModuleAdd(whileMod);
+			if (parser != nullptr) { parser->AddWord("While<<i"); }
 
 
 			ist::IstackModuleType forBreakFailMod = ist::IstackModuleType();
@@ -255,8 +255,8 @@ namespace ist
 			forBreakFailMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->AddModule(forBreakFailMod);
-			if (parser != nullptr) { parser->AddWords("iForBreakFail<<i"); }
+			module->ModuleAdd(forBreakFailMod);
+			if (parser != nullptr) { parser->AddWord("iForBreakFail<<i"); }
 
 
 			ist::IstackModuleType forEndFailMod = ist::IstackModuleType();
@@ -264,8 +264,8 @@ namespace ist
 			forEndFailMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->AddModule(forEndFailMod);
-			if (parser != nullptr) { parser->AddWords("iForEndFail<<i"); }
+			module->ModuleAdd(forEndFailMod);
+			if (parser != nullptr) { parser->AddWord("iForEndFail<<i"); }
 		}
 	}
 }

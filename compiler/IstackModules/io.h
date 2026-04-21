@@ -31,17 +31,17 @@ namespace ist
 
 			bool ValidateStack_PopPrint(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1)
+				if (dumpFrame->UnitLength() < 1)
 				{
-					exec->SetErrorCode(StackEmptyPopPrintIo);
+					exec->ErrorSetCode(StackEmptyPopPrintIo);
 					return false;
 				}
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullPopPrintIo); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullPopPrintIo); return false; }
 
-				std::cout << (*(std::string*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				std::cout << (*(std::string*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 				return true;
 			}
@@ -67,8 +67,8 @@ namespace ist
 			selfPrint.FreeData = raw::FreeData_Single;
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
-			module->AddModule(selfPrint);
-			if (parser != nullptr) { parser->AddWords("SelfPrint"); }
+			module->ModuleAdd(selfPrint);
+			if (parser != nullptr) { parser->AddWord("SelfPrint"); }
 
 
 			ist::IstackModuleType selfPrintNewLine = ist::IstackModuleType();
@@ -76,8 +76,8 @@ namespace ist
 			selfPrintNewLine.FreeData = raw::FreeData_Single;
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
-			module->AddModule(selfPrintNewLine);
-			if (parser != nullptr) { parser->AddWords("SelfPrintNewLine"); }
+			module->ModuleAdd(selfPrintNewLine);
+			if (parser != nullptr) { parser->AddWord("SelfPrintNewLine"); }
 			
 
 			ist::IstackModuleType popPrint = ist::IstackModuleType();
@@ -85,15 +85,15 @@ namespace ist
 			popPrint.ValidateSelf = raw::ValidateSelf_Fail;
 			popPrint.FreeData = raw::FreeData_Single;
 
-			module->AddModule(popPrint);
-			if (parser != nullptr) { parser->AddWords("PopPrint"); }
+			module->ModuleAdd(popPrint);
+			if (parser != nullptr) { parser->AddWord("PopPrint"); }
 
 			ist::IstackModuleType selfInput = ist::IstackModuleType();
 			selfInput.ValidateSelf = raw::ValidateSelf_SelfInput;
 			selfInput.FreeData = raw::FreeData_Single;
 
-			module->AddModule(selfInput);
-			if (parser != nullptr) { parser->AddWords("SelfInput"); }
+			module->ModuleAdd(selfInput);
+			if (parser != nullptr) { parser->AddWord("SelfInput"); }
 		}
 	}
 }

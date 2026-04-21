@@ -19,18 +19,18 @@ namespace ist
 		{
 			bool ValidateStack_IntAdd(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -43,18 +43,18 @@ namespace ist
 
 			bool ValidateStack_IntTake(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -67,18 +67,18 @@ namespace ist
 
 			bool ValidateStack_IntTimes(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -91,18 +91,18 @@ namespace ist
 
 			bool ValidateStack_IntDivide(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -115,18 +115,18 @@ namespace ist
 
 			bool ValidateStack_IntMod(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -139,18 +139,18 @@ namespace ist
 
 			bool ValidateStack_IntPow(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -164,18 +164,18 @@ namespace ist
 
 			bool ValidateStack_FloatAdd(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -188,18 +188,18 @@ namespace ist
 
 			bool ValidateStack_FloatTake(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -212,18 +212,18 @@ namespace ist
 
 			bool ValidateStack_FloatTimes(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -236,18 +236,18 @@ namespace ist
 
 			bool ValidateStack_FloatDivide(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetMath); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidMath); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -267,8 +267,8 @@ namespace ist
 			AddF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(AddF);
-			if (parser != nullptr) { parser->AddWords("f+"); }
+			module->ModuleAdd(AddF);
+			if (parser != nullptr) { parser->AddWord("f+"); }
 
 
 			ist::IstackModuleType TakeF = ist::IstackModuleType();
@@ -277,8 +277,8 @@ namespace ist
 			TakeF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(TakeF);
-			if (parser != nullptr) { parser->AddWords("f-"); }
+			module->ModuleAdd(TakeF);
+			if (parser != nullptr) { parser->AddWord("f-"); }
 
 
 			ist::IstackModuleType TimesF = ist::IstackModuleType();
@@ -287,8 +287,8 @@ namespace ist
 			TimesF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(TimesF);
-			if (parser != nullptr) { parser->AddWords("f*"); }
+			module->ModuleAdd(TimesF);
+			if (parser != nullptr) { parser->AddWord("f*"); }
 
 
 			ist::IstackModuleType DivideF = ist::IstackModuleType();
@@ -297,8 +297,8 @@ namespace ist
 			DivideF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(DivideF);
-			if (parser != nullptr) { parser->AddWords("f/"); }
+			module->ModuleAdd(DivideF);
+			if (parser != nullptr) { parser->AddWord("f/"); }
 
 
 			ist::IstackModuleType AddI = ist::IstackModuleType();
@@ -307,8 +307,8 @@ namespace ist
 			AddI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(AddI);
-			if (parser != nullptr) { parser->AddWords("i+"); }
+			module->ModuleAdd(AddI);
+			if (parser != nullptr) { parser->AddWord("i+"); }
 
 
 			ist::IstackModuleType TakeI = ist::IstackModuleType();
@@ -317,8 +317,8 @@ namespace ist
 			TakeI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(TakeI);
-			if (parser != nullptr) { parser->AddWords("i-"); }
+			module->ModuleAdd(TakeI);
+			if (parser != nullptr) { parser->AddWord("i-"); }
 
 
 			ist::IstackModuleType TimesI = ist::IstackModuleType();
@@ -327,8 +327,8 @@ namespace ist
 			TimesI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(TimesI);
-			if (parser != nullptr) { parser->AddWords("i*"); }
+			module->ModuleAdd(TimesI);
+			if (parser != nullptr) { parser->AddWord("i*"); }
 
 
 			ist::IstackModuleType DivideI = ist::IstackModuleType();
@@ -337,8 +337,8 @@ namespace ist
 			DivideI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(DivideI);
-			if (parser != nullptr) { parser->AddWords("i/"); }
+			module->ModuleAdd(DivideI);
+			if (parser != nullptr) { parser->AddWord("i/"); }
 
 
 			ist::IstackModuleType ModI = ist::IstackModuleType();
@@ -347,8 +347,8 @@ namespace ist
 			ModI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(ModI);
-			if (parser != nullptr) { parser->AddWords("i%"); }
+			module->ModuleAdd(ModI);
+			if (parser != nullptr) { parser->AddWord("i%"); }
 
 
 			ist::IstackModuleType PowI = ist::IstackModuleType();
@@ -357,8 +357,8 @@ namespace ist
 			PowI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(PowI);
-			if (parser != nullptr) { parser->AddWords("i^"); }
+			module->ModuleAdd(PowI);
+			if (parser != nullptr) { parser->AddWord("i^"); }
 		}
 	}
 }

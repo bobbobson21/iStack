@@ -30,24 +30,24 @@ namespace ist
 			byte.FreeData = raw::FreeData_Single;
 			byte.CopyData = raw::CopyData_Char;
 
-			module->AddModule(byte);
-			if (parser != nullptr) { parser->AddWords("Byte"); }
+			module->ModuleAdd(byte);
+			if (parser != nullptr) { parser->AddWord("Byte"); }
 
 
 			ist::IstackModuleType fourByte = ist::IstackModuleType();
 			fourByte.FreeData = raw::FreeData_Single;
 			fourByte.CopyData = raw::CopyData_FourChar;
 
-			module->AddModule(fourByte);
-			if (parser != nullptr) { parser->AddWords("FourByte"); }
+			module->ModuleAdd(fourByte);
+			if (parser != nullptr) { parser->AddWord("FourByte"); }
 
 
 			ist::IstackModuleType string = ist::IstackModuleType();
 			string.FreeData = raw::FreeData_Single;
 			string.CopyData = raw::CopyData_String;
 
-			module->AddModule(string);
-			if (parser != nullptr) { parser->AddWords("String"); }
+			module->ModuleAdd(string);
+			if (parser != nullptr) { parser->AddWord("String"); }
 		}
 	}
 }

@@ -20,13 +20,22 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IstackModules\io.h">
+    <ClInclude Include="IstackModules\conversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IstackModules\generics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\istack.h">
+    <ClInclude Include="IstackModules\io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IstackModules\logic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IstackModules\loops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IstackModules\math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IstackModules\scope.h">
@@ -35,28 +44,16 @@
     <ClInclude Include="IstackModules\var.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IstackModules\logic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IstackModules\math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IstackModules\conversion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IstackModules\loops.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lib\istack\istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Library Include="lib\istack.lib" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="lib\istack\istack.pdb" />
     <None Include="lib\istack\istack.exp" />
     <None Include="lib\istack\istack.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="lib\istack.lib" />
   </ItemGroup>
 </Project>

@@ -151,17 +151,17 @@ namespace compiler
 			{
 				(*parser) << parserLine.c_str();
 
-				if (parser->InputBufferOverflowed() == true)
+				if (parser->ErrorInputBufferOverflowed() == true)
 				{
-					std::cout << "error: parsing buffer of size (1024) overflowed on line (starting from line 0): " << currentLineInParsing << std::endl;
+					std::cout << "error: parser: parsing buffer of size (1024) overflowed on line (starting from line 0): " << currentLineInParsing << std::endl;
 
 					fileReader.close();
 					return false;
 				}
 
-				if (parser->IsParsingSucessful() == false)
+				if (parser->ErrorIsParsingUnsucessful() == true)
 				{
-					std::cout << "error: parsing interpretation failure occoured on line (starting from line 0): " << currentLineInParsing << std::endl;
+					std::cout << "error: parser: parsing interpretation failure occoured on line (starting from line 0): " << currentLineInParsing << std::endl;
 
 					fileReader.close();
 					return false;
@@ -188,15 +188,15 @@ namespace compiler
 
 			(*parser) << data.c_str();
 
-			if (parser->InputBufferOverflowed() == true)
+			if (parser->ErrorInputBufferOverflowed() == true)
 			{
-				std::cout << "error: parsing buffer of size (1024) overflowed on line (starting from line 0): " << currentLineInParsing << std::endl;
+				std::cout << "error: parser: parsing buffer of size (1024) overflowed on line (starting from line 0): " << currentLineInParsing << std::endl;
 				return false;
 			}
 
-			if (parser->IsParsingSucessful() == false)
+			if (parser->ErrorIsParsingUnsucessful() == true)
 			{
-				std::cout << "error: parsing interpretation failure occoured on line (starting from line 0): " << currentLineInParsing << std::endl;
+				std::cout << "error: parser: parsing interpretation failure occoured on line (starting from line 0): " << currentLineInParsing << std::endl;
 				return false;
 			}
 
@@ -222,7 +222,7 @@ namespace compiler
 
 		if (fileReader.is_open() == false || fileReader.good() == false)
 		{
-			std::cout << "error: could not read from input file" << std::endl;
+			std::cout << "error: parser: could not read from input file" << std::endl;
 
 			fileReader.close();
 			return false;
@@ -232,7 +232,7 @@ namespace compiler
 
 		if (fileWiter.is_open() == false || fileWiter.good() == false)
 		{
-			std::cout << "error: could not write to output file" << std::endl;
+			std::cout << "error: parser: could not write to output file" << std::endl;
 
 			fileReader.close();
 			fileWiter.close();
@@ -250,7 +250,7 @@ namespace compiler
 				{
 					(*parser) << parserLine[i];
 
-					if (parser->InputBufferOverflowed() == true)
+					if (parser->ErrorInputBufferOverflowed() == true)
 					{
 						std::cout << "error: parsing buffer of size (1024) overflowed" << std::endl;
 
@@ -259,7 +259,7 @@ namespace compiler
 						return false;
 					}
 
-					if (parser->IsParsingSucessful() == false)
+					if (parser->ErrorIsParsingUnsucessful() == true)
 					{
 						std::cout << "error: parsing interpretation failure occoured" << std::endl;
 
@@ -268,10 +268,10 @@ namespace compiler
 						return false;
 					}
 
-					if (codeFrame->Length() > 0)
+					if (codeFrame->UnitLength() > 0)
 					{
-						fileWiter << codeFrame->Top().m_modualTypeCode << ",(" << n_lastAguments << ");";
-						codeFrame->Pop();
+						fileWiter << codeFrame->UnitTop().m_modualTypeCode << ",(" << n_lastAguments << ");";
+						codeFrame->UnitPop();
 					}
 				}
 			}
@@ -312,7 +312,7 @@ namespace compiler
 				
 				DataParse((char*)blockInProcessing.c_str(), blockInProcessing.length(), &newUnit);
 				
-				codeFrame->Push(newUnit);
+				codeFrame->UnitPush(newUnit);
 				blockInProcessing = "";
 			}
 		}
@@ -359,18 +359,25 @@ int main(int argc, char* argv[])
 	if (canExacuteCodeFrame == true)
 	{
 		//exacute istack code
-		bool success = exec.ExacuteFrame(&codeScope, &dump);
+		bool success = exec.ProcessExacuteFrame(&codeScope, &dump);
 
 		//error repoarting
 		if (success == false)
 		{
-			std::cout << "error: stack exacition failed with error code: " << exec.GetErrorCode() << std::endl;
+			if (exec.ErrorProcessDepthOverflowed() == true)
+			{
+				std::cout << "error: exec: recursive proccess depth overflowed (to many scopes exacuting)" << std::endl;
+			}
+			else
+			{
+				std::cout << "error: exec: stack exacition failed with error code: " << exec.ErrorGetCode() << std::endl;
+			}
 		}
 	}
 
 	//free data
 	exec.FreeFrame(&codeScope);
-	exec.FreeFrameRecursive(&dump);
+	exec.FreeFrameRecursive(&dump); //both are true so that all memory is freed without the process being stoped by errors
 
 	return 0;
 }

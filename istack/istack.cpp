@@ -13,55 +13,55 @@ ist::IstackStackFrame::~IstackStackFrame(void)
 	delete[] m_stackUnits;
 }
 
-void ist::IstackStackFrame::CreatePipe()
+void ist::IstackStackFrame::PipeCreate()
 {
 	m_pipeTo = new IstackStackFrame();
 }
 
-void ist::IstackStackFrame::SetPipe(IstackStackFrame* OtherFrame)
+void ist::IstackStackFrame::PipeSet(IstackStackFrame* OtherFrame)
 {
 	if (m_pipeTo != nullptr) { m_pipeCleared = m_pipeTo; }
 	m_pipeTo = OtherFrame;
 }
 
-ist::IstackStackFrame** ist::IstackStackFrame::GetPipe(void)
+ist::IstackStackFrame** ist::IstackStackFrame::PipeGet(void)
 {
 	return &m_pipeTo;
 }
 
-ist::IstackStackFrame** ist::IstackStackFrame::GetClearedPipe(void)
+ist::IstackStackFrame** ist::IstackStackFrame::PipeGetCleared(void)
 {
 	return &m_pipeCleared;
 }
 
-void ist::IstackStackFrame::ClearPipe(void)
+void ist::IstackStackFrame::PipeClear(void)
 {
 	m_pipeCleared = m_pipeTo;
 	m_pipeTo = nullptr;
 }
 
 
-void ist::IstackStackFrame::PushPipeDepthContext()
+void ist::IstackStackFrame::PipePushDepthContext()
 {
 	m_pipeDepthContext = m_pipeDepthContext + 1;
 }
 
-void ist::IstackStackFrame::PopPipeDepthContext()
+void ist::IstackStackFrame::PipePopDepthContext()
 {
 	m_pipeDepthContext = m_pipeDepthContext - 1;
 }
 
-unsigned int ist::IstackStackFrame::TopPipeDepthContext()
+unsigned int ist::IstackStackFrame::PipeTopDepthContext()
 {
 	return m_pipeDepthContext;
 }
 
 
-void ist::IstackStackFrame::Push(IstackUnit unit)
+void ist::IstackStackFrame::UnitPush(IstackUnit unit)
 {
 	if (m_pipeTo != nullptr)
 	{
-		m_pipeTo->Push(unit);
+		m_pipeTo->UnitPush(unit);
 		return;
 	}
 
@@ -83,17 +83,17 @@ void ist::IstackStackFrame::Push(IstackUnit unit)
 	m_stackIndex = m_stackIndex + 1;
 }
 
-void ist::IstackStackFrame::Pop(void)
+void ist::IstackStackFrame::UnitPop(void)
 {
 	if (m_pipeTo != nullptr)
 	{
-		m_pipeTo->Pop();
+		m_pipeTo->UnitPop();
 	}
 
 	m_stackIndex = m_stackIndex - 1;
 }
 
-void ist::IstackStackFrame::Flip(void)
+void ist::IstackStackFrame::UnitFlip(void)
 {
 	if (m_stackUnits == nullptr)
 	{
@@ -113,31 +113,31 @@ void ist::IstackStackFrame::Flip(void)
 }
 
 
-ist::IstackUnit ist::IstackStackFrame::Top(void)
+ist::IstackUnit ist::IstackStackFrame::UnitTop(void)
 {
 	if (m_pipeTo != nullptr)
 	{
-		return m_pipeTo->Top();
+		return m_pipeTo->UnitTop();
 	}
 
 	return m_stackUnits[m_stackIndex - 1];
 }
 
-ist::IstackUnit* ist::IstackStackFrame::TopPtr(void)
+ist::IstackUnit* ist::IstackStackFrame::UnitTopPtr(void)
 {
 	if (m_pipeTo != nullptr)
 	{
-		return m_pipeTo->TopPtr();
+		return m_pipeTo->UnitTopPtr();
 	}
 
 	return &m_stackUnits[m_stackIndex - 1];
 }
 
-unsigned int ist::IstackStackFrame::Length(void)
+unsigned int ist::IstackStackFrame::UnitLength(void)
 {
 	if (m_pipeTo != nullptr)
 	{
-		return m_pipeTo->Length();
+		return m_pipeTo->UnitLength();
 	}
 
 	return m_stackIndex;
@@ -168,7 +168,7 @@ void ist::IstackStackFrame::CopyPipeDataTo(IstackStackFrame* otherFrame)
 }
 
 
-void ist::IstackStackFrame::Flush(void)
+void ist::IstackStackFrame::UnitFlush(void)
 {
 	if (m_stackUnits == nullptr)
 	{
@@ -184,14 +184,8 @@ void ist::IstackStackFrame::Flush(void)
 	m_stackTotalLength = m_stackIndex;
 }
 
-void ist::IstackStackFrame::Free(void)
+void ist::IstackStackFrame::UnitFree(void)
 {
-	if (m_pipeTo != nullptr)
-	{
-		m_pipeTo->Free();
-		return;
-	}
-
 	delete[] m_stackUnits;
 	m_stackUnits = nullptr;
 
@@ -201,6 +195,11 @@ void ist::IstackStackFrame::Free(void)
 
 
 
+
+ist::IstackModuleExacuteor::IstackModuleExacuteor(unsigned int processDepth)
+{
+	m_maxProcessDepth = processDepth;
+}
 
 ist::IstackModuleExacuteor::IstackModuleExacuteor(void)
 {
@@ -212,76 +211,132 @@ ist::IstackModuleExacuteor::~IstackModuleExacuteor(void)
 }
 
 
-void ist::IstackModuleExacuteor::SetErrorCode(unsigned int code)
+void ist::IstackModuleExacuteor::ErrorSetCode(unsigned int code)
 {
 	m_errorCode = code;
 }
 
-unsigned int ist::IstackModuleExacuteor::GetErrorCode()
+unsigned int ist::IstackModuleExacuteor::ErrorGetCode()
 {
 	return m_errorCode;
 }
 
-
-bool ist::IstackModuleExacuteor::ExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
+bool ist::IstackModuleExacuteor::ErrorProcessDepthOverflowed()
 {
-	while (frameIn->Length() > 0)
-	{
-		IstackUnit* unit = frameIn->TopPtr();
+	return (m_currentProcessDepth > m_maxProcessDepth);
+}
 
-		if ((*frameOut->GetPipe()) == nullptr)
+
+bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
+{
+	if (m_currentProcessDepth > m_maxProcessDepth) //oh no you overflow how much exacution is allowed didnt you
+	{
+		return false;
+	}
+
+	m_currentProcessDepth = m_currentProcessDepth + 1; //increeses the depth
+
+	while (frameIn->UnitLength() > 0) //proccess code untll theres non left to process
+	{
+		IstackUnit* unit = frameIn->UnitTopPtr();
+
+		if ((*frameOut->PipeGet()) == nullptr)
 		{
 			if (unit->m_modualTypeCode >= m_arrayModulesLength)
 			{
+				if (m_currentProcessDepth <= m_maxProcessDepth)  //decresse incase failure shouldnt cause crash
+				{ 
+					m_currentProcessDepth = m_currentProcessDepth - 1;  //we only decreese if we are bellow the depth so errors are reported correctly
+				}
+
 				return false;
 			}
 
 			if (m_arrayModules[unit->m_modualTypeCode].ValidateStack != nullptr && m_arrayModules[unit->m_modualTypeCode].ValidateStack(frameOut, this, &unit->m_data) == false)
 			{
+				if (m_currentProcessDepth <= m_maxProcessDepth) //decresse incase failure shouldnt cause crash
+				{
+					m_currentProcessDepth = m_currentProcessDepth - 1;
+				}
+
 				return false;
 			}
 
 			if (m_arrayModules[unit->m_modualTypeCode].ValidateSelf == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
 			{
-				frameOut->Push(frameIn->Top());
+				frameOut->UnitPush(frameIn->UnitTop());
 			}
 		}
 		else
 		{
 			if (m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
 			{
-				frameOut->Push(frameIn->Top());
+				frameOut->UnitPush(frameIn->UnitTop());
 			}
 		}
 
-		frameIn->Pop();
+		frameIn->UnitPop();
+	}
+
+	if (m_currentProcessDepth <= m_maxProcessDepth) //decresse because we reached the end of the funtion
+	{
+		m_currentProcessDepth = m_currentProcessDepth - 1;
 	}
 
 	return true;
 }
 
-
-void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, bool doDeleteOfPipeFramesAsWell)
+bool ist::IstackModuleExacuteor::ProcessExacuteFrameAsIfPiped(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
 {
-	if ((*frame->GetPipe()) != nullptr)
+	if (m_currentProcessDepth > m_maxProcessDepth) //oh no you overflow how much exacution is allowed didnt you
 	{
-		FreeFrameRecursive((*frame->GetPipe()), doDeleteOfPipeFramesAsWell);
-		
-		if (doDeleteOfPipeFramesAsWell == true)
+		return false;
+	}
+
+	m_currentProcessDepth = m_currentProcessDepth + 1;
+
+	while (frameIn->UnitLength() > 0) //proccess code untll theres non left to process
+	{
+		IstackUnit* unit = frameIn->UnitTopPtr();
+
+		if (m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
 		{
-			delete (IstackStackFrame*)(*frame->GetPipe());
-			(*frame->GetPipe()) = nullptr;
+			frameOut->UnitPush(frameIn->UnitTop());
 		}
 	}
 
-	if ((*frame->GetClearedPipe()) != nullptr)
+	m_currentProcessDepth = m_currentProcessDepth - 1;
+
+	return true;
+}
+
+void ist::IstackModuleExacuteor::ProcessFlushDepthContext()
+{
+	m_currentProcessDepth = 0;
+}
+
+
+void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, bool doDeleteOfPipeFramesAsWell)
+{
+	if ((*frame->PipeGet()) != nullptr)
 	{
-		FreeFrameRecursive((*frame->GetClearedPipe()), doDeleteOfPipeFramesAsWell);
+		FreeFrameRecursive((*frame->PipeGet()), doDeleteOfPipeFramesAsWell);
+		
+		if (doDeleteOfPipeFramesAsWell == true)
+		{
+			delete (IstackStackFrame*)(*frame->PipeGet());
+			(*frame->PipeGet()) = nullptr;
+		}
+	}
+
+	if ((*frame->PipeGetCleared()) != nullptr)
+	{
+		FreeFrameRecursive((*frame->PipeGetCleared()), doDeleteOfPipeFramesAsWell);
 
 		if (doDeleteOfPipeFramesAsWell == true)
 		{
-			delete (IstackStackFrame*)(*frame->GetClearedPipe());
-			(*frame->GetClearedPipe()) = nullptr;
+			delete (IstackStackFrame*)(*frame->PipeGetCleared());
+			(*frame->PipeGetCleared()) = nullptr;
 		}
 	}
 
@@ -290,13 +345,13 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 
 void ist::IstackModuleExacuteor::FreeFrame(IstackStackFrame* frame)
 {
-	while (frame->Length() > 0)
+	while (frame->UnitLength() > 0)
 	{
-		FreeUnit(frame->TopPtr());
-		frame->Pop();
+		FreeUnit(frame->UnitTopPtr());
+		frame->UnitPop();
 	}
 
-	frame->Free();
+	frame->UnitFree();
 }
 
 void ist::IstackModuleExacuteor::FreeUnit(IstackUnit* unit)
@@ -312,29 +367,29 @@ void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackSta
 {
 	FreeFrame(copyTo);
 
-	IstackUnit* transferBuffer = new IstackUnit[copyFrom->Length()];
+	IstackUnit* transferBuffer = new IstackUnit[copyFrom->UnitLength()];
 	IstackStackFrame transferFrame = IstackStackFrame();
-	unsigned int transferIndex = copyFrom->Length() -1;
+	unsigned int transferIndex = copyFrom->UnitLength() -1;
 	
 	copyFrom->CopyIStackTo(&transferFrame);
 
-	while (transferFrame.Length() > 0 && transferIndex >= 0)
+	while (transferFrame.UnitLength() > 0 && transferIndex >= 0)
 	{
-		transferBuffer[transferIndex] = transferFrame.Top();
+		transferBuffer[transferIndex] = transferFrame.UnitTop();
 		transferIndex--;
 
-		transferFrame.Pop();
+		transferFrame.UnitPop();
 	}
 
-	for (unsigned int i = 0; i < copyFrom->Length(); i++)
+	for (unsigned int i = 0; i < copyFrom->UnitLength(); i++)
 	{
 		IstackUnit newUnit = IstackUnit();
 		CopyUnitFromAndTo(&transferBuffer[i], &newUnit);
 
-		copyTo->Push(newUnit);
+		copyTo->UnitPush(newUnit);
 	}
 
-	transferFrame.Free();
+	transferFrame.UnitFree();
 	delete[] transferBuffer;
 }
 
@@ -353,7 +408,7 @@ void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackU
 }
 
 
-unsigned int ist::IstackModuleExacuteor::AddModule(IstackModuleType module)
+unsigned int ist::IstackModuleExacuteor::ModuleAdd(IstackModuleType module)
 {
 
 	IstackModuleType* modulesBuffer = new IstackModuleType[m_arrayModulesLength +1];
@@ -371,24 +426,24 @@ unsigned int ist::IstackModuleExacuteor::AddModule(IstackModuleType module)
 	return m_arrayModulesLength -1;
 }
 
-ist::IstackModuleType ist::IstackModuleExacuteor::GetModule(unsigned int moduleIndex)
+ist::IstackModuleType ist::IstackModuleExacuteor::ModuleGet(unsigned int moduleIndex)
 {
 	return m_arrayModules[moduleIndex];
 }
 
-ist::IstackModuleType* ist::IstackModuleExacuteor::GetModulePtr(unsigned int moduleIndex)
+ist::IstackModuleType* ist::IstackModuleExacuteor::ModuleGetPtr(unsigned int moduleIndex)
 {
 	return &m_arrayModules[moduleIndex];
 }
 
-unsigned int ist::IstackModuleExacuteor::GetModuleCount(void)
+unsigned int ist::IstackModuleExacuteor::ModuleGetCount(void)
 {
 	return m_arrayModulesLength;
 }
 
 
 
-void ist::IstackLexParser::pushChar(char charter)
+void ist::IstackLexParser::PushChar(char charter)
 {
 	m_isParsingSucessful = true;
 
@@ -449,7 +504,7 @@ void ist::IstackLexParser::pushChar(char charter)
 
 			if (isSucessfulAtParsingData == true) //can parse data
 			{
-				m_outputFrame->Push(unitToPush);
+				m_outputFrame->UnitPush(unitToPush);
 			}
 			else //no so fail
 			{
@@ -505,7 +560,7 @@ void ist::IstackLexParser::SetFrame(IstackStackFrame* frame)
 	m_outputFrame = frame;
 }
 
-void ist::IstackLexParser::AddWords(const char* keyword)
+void ist::IstackLexParser::AddWord(const char* keyword)
 {
 	char** modulesBuffer = new char*[m_arrayKeywordsLength +1];
 
@@ -523,11 +578,11 @@ void ist::IstackLexParser::AddWords(const char* keyword)
 	m_arrayKeywordsLength = m_arrayKeywordsLength + 1;
 }
 
-void ist::IstackLexParser::ParseStringIntoFrame(const char* string)
+void ist::IstackLexParser::InputParseStringIntoFrame(const char* string)
 {
 	for (size_t i = 0; i < strlen(string); i++)
 	{
-		pushChar(string[i]);
+		PushChar(string[i]);
 	}
 }
 
@@ -535,7 +590,7 @@ void ist::IstackLexParser::operator<<(char* charters)
 {
 	for (size_t i = 0; i < strlen(charters); i++)
 	{
-		pushChar(charters[i]);
+		PushChar(charters[i]);
 	}
 }
 
@@ -543,26 +598,26 @@ void ist::IstackLexParser::operator<<(const char* charters)
 {
 	for (size_t i = 0; i < strlen(charters); i++)
 	{
-		pushChar(charters[i]);
+		PushChar(charters[i]);
 	}
 }
 
 void ist::IstackLexParser::operator<<(char charter)
 {
-	pushChar(charter);
+	PushChar(charter);
 }
 
-bool ist::IstackLexParser::IsParsingSucessful()
+bool ist::IstackLexParser::ErrorIsParsingUnsucessful()
 {
-	return m_isParsingSucessful;
+	return !m_isParsingSucessful;
 }
 
-bool ist::IstackLexParser::InputBufferOverflowed()
+bool ist::IstackLexParser::ErrorInputBufferOverflowed()
 {
 	return (m_inputStringBufferIndex >= m_maxInputStringBufferLength);
 }
 
-void ist::IstackLexParser::FlushInputBuffer()
+void ist::IstackLexParser::InputFlushBuffer()
 {
 	m_inputStringBufferIndex = 0;
 }

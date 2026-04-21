@@ -23,24 +23,24 @@ namespace ist
 		{
 			bool ValidateStack_If(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if ((*dumpFrame->GetClearedPipe()) == nullptr) { exec->SetErrorCode(PipeCantBeFoundLogic); return false; }
-				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackEmptyIfLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(DataIsNullIfLogic); return false; }
+				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(PipeCantBeFoundLogic); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyIfLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullIfLogic); return false; }
 
-				bool canRunIf = (*(bool*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				bool canRunIf = (*(bool*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 				if (canRunIf == true)
 				{
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
 
-					bool success = exec->ExacuteFrame((*dumpFrame->GetClearedPipe()), &dumpFrameBeta);
+					bool success = exec->ProcessExacuteFrame((*dumpFrame->PipeGetCleared()), &dumpFrameBeta);
 
 					exec->FreeFrameRecursive(&dumpFrameBeta); //there is no way to acesss the dump frames cotents for an if
-					exec->FreeFrameRecursive((*dumpFrame->GetClearedPipe()));
+					exec->FreeFrameRecursive((*dumpFrame->PipeGetCleared()));
 
-					(*dumpFrame->GetClearedPipe()) = nullptr;
+					(*dumpFrame->PipeGetCleared()) = nullptr;
 
 					return success;
 				}
@@ -50,12 +50,12 @@ namespace ist
 
 			bool ValidateStack_Not(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 1) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				bool A = (*(bool*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				bool A = (*(bool*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -68,18 +68,18 @@ namespace ist
 
 			bool ValidateStack_Or(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				bool A = (*(bool*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				bool A = (*(bool*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				bool B = (*(bool*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				bool B = (*(bool*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -92,18 +92,18 @@ namespace ist
 
 			bool ValidateStack_And(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				bool A = (*(bool*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				bool A = (*(bool*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				bool B = (*(bool*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				bool B = (*(bool*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -117,18 +117,18 @@ namespace ist
 
 			bool ValidateStack_StringEqualThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				std::string A = (*(std::string*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				std::string A = (*(std::string*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				std::string B = (*(std::string*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				std::string B = (*(std::string*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 				delete (*data);
 
@@ -141,18 +141,18 @@ namespace ist
 
 			bool ValidateStack_IntEqualThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -165,18 +165,18 @@ namespace ist
 
 			bool ValidateStack_IntMoreThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -189,18 +189,18 @@ namespace ist
 
 			bool ValidateStack_IntLessThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				int A = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				int B = (*(int*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -214,18 +214,18 @@ namespace ist
 
 			bool ValidateStack_FloatEqualThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				float A = (*(float*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				float B = (*(float*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -238,18 +238,18 @@ namespace ist
 
 			bool ValidateStack_FloatMoreThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				float A = (*(float*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				float B = (*(float*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -262,18 +262,18 @@ namespace ist
 
 			bool ValidateStack_FloatLessThan(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->Length() < 2) { exec->SetErrorCode(StackElementSizeNotMetLogic); return false; }
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementFirstInvalidLogic); return false; }
+				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				float A = (*(float*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
-				if (dumpFrame->Top().m_data == nullptr) { exec->SetErrorCode(StackElementSecondInvalidLogic); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidLogic); return false; }
 
-				float B = (*(float*)(dumpFrame->Top().m_data));
-				exec->FreeUnit(dumpFrame->TopPtr());
-				dumpFrame->Pop();
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
 
 
 				delete (*data);
@@ -292,8 +292,8 @@ namespace ist
 			ifMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->AddModule(ifMod);
-			if (parser != nullptr) { parser->AddWords("If"); }
+			module->ModuleAdd(ifMod);
+			if (parser != nullptr) { parser->AddWord("If"); }
 
 
 			ist::IstackModuleType notMod = ist::IstackModuleType();
@@ -302,8 +302,8 @@ namespace ist
 			notMod.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->AddModule(notMod);
-			if (parser != nullptr) { parser->AddWords("Not"); }
+			module->ModuleAdd(notMod);
+			if (parser != nullptr) { parser->AddWord("Not"); }
 
 
 			ist::IstackModuleType orMod = ist::IstackModuleType();
@@ -311,8 +311,8 @@ namespace ist
 			orMod.ValidateSelf = raw::ValidateSelf_Success;
 			orMod.FreeData = raw::FreeData_Single;
 
-			module->AddModule(orMod);
-			if (parser != nullptr) { parser->AddWords("Or"); }
+			module->ModuleAdd(orMod);
+			if (parser != nullptr) { parser->AddWord("Or"); }
 
 
 			ist::IstackModuleType andMod = ist::IstackModuleType();
@@ -320,64 +320,64 @@ namespace ist
 			andMod.ValidateSelf = raw::ValidateSelf_Success;
 			andMod.FreeData = raw::FreeData_Single;
 
-			module->AddModule(andMod);
-			if (parser != nullptr) { parser->AddWords("And"); }
+			module->ModuleAdd(andMod);
+			if (parser != nullptr) { parser->AddWord("And"); }
 
 
 			ist::IstackModuleType set = ist::IstackModuleType();
 			set.ValidateStack = raw::ValidateStack_StringEqualThan;
 			set.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(set);
-			if (parser != nullptr) { parser->AddWords("str=="); }
+			module->ModuleAdd(set);
+			if (parser != nullptr) { parser->AddWord("str=="); }
 
 
 			ist::IstackModuleType iet = ist::IstackModuleType();
 			iet.ValidateStack = raw::ValidateStack_IntEqualThan;
 			iet.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(iet);
-			if (parser != nullptr) { parser->AddWords("i=="); }
+			module->ModuleAdd(iet);
+			if (parser != nullptr) { parser->AddWord("i=="); }
 
 
 			ist::IstackModuleType imt = ist::IstackModuleType();
 			imt.ValidateStack = raw::ValidateStack_IntMoreThan;
 			imt.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(imt);
-			if (parser != nullptr) { parser->AddWords("i>"); }
+			module->ModuleAdd(imt);
+			if (parser != nullptr) { parser->AddWord("i>"); }
 
 
 			ist::IstackModuleType ilt = ist::IstackModuleType();
 			ilt.ValidateStack = raw::ValidateStack_IntLessThan;
 			ilt.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(ilt);
-			if (parser != nullptr) { parser->AddWords("i<"); }
+			module->ModuleAdd(ilt);
+			if (parser != nullptr) { parser->AddWord("i<"); }
 
 
 			ist::IstackModuleType fet = ist::IstackModuleType();
 			fet.ValidateStack = raw::ValidateStack_FloatEqualThan;
 			fet.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(fet);
-			if (parser != nullptr) { parser->AddWords("f=="); }
+			module->ModuleAdd(fet);
+			if (parser != nullptr) { parser->AddWord("f=="); }
 
 
 			ist::IstackModuleType fmt = ist::IstackModuleType();
 			fmt.ValidateStack = raw::ValidateStack_FloatMoreThan;
 			fmt.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(fmt);
-			if (parser != nullptr) { parser->AddWords("f>"); }
+			module->ModuleAdd(fmt);
+			if (parser != nullptr) { parser->AddWord("f>"); }
 
 
 			ist::IstackModuleType flt = ist::IstackModuleType();
 			flt.ValidateStack = raw::ValidateStack_FloatLessThan;
 			flt.ValidateSelf = raw::ValidateSelf_Success;
 
-			module->AddModule(flt);
-			if (parser != nullptr) { parser->AddWords("f<"); }
+			module->ModuleAdd(flt);
+			if (parser != nullptr) { parser->AddWord("f<"); }
 
 		}
 	}

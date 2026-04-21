@@ -60,29 +60,29 @@ namespace ist
 		IstackStackFrame(void);
 		~IstackStackFrame(void);
 
-		void CreatePipe();
-		void SetPipe(IstackStackFrame* OtherFrame);
-		IstackStackFrame** GetPipe(void);
-		IstackStackFrame** GetClearedPipe(void);
-		void ClearPipe();
+		void PipeCreate();
+		void PipeSet(IstackStackFrame* OtherFrame);
+		IstackStackFrame** PipeGet(void);
+		IstackStackFrame** PipeGetCleared(void);
+		void PipeClear();
 
-		void PushPipeDepthContext();
-		void PopPipeDepthContext();
-		unsigned int TopPipeDepthContext();
+		void PipePushDepthContext();
+		void PipePopDepthContext();
+		unsigned int PipeTopDepthContext();
 
-		void Push(IstackUnit unit);
-		void Pop(void);
-		void Flip(void);
+		void UnitPush(IstackUnit unit);
+		void UnitPop(void);
+		void UnitFlip(void);
 
-		IstackUnit Top(void);
-		IstackUnit* TopPtr(void);
-		unsigned int Length(void);
+		IstackUnit UnitTop(void);
+		IstackUnit* UnitTopPtr(void);
+		unsigned int UnitLength(void);
+
+		void UnitFlush(void);
+		void UnitFree(void);
 
 		void CopyIStackTo(IstackStackFrame* otherFrame);
 		void CopyPipeDataTo(IstackStackFrame* otherFrame);
-
-		void Flush(void);
-		void Free(void);
 	};
 
 	/// <summary>
@@ -93,17 +93,25 @@ namespace ist
 	private:
 		IstackModuleType* m_arrayModules = nullptr;
 		unsigned int m_arrayModulesLength = 0;
+		
 		unsigned int m_errorCode = 0;
+		unsigned int m_maxProcessDepth = 1024;
+		unsigned int m_currentProcessDepth = 0;
 
 	public:
 		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
 
+		IstackModuleExacuteor(unsigned int processDepth);
 		IstackModuleExacuteor(void);
 		~IstackModuleExacuteor(void);
 
-		void SetErrorCode(unsigned int code);
-		unsigned int GetErrorCode();
-		bool ExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
+		void ErrorSetCode(unsigned int code);
+		unsigned int ErrorGetCode();
+		bool ErrorProcessDepthOverflowed();
+
+		bool ProcessExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
+		bool ProcessExacuteFrameAsIfPiped(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
+		void ProcessFlushDepthContext();
 
 		void FreeFrameRecursive(IstackStackFrame* frame, bool doDeleteOfPipeFramesAsWell = true);
 		void FreeFrame(IstackStackFrame* frame);
@@ -112,10 +120,10 @@ namespace ist
 		void CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo);
 		void CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo);
 
-		unsigned int AddModule(IstackModuleType module);
-		IstackModuleType GetModule(unsigned int moduleIndex);
-		IstackModuleType* GetModulePtr(unsigned int moduleIndex);
-		unsigned int GetModuleCount(void);
+		unsigned int ModuleAdd(IstackModuleType module);
+		IstackModuleType ModuleGet(unsigned int moduleIndex);
+		IstackModuleType* ModuleGetPtr(unsigned int moduleIndex);
+		unsigned int ModuleGetCount(void);
 	};
 
 	/// <summary>
@@ -136,7 +144,7 @@ namespace ist
 
 		bool m_isParsingSucessful = true;
 
-		void pushChar(char charter);
+		void PushChar(char charter);
 
 		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr;
 
@@ -150,16 +158,15 @@ namespace ist
 		void SetDataParse(bool(*DataParseFunc)(char*, unsigned int, IstackUnit*));
 
 		void SetFrame(IstackStackFrame* frame);
-		void AddWords(const char* keyword);
+		void AddWord(const char* keyword);
 
-		void ParseStringIntoFrame(const char* sting);
+		void InputParseStringIntoFrame(const char* sting);
 		void operator<<(char* charters);
 		void operator<<(const char* charters);
 		void operator<<(char charter);
+		void InputFlushBuffer();
 
-
-		bool IsParsingSucessful();
-		bool InputBufferOverflowed();
-		void FlushInputBuffer();
+		bool ErrorIsParsingUnsucessful();
+		bool ErrorInputBufferOverflowed();
 	};
 }
