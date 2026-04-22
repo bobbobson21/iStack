@@ -353,6 +353,7 @@ int main(int argc, char* argv[])
 	ist::modules::LoadLogicModules(&exec, &parser);
 	ist::modules::LoadMathModules(&exec, &parser);
 
+
 	//read in contents of istack file
 	bool canExacuteCodeFrame = compiler::CompileFunc(filePath, &codeScope, &dump, &parser, &exec);
 

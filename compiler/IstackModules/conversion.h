@@ -232,6 +232,20 @@ namespace ist
 			}
 
 
+			bool ValidateStack_DupeUniversalCopy(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data) ///not recommened for use as it will mess around with memory, in reguards to what unit owns what memory, if it is unable to copy something, which will happen if a module dosent have a copy func
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullConversion); return false; }
+
+
+				ist::IstackUnit typeToAdd = ist::IstackUnit();
+				exec->CopyUnitFromAndTo(dumpFrame->UnitTopPtr(), &typeToAdd);
+
+				dumpFrame->UnitPush(typeToAdd);
+
+				return true;
+			}
+
 			bool ValidateStack_DupeByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
@@ -420,6 +434,16 @@ namespace ist
 
 			module->ModuleAdd(STRcpy);
 			if (parser != nullptr) { parser->AddWord("#String<<"); }
+
+
+			ist::IstackModuleType CPYcpy = ist::IstackModuleType();
+			CPYcpy.ValidateStack = raw::ValidateStack_DupeUniversalCopy;
+			CPYcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
+			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+
+			module->ModuleAdd(CPYcpy);
+			if (parser != nullptr) { parser->AddWord("#DataCpyOrMoveIfFail<<"); }
 		}
 	}
 }

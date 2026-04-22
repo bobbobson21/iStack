@@ -22,6 +22,8 @@ namespace ist
 
 		namespace raw
 		{
+			unsigned int n_switchExecIndex = 0;
+
 			bool ValidateSelf_ScopeStart(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if ((*dumpFrame->PipeGetCleared()) != nullptr)
@@ -61,21 +63,13 @@ namespace ist
 			{
 				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(CantAccessFrameInExecPopScope); return false; }
 
-				IstackStackFrame* dumpFrameBeta = new IstackStackFrame(); //the dump frame
-				bool success = exec->ProcessExacuteFrame((*dumpFrame->PipeGetCleared()), dumpFrameBeta); //exacutes the dump frame
+				IstackStackFrame dumpFrameBeta = IstackStackFrame(); //the dump frame
+				bool success = exec->ProcessExacuteFrame((*dumpFrame->PipeGetCleared()), &dumpFrameBeta); //exacutes the code frame
 				
-				exec->FreeFrameRecursive((*dumpFrame->PipeGetCleared())); //deletes the code frame
+				exec->FreeFrameRecursive((*dumpFrame->PipeGetCleared())); //deletes the code frame since it has no code anymore
 				(*dumpFrame->PipeGetCleared()) = nullptr;
 
-				if (dumpFrameBeta->UnitLength() > 0) //inserts the dump frame into the code frames memory space or deletes the dump frame.
-				{
-					(*dumpFrame->PipeGetCleared()) = dumpFrameBeta; //inserts because theres dater in the dump which may be useful
-				}
-				else
-				{
-					exec->FreeFrameRecursive(dumpFrameBeta); //deletes
-					delete dumpFrameBeta;
-				}
+				exec->FreeFrameRecursive(&dumpFrameBeta); //deletes the dump frame
 
 				return success;
 			}
@@ -96,6 +90,98 @@ namespace ist
 				exec->FreeFrameRecursive(&codeFrameBeta);
 
 				return success;
+			}
+
+			bool ValidateStack_ScopeExecReturn(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(CantAccessFrameInExecScope); return false; }
+
+				IstackStackFrame codeFrameBeta = IstackStackFrame();
+				IstackStackFrame dumpFrameBeta = IstackStackFrame();
+
+				//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+				exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
+
+				bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+
+				exec->FreeFrameRecursive((*dumpFrameBeta.PipeGetCleared()));
+				exec->FreeFrameRecursive((*dumpFrameBeta.PipeGet()));
+				exec->FreeFrameRecursive(&codeFrameBeta);
+
+				dumpFrameBeta.UnitFlip();
+				while (dumpFrameBeta.UnitLength() > 0)
+				{
+					dumpFrame->UnitPush(dumpFrameBeta.UnitTop());
+					dumpFrameBeta.UnitPop();
+				}
+				dumpFrameBeta.UnitFree();
+
+				return success;
+			}
+
+			bool ValidateStack_ScopeSelfSwitchExec(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(CantAccessFrameInExecScope); return false; }
+				if ((*(int*)(*data)) != n_switchExecIndex)
+				{
+					return true;
+				}
+
+				IstackStackFrame codeFrameBeta = IstackStackFrame();
+				IstackStackFrame dumpFrameBeta = IstackStackFrame();
+
+				//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+				exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
+
+				bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+
+				exec->FreeFrameRecursive(&dumpFrameBeta);
+				exec->FreeFrameRecursive(&codeFrameBeta);
+
+				return success;
+			}
+
+			bool ValidateStack_ScopeSelfSwitchExecReturn(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(CantAccessFrameInExecScope); return false; }
+				if ((*(int*)(*data)) != n_switchExecIndex)
+				{
+					return true;
+				}
+
+				IstackStackFrame codeFrameBeta = IstackStackFrame();
+				IstackStackFrame dumpFrameBeta = IstackStackFrame();
+
+				//(*dumpFrame->PipeGetCleared())->CopyIStackTo(&codeFrameBeta);
+				exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &codeFrameBeta);
+
+				bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+
+				exec->FreeFrameRecursive((*dumpFrameBeta.PipeGetCleared()));
+				exec->FreeFrameRecursive((*dumpFrameBeta.PipeGet()));
+				exec->FreeFrameRecursive(&codeFrameBeta);
+
+				dumpFrameBeta.UnitFlip();
+				while (dumpFrameBeta.UnitLength() > 0)
+				{
+					dumpFrame->UnitPush(dumpFrameBeta.UnitTop());
+					dumpFrameBeta.UnitPop();
+				}
+				dumpFrameBeta.UnitFree();
+
+				return success;
+			}
+
+			bool ValidateStack_ScopeSetSwitchIndex(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyPullDataScope); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullPullDataScope); return false; }
+
+				int switchIndex = (*(int*)(dumpFrame->UnitTop().m_data)); //get amount
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				n_switchExecIndex = switchIndex;
 			}
 
 
@@ -178,6 +264,14 @@ namespace ist
 			if (parser != nullptr) { parser->AddWord("{"); }
 
 
+			ist::IstackModuleType scopeExecPop = ist::IstackModuleType();
+			scopeExecPop.ValidateStack = raw::ValidateStack_ScopeExecPop;
+			scopeExecPop.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->ModuleAdd(scopeExecPop);
+			if (parser != nullptr) { parser->AddWord("ExecPop"); }
+
+
 			ist::IstackModuleType scopeExec = ist::IstackModuleType();
 			scopeExec.ValidateStack = raw::ValidateStack_ScopeExec;
 			scopeExec.ValidateSelf = raw::ValidateSelf_Fail;
@@ -186,12 +280,36 @@ namespace ist
 			if (parser != nullptr) { parser->AddWord("Exec"); }
 
 
-			ist::IstackModuleType scopeExecPop = ist::IstackModuleType();
-			scopeExecPop.ValidateStack = raw::ValidateStack_ScopeExecPop;
-			scopeExecPop.ValidateSelf = raw::ValidateSelf_Fail;
+			ist::IstackModuleType scopeExecReturn = ist::IstackModuleType();
+			scopeExecReturn.ValidateStack = raw::ValidateStack_ScopeExecReturn;
+			scopeExecReturn.ValidateSelf = raw::ValidateSelf_Fail;
 
-			module->ModuleAdd(scopeExecPop);
-			if (parser != nullptr) { parser->AddWord("ExecPop"); }
+			module->ModuleAdd(scopeExecReturn);
+			if (parser != nullptr) { parser->AddWord("ExecReturn"); }
+
+
+			ist::IstackModuleType scopeExecSwitch = ist::IstackModuleType();
+			scopeExecSwitch.ValidateStack = raw::ValidateStack_ScopeSelfSwitchExec;
+			scopeExecSwitch.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->ModuleAdd(scopeExecSwitch);
+			if (parser != nullptr) { parser->AddWord("SelfExecSwitch"); }
+
+
+			ist::IstackModuleType scopeExecSwitchReturn = ist::IstackModuleType();
+			scopeExecSwitchReturn.ValidateStack = raw::ValidateStack_ScopeSelfSwitchExecReturn;
+			scopeExecSwitchReturn.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->ModuleAdd(scopeExecSwitchReturn);
+			if (parser != nullptr) { parser->AddWord("SelfExecSwitchReturn"); }
+
+
+			ist::IstackModuleType scopeExecSwitchSetIndex = ist::IstackModuleType();
+			scopeExecSwitchSetIndex.ValidateStack = raw::ValidateStack_ScopeSetSwitchIndex;
+			scopeExecSwitchSetIndex.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->ModuleAdd(scopeExecSwitchSetIndex);
+			if (parser != nullptr) { parser->AddWord("iSetSwitchIndex"); }
 
 
 			ist::IstackModuleType pullData = ist::IstackModuleType();

@@ -9,14 +9,14 @@ namespace ist
 {
 	namespace modules
 	{
+		enum moduleIoErrorCodes : unsigned int
+		{
+			StackEmptyPopPrintIo = 401,
+			DataIsNullPopPrintIo = 402,
+		};
+
 		namespace raw
 		{
-			enum moduleIoErrorCodes : unsigned int
-			{
-				StackEmptyPopPrintIo = 401,
-				DataIsNullPopPrintIo = 402,
-			};
-
 			bool ValidateSelf_SelfPrint(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::cout << *((std::string*)(*data));

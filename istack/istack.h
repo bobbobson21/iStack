@@ -61,7 +61,7 @@ namespace ist
 		~IstackStackFrame(void);
 
 		void PipeCreate();
-		void PipeSet(IstackStackFrame* OtherFrame);
+		void PipeSet(IstackStackFrame* otherFrame);
 		IstackStackFrame** PipeGet(void);
 		IstackStackFrame** PipeGetCleared(void);
 		void PipeClear();
@@ -77,9 +77,11 @@ namespace ist
 		IstackUnit UnitTop(void);
 		IstackUnit* UnitTopPtr(void);
 		unsigned int UnitLength(void);
+		void UnitAddToExtent(unsigned int addToTheAvalibleStackMemoryForNewPushes);
 
 		void UnitFlush(void);
 		void UnitFree(void);
+
 
 		void CopyIStackTo(IstackStackFrame* otherFrame);
 		void CopyPipeDataTo(IstackStackFrame* otherFrame);

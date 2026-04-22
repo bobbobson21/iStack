@@ -18,10 +18,10 @@ void ist::IstackStackFrame::PipeCreate()
 	m_pipeTo = new IstackStackFrame();
 }
 
-void ist::IstackStackFrame::PipeSet(IstackStackFrame* OtherFrame)
+void ist::IstackStackFrame::PipeSet(IstackStackFrame* otherFrame)
 {
 	if (m_pipeTo != nullptr) { m_pipeCleared = m_pipeTo; }
-	m_pipeTo = OtherFrame;
+	m_pipeTo = otherFrame;
 }
 
 ist::IstackStackFrame** ist::IstackStackFrame::PipeGet(void)
@@ -141,6 +141,20 @@ unsigned int ist::IstackStackFrame::UnitLength(void)
 	}
 
 	return m_stackIndex;
+}
+
+void ist::IstackStackFrame::UnitAddToExtent(unsigned int addToTheAvalibleStackMemoryForNewPushes)
+{
+	IstackUnit* stackBuffer = new IstackUnit[m_stackTotalLength + addToTheAvalibleStackMemoryForNewPushes];
+
+	if (m_stackUnits != nullptr)
+	{
+		memcpy(stackBuffer, m_stackUnits, sizeof(IstackUnit) * m_stackTotalLength);
+		delete[] m_stackUnits;
+	}
+
+	m_stackUnits = stackBuffer;
+	m_stackTotalLength = m_stackTotalLength +addToTheAvalibleStackMemoryForNewPushes;
 }
 
 
