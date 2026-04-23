@@ -1,6 +1,6 @@
-   o Add a new module collection for all the copy and move stuff called minulation
-   o Add a reference module to this new module collection
-   o Add a swap module to this new module collection
-   o Add a pop module to the new collection
+   --o Add a new module collection for all the copy and move stuff called minulation
+   --o Add a reference module to this new module collection
+   --o Add a swap module to this new module collection
+   --o Add a pop module to the new collection
 
    o Add a system module collection as well that allows you to make os calls

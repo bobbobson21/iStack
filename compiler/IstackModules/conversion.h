@@ -230,75 +230,6 @@ namespace ist
 
 				return true;
 			}
-
-
-			bool ValidateStack_DupeUniversalCopy(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data) ///not recommened for use as it will mess around with memory, in reguards to what unit owns what memory, if it is unable to copy something, which will happen if a module dosent have a copy func
-			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullConversion); return false; }
-
-
-				ist::IstackUnit typeToAdd = ist::IstackUnit();
-				exec->CopyUnitFromAndTo(dumpFrame->UnitTopPtr(), &typeToAdd);
-
-				dumpFrame->UnitPush(typeToAdd);
-
-				return true;
-			}
-
-			bool ValidateStack_DupeByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
-			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullConversion); return false; }
-
-
-				ist::IstackUnit typeToAdd = ist::IstackUnit();
-				typeToAdd.m_modualTypeCode = 0 + m_varLibLocationForConversionLib; //0 + ?: is byte type
-				typeToAdd.m_data = new char;
-
-				memcpy(typeToAdd.m_data, dumpFrame->UnitTop().m_data, sizeof(char) * 1);
-
-				dumpFrame->UnitPush(typeToAdd);
-
-				return true;
-			}
-
-			bool ValidateStack_DupeFourByte(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
-			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullConversion); return false; }
-
-
-				ist::IstackUnit typeToAdd = ist::IstackUnit();
-				typeToAdd.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
-				typeToAdd.m_data = new char[4];
-				
-				memcpy(typeToAdd.m_data, dumpFrame->UnitTop().m_data, sizeof(char) * 4);
-
-				dumpFrame->UnitPush(typeToAdd);
-
-				return true;
-			}
-
-			bool ValidateStack_DupeString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
-			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullConversion); return false; }
-
-
-				ist::IstackUnit typeToAdd = ist::IstackUnit();
-				typeToAdd.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
-				typeToAdd.m_data = new std::string;
-
-				for (size_t i = 0; i < (*(std::string*)(dumpFrame->UnitTop().m_data)).size(); i++)
-				{
-					(*(std::string*)(typeToAdd.m_data)) += (*(std::string*)(dumpFrame->UnitTop().m_data))[i];
-				}
-
-				dumpFrame->UnitPush(typeToAdd);
-
-				return true;
-			}
 		}
 
 		void LoadConversionModules(IstackModuleExacuteor* module, IstackLexParser* parser, unsigned int varLibOffset)
@@ -404,46 +335,6 @@ namespace ist
 
 			module->ModuleAdd(ItB);
 			if (parser != nullptr) { parser->AddWord("#i>>b"); }
-
-
-			ist::IstackModuleType Bcpy = ist::IstackModuleType();
-			Bcpy.ValidateStack = raw::ValidateStack_DupeByte;
-			Bcpy.ValidateSelf = raw::ValidateSelf_Fail;
-			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
-
-			module->ModuleAdd(Bcpy);
-			if (parser != nullptr) { parser->AddWord("#Byte<<"); }
-
-
-			ist::IstackModuleType FBcpy = ist::IstackModuleType();
-			FBcpy.ValidateStack = raw::ValidateStack_DupeFourByte;
-			FBcpy.ValidateSelf = raw::ValidateSelf_Fail;
-			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
-
-			module->ModuleAdd(FBcpy);
-			if (parser != nullptr) { parser->AddWord("#FourByte<<"); }
-
-
-			ist::IstackModuleType STRcpy = ist::IstackModuleType();
-			STRcpy.ValidateStack = raw::ValidateStack_DupeString;
-			STRcpy.ValidateSelf = raw::ValidateSelf_Fail;
-			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
-
-			module->ModuleAdd(STRcpy);
-			if (parser != nullptr) { parser->AddWord("#String<<"); }
-
-
-			ist::IstackModuleType CPYcpy = ist::IstackModuleType();
-			CPYcpy.ValidateStack = raw::ValidateStack_DupeUniversalCopy;
-			CPYcpy.ValidateSelf = raw::ValidateSelf_Fail;
-			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
-
-			module->ModuleAdd(CPYcpy);
-			if (parser != nullptr) { parser->AddWord("#DataCpyOrMoveIfFail<<"); }
 		}
 	}
 }

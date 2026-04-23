@@ -27,6 +27,7 @@
     <ClInclude Include="IstackModules\io.h" />
     <ClInclude Include="IstackModules\logic.h" />
     <ClInclude Include="IstackModules\loops.h" />
+    <ClInclude Include="IstackModules\manipulation.h" />
     <ClInclude Include="IstackModules\math.h" />
     <ClInclude Include="IstackModules\scope.h" />
     <ClInclude Include="IstackModules\var.h" />

@@ -23,6 +23,12 @@ namespace ist
 				delete (*data);
 			}
 
+			void FreeData_Fail(void** data)
+			{
+
+			}
+
+
 			void CopyData_Char(void** copyFrom, void** copyTo)
 			{
 				delete (*copyTo);
@@ -39,6 +45,11 @@ namespace ist
 
 				memcpy(buffer, (*copyFrom), sizeof(char) * 4);
 				(*copyTo) = buffer;
+			}
+
+			void CopyData_CopyFail(void** copyFrom, void** copyTo)
+			{
+
 			}
 
 
