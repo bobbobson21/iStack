@@ -13,6 +13,8 @@
 #include "IstackModules/math.h"
 #include "IstackModules/conversion.h"
 #include "IstackModules/loops.h"
+#include "IstackModules/manipulation.h"
+#include "IstackModules/system.h"
 
 #include "istack/istack.h"
 
@@ -346,12 +348,14 @@ int main(int argc, char* argv[])
 	
 	//load modules
 	ist::modules::LoadVarModules(&exec, &parser);
+	ist::modules::LoadManipulationModules(&exec, &parser, 0);
 	ist::modules::LoadConversionModules(&exec, &parser, 0);
 	ist::modules::LoadLoopsModules(&exec, &parser, 0);
+	ist::modules::LoadSystemModules(&exec, &parser);
 	ist::modules::LoadScopeModules(&exec, &parser);
-	ist::modules::LoadIoModules(&exec, &parser);
 	ist::modules::LoadLogicModules(&exec, &parser);
 	ist::modules::LoadMathModules(&exec, &parser);
+	ist::modules::LoadIoModules(&exec, &parser);
 
 
 	//read in contents of istack file

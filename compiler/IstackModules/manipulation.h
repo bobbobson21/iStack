@@ -13,7 +13,6 @@ namespace ist
 			StackEmptyManipulation = 701,
 			StackSizeInvalidManipulation = 702,
 			DataIsNullManipulation = 703,
-			RefrenceWasMovedManipulation = 704,
 		};
 
 		namespace raw
@@ -138,7 +137,7 @@ namespace ist
 
 		}
 
-		void LoaManipulationModules(IstackModuleExacuteor* module, IstackLexParser* parser, unsigned int varLibOffset)
+		void LoadManipulationModules(IstackModuleExacuteor* module, IstackLexParser* parser, unsigned int varLibOffset)
 		{
 			raw::m_varLibLocationForManipulationLib = varLibOffset;
 

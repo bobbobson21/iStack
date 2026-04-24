@@ -327,6 +327,7 @@ namespace ist
 			ist::IstackModuleType set = ist::IstackModuleType();
 			set.ValidateStack = raw::ValidateStack_StringEqualThan;
 			set.ValidateSelf = raw::ValidateSelf_Success;
+			set.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(set);
 			if (parser != nullptr) { parser->AddWord("str=="); }
@@ -335,6 +336,7 @@ namespace ist
 			ist::IstackModuleType iet = ist::IstackModuleType();
 			iet.ValidateStack = raw::ValidateStack_IntEqualThan;
 			iet.ValidateSelf = raw::ValidateSelf_Success;
+			iet.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(iet);
 			if (parser != nullptr) { parser->AddWord("i=="); }
@@ -343,6 +345,7 @@ namespace ist
 			ist::IstackModuleType imt = ist::IstackModuleType();
 			imt.ValidateStack = raw::ValidateStack_IntMoreThan;
 			imt.ValidateSelf = raw::ValidateSelf_Success;
+			imt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(imt);
 			if (parser != nullptr) { parser->AddWord("i>"); }
@@ -351,6 +354,7 @@ namespace ist
 			ist::IstackModuleType ilt = ist::IstackModuleType();
 			ilt.ValidateStack = raw::ValidateStack_IntLessThan;
 			ilt.ValidateSelf = raw::ValidateSelf_Success;
+			ilt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(ilt);
 			if (parser != nullptr) { parser->AddWord("i<"); }
@@ -359,6 +363,7 @@ namespace ist
 			ist::IstackModuleType fet = ist::IstackModuleType();
 			fet.ValidateStack = raw::ValidateStack_FloatEqualThan;
 			fet.ValidateSelf = raw::ValidateSelf_Success;
+			fet.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(fet);
 			if (parser != nullptr) { parser->AddWord("f=="); }
@@ -367,6 +372,7 @@ namespace ist
 			ist::IstackModuleType fmt = ist::IstackModuleType();
 			fmt.ValidateStack = raw::ValidateStack_FloatMoreThan;
 			fmt.ValidateSelf = raw::ValidateSelf_Success;
+			fmt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(fmt);
 			if (parser != nullptr) { parser->AddWord("f>"); }
@@ -375,6 +381,7 @@ namespace ist
 			ist::IstackModuleType flt = ist::IstackModuleType();
 			flt.ValidateStack = raw::ValidateStack_FloatLessThan;
 			flt.ValidateSelf = raw::ValidateSelf_Success;
+			flt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAdd(flt);
 			if (parser != nullptr) { parser->AddWord("f<"); }
