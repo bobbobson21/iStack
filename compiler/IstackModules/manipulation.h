@@ -188,14 +188,15 @@ namespace ist
 			Ref.CopyData = raw::CopyData_CopyFail;
 
 			module->ModuleAdd(Ref);
-			if (parser != nullptr) { parser->AddWord("&Ref<<"); }
+			if (parser != nullptr) { parser->AddWord("&Pointer<<"); }
 
 
-			ist::IstackModuleType Pop = ist::IstackModuleType();
-			Pop.ValidateStack = raw::ValidateStack_DupeSwap;
-			Pop.ValidateSelf = raw::ValidateSelf_Fail;
+			ist::IstackModuleType Count = ist::IstackModuleType();
+			Count.ValidateStack = raw::ValidateStack_DupeSwap;
+			Count.ValidateSelf = raw::ValidateSelf_Fail;
+			Count.FreeData = raw::FreeData_Fail;
 
-			module->ModuleAdd(Pop);
+			module->ModuleAdd(Count);
 			if (parser != nullptr) { parser->AddWord("&Count<<"); }
 
 

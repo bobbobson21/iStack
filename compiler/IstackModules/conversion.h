@@ -12,6 +12,7 @@ namespace ist
 		{
 			StackEmptyConversion = 101,
 			DataIsNullConversion = 102,
+			ConversionFailure = 103,
 		};
 
 		namespace raw
@@ -96,6 +97,7 @@ namespace ist
 				}
 				catch (...)
 				{
+					exec->ErrorSetCode(ConversionFailure);
 					return false;
 				}
 
@@ -142,6 +144,7 @@ namespace ist
 				}
 				catch (...)
 				{
+					exec->ErrorSetCode(ConversionFailure);
 					return false;
 				}
 

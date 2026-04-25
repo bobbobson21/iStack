@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "istack/istack.h"
 
 namespace ist
@@ -21,6 +23,11 @@ namespace ist
 			void FreeData_Single(void** data)
 			{
 				delete (*data);
+			}
+
+			void FreeData_String(void** data)
+			{
+				delete (std::string*)(*data);
 			}
 
 			void FreeData_Fail(void** data)

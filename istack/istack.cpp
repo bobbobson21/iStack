@@ -459,7 +459,10 @@ unsigned int ist::IstackModuleExacuteor::ModuleGetCount(void)
 
 void ist::IstackLexParser::PushChar(char charter)
 {
-	m_isParsingSucessful = true;
+	if (m_f_CommentParse(m_inputStringBuffer, m_inputStringBufferIndex, charter, this) == false)
+	{
+		return;
+	}
 
 	if (charter == '\n') { return; }
 	if (charter == '\r') { return; }
@@ -569,6 +572,11 @@ void ist::IstackLexParser::SetDataParse(bool(*DataParseFunc)(char*, unsigned int
 	m_f_DataParseFunc = DataParseFunc;
 }
 
+void ist::IstackLexParser::SetCommentParse(bool(*CommentParse)(char*, unsigned int, char, IstackLexParser*))
+{
+	m_f_CommentParse = CommentParse;
+}
+
 void ist::IstackLexParser::SetFrame(IstackStackFrame* frame)
 {
 	m_outputFrame = frame;
@@ -633,5 +641,64 @@ bool ist::IstackLexParser::ErrorInputBufferOverflowed()
 
 void ist::IstackLexParser::InputFlushBuffer()
 {
+	m_isParsingSucessful = true;
 	m_inputStringBufferIndex = 0;
+}
+
+
+
+bool ist::includedStyles::CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+{
+	if (inputLength >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '/')
+	{
+		if (newChar == '\n' || newChar == '\r')
+		{
+			parserToModify->InputFlushBuffer();
+		}
+
+		return false;
+	}
+
+	if (inputLength >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '*')
+	{
+		if (inputBuffer[inputLength - 2] == '*' && inputBuffer[inputLength - 1] == '/')
+		{
+			parserToModify->InputFlushBuffer();
+			return true;
+		}
+
+		if (newChar != '*' && newChar != '/')
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool ist::includedStyles::LuaCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+{
+	if (inputLength >= 2 && inputBuffer[0] == '-' && inputBuffer[1] == '-')
+	{
+		if (inputLength < 4 || inputBuffer[2] != '[' || inputBuffer[3] != '[')
+		{
+			if (newChar == '\n' || newChar == '\r')
+			{
+				parserToModify->InputFlushBuffer();
+			}
+		}
+
+		if (inputBuffer[inputLength - 2] == ']' && inputBuffer[inputLength - 1] == ']')
+		{
+			parserToModify->InputFlushBuffer();
+			return true;
+		}
+
+		if (newChar != '[' && newChar != ']')
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

@@ -149,6 +149,7 @@ namespace ist
 		void PushChar(char charter);
 
 		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr;
+		bool(*m_f_CommentParse)(char*, unsigned int, char, IstackLexParser*) = nullptr;
 
 	public:
 		IstackLexParser& operator=(const IstackLexParser& t) = delete;
@@ -158,6 +159,7 @@ namespace ist
 		~IstackLexParser(void);
 		
 		void SetDataParse(bool(*DataParseFunc)(char*, unsigned int, IstackUnit*));
+		void SetCommentParse(bool(*CommentParse)(char*, unsigned int, char, IstackLexParser*));
 
 		void SetFrame(IstackStackFrame* frame);
 		void AddWord(const char* keyword);
@@ -171,4 +173,10 @@ namespace ist
 		bool ErrorIsParsingUnsucessful();
 		bool ErrorInputBufferOverflowed();
 	};
+
+	namespace includedStyles
+	{
+		bool ISTACK_API CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify);
+	}
+
 }

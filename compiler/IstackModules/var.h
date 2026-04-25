@@ -43,7 +43,7 @@ namespace ist
 
 
 			ist::IstackModuleType string = ist::IstackModuleType();
-			string.FreeData = raw::FreeData_Single;
+			string.FreeData = raw::FreeData_String;
 			string.CopyData = raw::CopyData_String;
 
 			module->ModuleAdd(string);

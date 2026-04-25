@@ -8,7 +8,7 @@ namespace ist
 {
 	namespace modules
 	{
-		enum moduleSysyemErrorCodes : unsigned int
+		enum moduleSystemErrorCodes : unsigned int
 		{
 			StackEmptySystem = 701,
 			DataIsNullSystem = 703,
@@ -51,14 +51,11 @@ namespace ist
 			ist::IstackModuleType selfSys = ist::IstackModuleType();
 			selfSys.ValidateStack = raw::ValidateStack_strSelfSystem;
 			selfSys.ValidateSelf = raw::ValidateSelf_Fail;
-			selfSys.FreeData = raw::FreeData_Single;
+			selfSys.FreeData = raw::FreeData_String;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAdd(selfSys);
 			if (parser != nullptr) { parser->AddWord("SelfSystem"); }
-
-
-
 		}
 	}
 }

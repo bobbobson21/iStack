@@ -44,10 +44,19 @@
     <ClInclude Include="IstackModules\var.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\istack\istack.h">
+    <ClInclude Include="IstackModules\manipulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IstackModules\manipulation.h">
+    <ClInclude Include="IstackModules\system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compileConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="compileParsering.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\istack\istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -58,5 +67,6 @@
     <None Include="lib\istack\istack.pdb" />
     <None Include="lib\istack\istack.exp" />
     <None Include="lib\istack\istack.dll" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

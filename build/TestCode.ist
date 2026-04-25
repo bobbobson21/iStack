@@ -14,7 +14,7 @@ FourByte(7);
 	SelfPrintNewLine();
     PopPrint();
     #i>>str;
-    #FourByte<<;
+    &FourByte<<;
 
     {;
        String('aaaaaaaaaaa');
