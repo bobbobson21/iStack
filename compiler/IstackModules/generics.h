@@ -54,6 +54,17 @@ namespace ist
 				(*copyTo) = buffer;
 			}
 
+			void CopyData_String(void** copyFrom, void** copyTo)
+			{
+				delete (*copyTo);
+				(*copyTo) = new std::string;
+
+				for (size_t i = 0; i < (*(std::string*)(*copyFrom)).size(); i++)
+				{
+					(*(std::string*)(*copyTo)) += (*(std::string*)(*copyFrom))[i];
+				}
+			}
+
 			void CopyData_CopyFail(void** copyFrom, void** copyTo)
 			{
 

@@ -246,7 +246,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(ItF);
+			module->ModuleAddType(ItF);
 			if (parser != nullptr) { parser->AddWord("#i>>f"); }
 
 
@@ -256,7 +256,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(FtI);
+			module->ModuleAddType(FtI);
 			if (parser != nullptr) { parser->AddWord("#f>>i"); }
 
 
@@ -266,7 +266,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(ItS);
+			module->ModuleAddType(ItS);
 			if (parser != nullptr) { parser->AddWord("#i>>str"); }
 
 
@@ -276,7 +276,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(StI);
+			module->ModuleAddType(StI);
 			if (parser != nullptr) { parser->AddWord("#str>>i"); }
 
 
@@ -286,7 +286,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(FtS);
+			module->ModuleAddType(FtS);
 			if (parser != nullptr) { parser->AddWord("#f>>str"); }
 
 
@@ -296,7 +296,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(StF);
+			module->ModuleAddType(StF);
 			if (parser != nullptr) { parser->AddWord("#str>>f"); }
 
 
@@ -306,7 +306,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(StB);
+			module->ModuleAddType(StB);
 			if (parser != nullptr) { parser->AddWord("#str>>b"); }
 
 
@@ -316,7 +316,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(BtS);
+			module->ModuleAddType(BtS);
 			if (parser != nullptr) { parser->AddWord("#b>>str"); }
 
 
@@ -326,7 +326,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(BtI);
+			module->ModuleAddType(BtI);
 			if (parser != nullptr) { parser->AddWord("#b>>i"); }
 
 
@@ -336,7 +336,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(ItB);
+			module->ModuleAddType(ItB);
 			if (parser != nullptr) { parser->AddWord("#i>>b"); }
 		}
 	}

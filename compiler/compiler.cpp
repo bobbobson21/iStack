@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 	ist::IstackLexParser parser = ist::IstackLexParser();
 	parser.SetFrame(&codeScope);
 	parser.SetDataParse(compiler::DataParse); //a function for this cant be included in the dll as it requires data minulation that should only be done on the programs end
-	parser.SetCommentParse(ist::includedStyles::CppCommentStyle); //but this can be done tho
+	parser.SetCommentParse(ist::includedCommentStyles::CppCommentStyle); //but this can be done tho
 
 	ist::IstackModuleExacuteor exec = ist::IstackModuleExacuteor();
 	

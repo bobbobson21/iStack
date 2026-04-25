@@ -23,13 +23,13 @@ namespace ist
 				return false;
 			}
 
-			bool ValidateSelf_SelfPrintNewLine(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			bool ValidateSelf_PrintNewLine(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::cout << std::endl;
 				return false;
 			}
 
-			bool ValidateSelf_SelfPrintFlush(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			bool ValidateSelf_PrintFlush(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::cout << std::flush;
 				return false;
@@ -52,7 +52,7 @@ namespace ist
 				return true;
 			}
 
-			bool ValidateSelf_SelfInput(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			bool ValidateSelf_Input(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::string inputString = "";
 				std::cin >> inputString;
@@ -71,26 +71,26 @@ namespace ist
 			ist::IstackModuleType selfPrint = ist::IstackModuleType();
 			selfPrint.ValidateSelf = raw::ValidateSelf_SelfPrint;
 			selfPrint.FreeData = raw::FreeData_String;
-			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
+			selfPrint.CopyData = raw::CopyData_String;
 
-			module->ModuleAdd(selfPrint);
+			module->ModuleAddType(selfPrint);
 			if (parser != nullptr) { parser->AddWord("SelfPrint"); }
 
 
 			ist::IstackModuleType selfPrintNewLine = ist::IstackModuleType();
-			selfPrintNewLine.ValidateSelf = raw::ValidateSelf_SelfPrintNewLine;
+			selfPrintNewLine.ValidateSelf = raw::ValidateSelf_PrintNewLine;
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
-			module->ModuleAdd(selfPrintNewLine);
-			if (parser != nullptr) { parser->AddWord("SelfPrintNewLine"); }
+			module->ModuleAddType(selfPrintNewLine);
+			if (parser != nullptr) { parser->AddWord("PrintNewLine"); }
 
 
 			ist::IstackModuleType selfPrintFlush = ist::IstackModuleType();
-			selfPrintFlush.ValidateSelf = raw::ValidateSelf_SelfPrintFlush;
+			selfPrintFlush.ValidateSelf = raw::ValidateSelf_PrintFlush;
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
-			module->ModuleAdd(selfPrintFlush);
-			if (parser != nullptr) { parser->AddWord("selfPrintFlush"); }
+			module->ModuleAddType(selfPrintFlush);
+			if (parser != nullptr) { parser->AddWord("PrintFlush"); }
 			
 
 			ist::IstackModuleType popPrint = ist::IstackModuleType();
@@ -98,15 +98,15 @@ namespace ist
 			popPrint.ValidateSelf = raw::ValidateSelf_Fail;
 			//popPrint.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(popPrint);
+			module->ModuleAddType(popPrint);
 			if (parser != nullptr) { parser->AddWord("PopPrint"); }
 
 			ist::IstackModuleType selfInput = ist::IstackModuleType();
-			selfInput.ValidateSelf = raw::ValidateSelf_SelfInput;
+			selfInput.ValidateSelf = raw::ValidateSelf_Input;
 			selfInput.FreeData = raw::FreeData_String;
 
-			module->ModuleAdd(selfInput);
-			if (parser != nullptr) { parser->AddWord("SelfInput"); }
+			module->ModuleAddType(selfInput);
+			if (parser != nullptr) { parser->AddWord("Input"); }
 		}
 	}
 }

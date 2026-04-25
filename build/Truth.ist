@@ -19,8 +19,8 @@ i==;
 FourByte(0);
 {;
 	SelfSystem("pause");
-	selfPrintFlush();
-	SelfPrintNewLine();
+	PrintFlush();
+	PrintNewLine();
 	SelfPrint("0");
 };
 
@@ -31,9 +31,9 @@ FourByte(0);
 
 
 //stage 1: get input
-SelfPrintNewLine();
+PrintNewLine();
 strSystem();
 String("color B");
 
-SelfInput();
+Input();
 SelfPrint("input: ");

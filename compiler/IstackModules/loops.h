@@ -228,7 +228,7 @@ namespace ist
 			breakMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->ModuleAdd(breakMod);
+			module->ModuleAddType(breakMod);
 			if (parser != nullptr) { parser->AddWord("Break"); }
 
 
@@ -237,7 +237,7 @@ namespace ist
 			forMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->ModuleAdd(forMod);
+			module->ModuleAddType(forMod);
 			if (parser != nullptr) { parser->AddWord("iFor<<i"); }
 
 
@@ -246,7 +246,7 @@ namespace ist
 			whileMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->ModuleAdd(whileMod);
+			module->ModuleAddType(whileMod);
 			if (parser != nullptr) { parser->AddWord("While<<i"); }
 
 
@@ -255,7 +255,7 @@ namespace ist
 			forBreakFailMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->ModuleAdd(forBreakFailMod);
+			module->ModuleAddType(forBreakFailMod);
 			if (parser != nullptr) { parser->AddWord("iForBreakFail<<i"); }
 
 
@@ -264,7 +264,7 @@ namespace ist
 			forEndFailMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->ModuleAdd(forEndFailMod);
+			module->ModuleAddType(forEndFailMod);
 			if (parser != nullptr) { parser->AddWord("iForEndFail<<i"); }
 		}
 	}

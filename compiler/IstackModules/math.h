@@ -267,7 +267,7 @@ namespace ist
 			AddF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(AddF);
+			module->ModuleAddType(AddF);
 			if (parser != nullptr) { parser->AddWord("f+"); }
 
 
@@ -277,7 +277,7 @@ namespace ist
 			TakeF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(TakeF);
+			module->ModuleAddType(TakeF);
 			if (parser != nullptr) { parser->AddWord("f-"); }
 
 
@@ -287,7 +287,7 @@ namespace ist
 			TimesF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(TimesF);
+			module->ModuleAddType(TimesF);
 			if (parser != nullptr) { parser->AddWord("f*"); }
 
 
@@ -297,7 +297,7 @@ namespace ist
 			DivideF.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(DivideF);
+			module->ModuleAddType(DivideF);
 			if (parser != nullptr) { parser->AddWord("f/"); }
 
 
@@ -307,7 +307,7 @@ namespace ist
 			AddI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(AddI);
+			module->ModuleAddType(AddI);
 			if (parser != nullptr) { parser->AddWord("i+"); }
 
 
@@ -317,7 +317,7 @@ namespace ist
 			TakeI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(TakeI);
+			module->ModuleAddType(TakeI);
 			if (parser != nullptr) { parser->AddWord("i-"); }
 
 
@@ -327,7 +327,7 @@ namespace ist
 			TimesI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(TimesI);
+			module->ModuleAddType(TimesI);
 			if (parser != nullptr) { parser->AddWord("i*"); }
 
 
@@ -337,7 +337,7 @@ namespace ist
 			DivideI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(DivideI);
+			module->ModuleAddType(DivideI);
 			if (parser != nullptr) { parser->AddWord("i/"); }
 
 
@@ -347,7 +347,7 @@ namespace ist
 			ModI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(ModI);
+			module->ModuleAddType(ModI);
 			if (parser != nullptr) { parser->AddWord("i%"); }
 
 
@@ -357,7 +357,7 @@ namespace ist
 			PowI.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(PowI);
+			module->ModuleAddType(PowI);
 			if (parser != nullptr) { parser->AddWord("i^"); }
 		}
 	}

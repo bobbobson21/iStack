@@ -44,7 +44,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(sys);
+			module->ModuleAddType(sys);
 			if (parser != nullptr) { parser->AddWord("strSystem"); }
 
 
@@ -52,9 +52,9 @@ namespace ist
 			selfSys.ValidateStack = raw::ValidateStack_strSelfSystem;
 			selfSys.ValidateSelf = raw::ValidateSelf_Fail;
 			selfSys.FreeData = raw::FreeData_String;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			selfSys.CopyData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(selfSys);
+			module->ModuleAddType(selfSys);
 			if (parser != nullptr) { parser->AddWord("SelfSystem"); }
 		}
 	}

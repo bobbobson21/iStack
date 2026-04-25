@@ -82,7 +82,6 @@ namespace ist
 		void UnitFlush(void);
 		void UnitFree(void);
 
-
 		void CopyIStackTo(IstackStackFrame* otherFrame);
 		void CopyPipeDataTo(IstackStackFrame* otherFrame);
 	};
@@ -119,13 +118,14 @@ namespace ist
 		void FreeFrame(IstackStackFrame* frame);
 		void FreeUnit(IstackUnit* unit);
 
-		void CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo);
 		void CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo);
+		void CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo);
 
-		unsigned int ModuleAdd(IstackModuleType module);
-		IstackModuleType ModuleGet(unsigned int moduleIndex);
-		IstackModuleType* ModuleGetPtr(unsigned int moduleIndex);
-		unsigned int ModuleGetCount(void);
+		unsigned int ModuleAddType(IstackModuleType module);
+		IstackModuleType ModuleGetType(unsigned int moduleIndex);
+		IstackModuleType* ModuleGetTypePtr(unsigned int moduleIndex);
+		unsigned int ModuleGetTypeCount(void);
+		void ModuleFreeTypes(void);
 	};
 
 	/// <summary>
@@ -146,10 +146,12 @@ namespace ist
 
 		bool m_isParsingSucessful = true;
 
-		void PushChar(char charter);
-
 		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr;
 		bool(*m_f_CommentParse)(char*, unsigned int, char, IstackLexParser*) = nullptr;
+
+		void PushChar(char charter);
+		void FreeInputBuffer(void);
+		void CreateInputBuffer(unsigned int inputBufferSize);
 
 	public:
 		IstackLexParser& operator=(const IstackLexParser& t) = delete;
@@ -163,6 +165,7 @@ namespace ist
 
 		void SetFrame(IstackStackFrame* frame);
 		void AddWord(const char* keyword);
+		void FreeWords(void);
 
 		void InputParseStringIntoFrame(const char* sting);
 		void operator<<(char* charters);
@@ -174,9 +177,10 @@ namespace ist
 		bool ErrorInputBufferOverflowed();
 	};
 
-	namespace includedStyles
+	namespace includedCommentStyles
 	{
 		bool ISTACK_API CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify);
+		bool ISTACK_API LuaCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify);
 	}
 
 }

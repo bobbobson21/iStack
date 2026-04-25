@@ -10,27 +10,13 @@ namespace ist
 {
 	namespace modules
 	{
-		namespace raw
-		{
-			void CopyData_String(void** copyFrom, void** copyTo)
-			{
-				delete (*copyTo);
-				(*copyTo) = new std::string;
-
-				for (size_t i = 0; i < (*(std::string*)(*copyFrom)).size(); i++)
-				{
-					(*(std::string*)(*copyTo)) += (*(std::string*)(*copyFrom))[i];
-				}
-			}
-		}
-
 		void LoadVarModules(IstackModuleExacuteor* module, IstackLexParser* parser)
 		{
 			ist::IstackModuleType byte = ist::IstackModuleType();
 			byte.FreeData = raw::FreeData_Single;
 			byte.CopyData = raw::CopyData_Char;
 
-			module->ModuleAdd(byte);
+			module->ModuleAddType(byte);
 			if (parser != nullptr) { parser->AddWord("Byte"); }
 
 
@@ -38,7 +24,7 @@ namespace ist
 			fourByte.FreeData = raw::FreeData_Single;
 			fourByte.CopyData = raw::CopyData_FourChar;
 
-			module->ModuleAdd(fourByte);
+			module->ModuleAddType(fourByte);
 			if (parser != nullptr) { parser->AddWord("FourByte"); }
 
 
@@ -46,7 +32,7 @@ namespace ist
 			string.FreeData = raw::FreeData_String;
 			string.CopyData = raw::CopyData_String;
 
-			module->ModuleAdd(string);
+			module->ModuleAddType(string);
 			if (parser != nullptr) { parser->AddWord("String"); }
 		}
 	}

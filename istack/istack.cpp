@@ -221,7 +221,7 @@ ist::IstackModuleExacuteor::IstackModuleExacuteor(void)
 
 ist::IstackModuleExacuteor::~IstackModuleExacuteor(void)
 {
-	delete[] m_arrayModules;
+	ModuleFreeTypes();
 }
 
 
@@ -279,6 +279,10 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 			if (m_arrayModules[unit->m_modualTypeCode].ValidateSelf == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
+			}
+			else
+			{
+				FreeUnit(frameIn->UnitTopPtr());
 			}
 		}
 		else
@@ -377,6 +381,20 @@ void ist::IstackModuleExacuteor::FreeUnit(IstackUnit* unit)
 }
 
 
+void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo)
+{
+	if (m_arrayModules[copyFrom->m_modualTypeCode].CopyData != nullptr)
+	{
+		m_arrayModules[copyFrom->m_modualTypeCode].CopyData(&copyFrom->m_data, &copyTo->m_data);
+	}
+	else
+	{
+		copyTo->m_data = copyFrom->m_data;
+	}
+
+	copyTo->m_modualTypeCode = copyFrom->m_modualTypeCode;
+}
+
 void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo)
 {
 	FreeFrame(copyTo);
@@ -407,22 +425,8 @@ void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackSta
 	delete[] transferBuffer;
 }
 
-void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo)
-{
-	if (m_arrayModules[copyFrom->m_modualTypeCode].CopyData != nullptr)
-	{
-		m_arrayModules[copyFrom->m_modualTypeCode].CopyData(&copyFrom->m_data, &copyTo->m_data);
-	}
-	else
-	{
-		copyTo->m_data = copyFrom->m_data;
-	}
 
-	copyTo->m_modualTypeCode = copyFrom->m_modualTypeCode;
-}
-
-
-unsigned int ist::IstackModuleExacuteor::ModuleAdd(IstackModuleType module)
+unsigned int ist::IstackModuleExacuteor::ModuleAddType(IstackModuleType module)
 {
 
 	IstackModuleType* modulesBuffer = new IstackModuleType[m_arrayModulesLength +1];
@@ -440,19 +444,27 @@ unsigned int ist::IstackModuleExacuteor::ModuleAdd(IstackModuleType module)
 	return m_arrayModulesLength -1;
 }
 
-ist::IstackModuleType ist::IstackModuleExacuteor::ModuleGet(unsigned int moduleIndex)
+ist::IstackModuleType ist::IstackModuleExacuteor::ModuleGetType(unsigned int moduleIndex)
 {
 	return m_arrayModules[moduleIndex];
 }
 
-ist::IstackModuleType* ist::IstackModuleExacuteor::ModuleGetPtr(unsigned int moduleIndex)
+ist::IstackModuleType* ist::IstackModuleExacuteor::ModuleGetTypePtr(unsigned int moduleIndex)
 {
 	return &m_arrayModules[moduleIndex];
 }
 
-unsigned int ist::IstackModuleExacuteor::ModuleGetCount(void)
+unsigned int ist::IstackModuleExacuteor::ModuleGetTypeCount(void)
 {
 	return m_arrayModulesLength;
+}
+
+void ist::IstackModuleExacuteor::ModuleFreeTypes(void)
+{
+	delete[] m_arrayModules;
+
+	m_arrayModulesLength = 0;
+	m_arrayModules = nullptr;
 }
 
 
@@ -492,7 +504,7 @@ void ist::IstackLexParser::PushChar(char charter)
 		for (unsigned int i = 0; i < m_arrayKeywordsLength; i++) //loop thougth words
 		{
 			bool sucessfulMatch = true;
-			unsigned int symbolLength = strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength);
+			unsigned int symbolLength = (unsigned int)strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength);
 
 			for (size_t o = 0; o < symbolLength; o++)
 			{
@@ -543,27 +555,37 @@ void ist::IstackLexParser::PushChar(char charter)
 }
 
 
+
+void ist::IstackLexParser::FreeInputBuffer(void)
+{
+	delete[] m_inputStringBuffer;
+
+	m_inputStringBuffer = nullptr;
+	m_maxInputStringBufferLength = 0;
+	m_inputStringBufferIndex = 0;
+}
+
+void ist::IstackLexParser::CreateInputBuffer(unsigned int inputBufferSize)
+{
+	m_maxInputStringBufferLength = inputBufferSize;
+	m_inputStringBuffer = new char[m_maxInputStringBufferLength];
+}
+
+
 ist::IstackLexParser::IstackLexParser(unsigned int maxBufferSize)
 {
-	m_maxInputStringBufferLength = maxBufferSize;
-	m_inputStringBuffer = new char[m_maxInputStringBufferLength];
+	CreateInputBuffer(maxBufferSize);
 }
 
 ist::IstackLexParser::IstackLexParser(void)
 {
-	m_inputStringBuffer = new char[m_maxInputStringBufferLength];
+	CreateInputBuffer(1024);
 }
 
 ist::IstackLexParser::~IstackLexParser(void)
 {
-	delete[] m_inputStringBuffer;
-
-	for (unsigned int i = 0; i < m_arrayKeywordsLength; i++)
-	{
-		delete[] m_arrayKeywords[i];
-	}
-
-	delete[] m_arrayKeywords;
+	FreeInputBuffer();
+	FreeWords();
 }
 
 
@@ -598,6 +620,19 @@ void ist::IstackLexParser::AddWord(const char* keyword)
 
 	m_arrayKeywords = modulesBuffer;
 	m_arrayKeywordsLength = m_arrayKeywordsLength + 1;
+}
+
+void ist::IstackLexParser::FreeWords(void)
+{
+	for (unsigned int i = 0; i < m_arrayKeywordsLength; i++)
+	{
+		delete[] m_arrayKeywords[i];
+	}
+
+	delete[] m_arrayKeywords;
+
+	m_arrayKeywords = nullptr;
+	m_arrayKeywordsLength = 0;
 }
 
 void ist::IstackLexParser::InputParseStringIntoFrame(const char* string)
@@ -647,7 +682,7 @@ void ist::IstackLexParser::InputFlushBuffer()
 
 
 
-bool ist::includedStyles::CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+bool ist::includedCommentStyles::CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
 {
 	if (inputLength >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '/')
 	{
@@ -676,28 +711,16 @@ bool ist::includedStyles::CppCommentStyle(char* inputBuffer, unsigned int inputL
 	return true;
 }
 
-bool ist::includedStyles::LuaCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+bool ist::includedCommentStyles::LuaCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
 {
 	if (inputLength >= 2 && inputBuffer[0] == '-' && inputBuffer[1] == '-')
 	{
-		if (inputLength < 4 || inputBuffer[2] != '[' || inputBuffer[3] != '[')
-		{
-			if (newChar == '\n' || newChar == '\r')
-			{
-				parserToModify->InputFlushBuffer();
-			}
-		}
-
-		if (inputBuffer[inputLength - 2] == ']' && inputBuffer[inputLength - 1] == ']')
+		if (newChar == '\n' || newChar == '\r')
 		{
 			parserToModify->InputFlushBuffer();
-			return true;
 		}
 
-		if (newChar != '[' && newChar != ']')
-		{
-			return false;
-		}
+		return false;
 	}
 
 	return true;

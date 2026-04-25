@@ -1,5 +1,5 @@
-SelfPrintNewLine();
-SelfInput();
+PrintNewLine();
+Input();
 SelfPrint("press E and enter to exit: ");
 
 //testing
@@ -7,11 +7,11 @@ SelfPrint("press E and enter to exit: ");
 iFor<<i;
 FourByte(7);
 {;
-	SelfPrintNewLine();
+	PrintNewLine();
     PopPrint();
     iPullDataFromScope();
 
-	SelfPrintNewLine();
+	PrintNewLine();
     PopPrint();
     #i>>str;
     &FourByte<<;

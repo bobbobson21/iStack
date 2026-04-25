@@ -292,7 +292,7 @@ namespace ist
 			ifMod.ValidateSelf = raw::ValidateSelf_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
-			module->ModuleAdd(ifMod);
+			module->ModuleAddType(ifMod);
 			if (parser != nullptr) { parser->AddWord("If"); }
 
 
@@ -302,7 +302,7 @@ namespace ist
 			notMod.FreeData = raw::FreeData_Single;
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(notMod);
+			module->ModuleAddType(notMod);
 			if (parser != nullptr) { parser->AddWord("Not"); }
 
 
@@ -311,7 +311,7 @@ namespace ist
 			orMod.ValidateSelf = raw::ValidateSelf_Success;
 			orMod.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(orMod);
+			module->ModuleAddType(orMod);
 			if (parser != nullptr) { parser->AddWord("Or"); }
 
 
@@ -320,7 +320,7 @@ namespace ist
 			andMod.ValidateSelf = raw::ValidateSelf_Success;
 			andMod.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(andMod);
+			module->ModuleAddType(andMod);
 			if (parser != nullptr) { parser->AddWord("And"); }
 
 
@@ -329,7 +329,7 @@ namespace ist
 			set.ValidateSelf = raw::ValidateSelf_Success;
 			set.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(set);
+			module->ModuleAddType(set);
 			if (parser != nullptr) { parser->AddWord("str=="); }
 
 
@@ -338,7 +338,7 @@ namespace ist
 			iet.ValidateSelf = raw::ValidateSelf_Success;
 			iet.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(iet);
+			module->ModuleAddType(iet);
 			if (parser != nullptr) { parser->AddWord("i=="); }
 
 
@@ -347,7 +347,7 @@ namespace ist
 			imt.ValidateSelf = raw::ValidateSelf_Success;
 			imt.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(imt);
+			module->ModuleAddType(imt);
 			if (parser != nullptr) { parser->AddWord("i>"); }
 
 
@@ -356,7 +356,7 @@ namespace ist
 			ilt.ValidateSelf = raw::ValidateSelf_Success;
 			ilt.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(ilt);
+			module->ModuleAddType(ilt);
 			if (parser != nullptr) { parser->AddWord("i<"); }
 
 
@@ -365,7 +365,7 @@ namespace ist
 			fet.ValidateSelf = raw::ValidateSelf_Success;
 			fet.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(fet);
+			module->ModuleAddType(fet);
 			if (parser != nullptr) { parser->AddWord("f=="); }
 
 
@@ -374,7 +374,7 @@ namespace ist
 			fmt.ValidateSelf = raw::ValidateSelf_Success;
 			fmt.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(fmt);
+			module->ModuleAddType(fmt);
 			if (parser != nullptr) { parser->AddWord("f>"); }
 
 
@@ -383,7 +383,7 @@ namespace ist
 			flt.ValidateSelf = raw::ValidateSelf_Success;
 			flt.FreeData = raw::FreeData_Single;
 
-			module->ModuleAdd(flt);
+			module->ModuleAddType(flt);
 			if (parser != nullptr) { parser->AddWord("f<"); }
 
 		}

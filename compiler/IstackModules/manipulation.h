@@ -147,7 +147,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(Bcpy);
+			module->ModuleAddType(Bcpy);
 			if (parser != nullptr) { parser->AddWord("&Byte<<"); }
 
 
@@ -157,7 +157,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(FBcpy);
+			module->ModuleAddType(FBcpy);
 			if (parser != nullptr) { parser->AddWord("&FourByte<<"); }
 
 
@@ -167,7 +167,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(STRcpy);
+			module->ModuleAddType(STRcpy);
 			if (parser != nullptr) { parser->AddWord("&String<<"); }
 
 
@@ -177,7 +177,7 @@ namespace ist
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
-			module->ModuleAdd(CPYcpy);
+			module->ModuleAddType(CPYcpy);
 			if (parser != nullptr) { parser->AddWord("&DataCpyOrMoveIfFail<<"); }
 
 
@@ -187,7 +187,7 @@ namespace ist
 			Ref.FreeData = raw::FreeData_Fail;
 			Ref.CopyData = raw::CopyData_CopyFail;
 
-			module->ModuleAdd(Ref);
+			module->ModuleAddType(Ref);
 			if (parser != nullptr) { parser->AddWord("&Pointer<<"); }
 
 
@@ -196,7 +196,7 @@ namespace ist
 			Count.ValidateSelf = raw::ValidateSelf_Fail;
 			Count.FreeData = raw::FreeData_Fail;
 
-			module->ModuleAdd(Count);
+			module->ModuleAddType(Count);
 			if (parser != nullptr) { parser->AddWord("&Count<<"); }
 
 
@@ -204,7 +204,7 @@ namespace ist
 			Pop.ValidateStack = raw::ValidateStack_DupeSwap;
 			Pop.ValidateSelf = raw::ValidateSelf_Fail;
 
-			module->ModuleAdd(Pop);
+			module->ModuleAddType(Pop);
 			if (parser != nullptr) { parser->AddWord("&Pop>>"); }
 
 
@@ -212,7 +212,7 @@ namespace ist
 			Swap.ValidateStack = raw::ValidateStack_DupeSwap;
 			Swap.ValidateSelf = raw::ValidateSelf_Fail;
 
-			module->ModuleAdd(Swap);
+			module->ModuleAddType(Swap);
 			if (parser != nullptr) { parser->AddWord("&Swap<<"); }
 		}
 	}
