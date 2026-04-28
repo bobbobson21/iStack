@@ -35,6 +35,13 @@ namespace ist
 				return false;
 			}
 
+			bool ValidateSelf_PrintE(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				std::cout << "\033";
+				return false;
+			}
+
+
 			bool ValidateStack_PopPrint(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->UnitLength() < 1)
@@ -91,6 +98,14 @@ namespace ist
 
 			module->ModuleAddType(selfPrintFlush);
 			if (parser != nullptr) { parser->AddWord("PrintFlush"); }
+
+
+			ist::IstackModuleType selfPrintE = ist::IstackModuleType();
+			selfPrintE.ValidateSelf = raw::ValidateSelf_PrintE;
+			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
+
+			module->ModuleAddType(selfPrintE);
+			if (parser != nullptr) { parser->AddWord("PrintE"); }
 			
 
 			ist::IstackModuleType popPrint = ist::IstackModuleType();

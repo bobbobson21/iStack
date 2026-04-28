@@ -139,15 +139,15 @@ namespace ist
 				
 		IstackStackFrame* m_outputFrame = nullptr;
 		
-		unsigned int m_maxInputStringBufferLength = 1024;
-		unsigned int m_inputStringBufferIndex = 0;
-		char* m_inputStringBuffer = nullptr;
-		unsigned int m_scopeInputDepth = 0;
+		unsigned int m_maxInputStringBufferLength = 1024; //how big the text of a word can be
+		unsigned int m_inputStringBufferIndex = 0; //our place in the buffer
+		char* m_inputStringBuffer = nullptr; //the buffer
+		char m_inputInStringScope = '\0'; //the type of string we are inside of or 0 for not inside a string
 
-		bool m_isParsingSucessful = true;
+		bool m_isParsingSucessful = true; //will be false on error
 
-		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr;
-		bool(*m_f_CommentParse)(char*, unsigned int, char, IstackLexParser*) = nullptr;
+		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr; //parse values
+		bool(*m_f_CommentParse)(char*, unsigned int, char, IstackLexParser*) = nullptr; //parse comment
 
 		void PushChar(char charter);
 		void FreeInputBuffer(void);

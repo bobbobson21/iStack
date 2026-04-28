@@ -24,7 +24,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string filePath = "";
+	std::string filePath = "C:\\Users\\e017770n\\Desktop\\iStack\\x64\\Release\\Truth.ist";
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -81,7 +81,7 @@ int main(int argc, char* argv[])
 
 	//free data
 	exec.FreeFrame(&codeScope);
-	exec.FreeFrameRecursive(&dump); //both are true so that all memory is freed without the process being stoped by errors
+	exec.FreeFrameRecursive(&dump);
 
 	return 0;
 }

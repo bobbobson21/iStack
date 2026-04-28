@@ -471,7 +471,12 @@ void ist::IstackModuleExacuteor::ModuleFreeTypes(void)
 
 void ist::IstackLexParser::PushChar(char charter)
 {
-	if (m_f_CommentParse(m_inputStringBuffer, m_inputStringBufferIndex, charter, this) == false)
+	if (m_f_CommentParse(m_inputStringBuffer, m_inputStringBufferIndex, charter, this) == false) //comment handling
+	{
+		return;
+	}
+
+	if (m_inputStringBufferIndex >= m_maxInputStringBufferLength) //string handling
 	{
 		return;
 	}
@@ -481,73 +486,72 @@ void ist::IstackLexParser::PushChar(char charter)
 	if (charter == '\t') { return; }
 	if (charter == '\0') { return; }
 
-	if (m_scopeInputDepth == 0)
+	//no return in start or end of string blocks incase data paser func needs it
+	if (charter == '\'' && m_inputInStringScope == '\'') { m_inputInStringScope = '\0'; } else //string ended
+	if (charter == '\'' && m_inputInStringScope == '\0') { m_inputInStringScope = '\''; } //string stared
+
+	if (charter == '\"' && m_inputInStringScope == '\"') { m_inputInStringScope = '\0'; } else //string ended
+	if (charter == '\"' && m_inputInStringScope == '\0') { m_inputInStringScope = '\"'; } //string stared
+
+	if (m_inputInStringScope == '\0')
 	{
-		if (charter == ' ') { return; }
-	}
-	
-	if (charter == '(') { m_scopeInputDepth = m_scopeInputDepth + 1; }
-	if (charter == '{') { m_scopeInputDepth = m_scopeInputDepth + 1; }
-	if (charter == '[') { m_scopeInputDepth = m_scopeInputDepth + 1; }
-
-	if (charter == ')' && m_scopeInputDepth -1 < m_scopeInputDepth) { m_scopeInputDepth = m_scopeInputDepth - 1; }
-	if (charter == '}' && m_scopeInputDepth - 1 < m_scopeInputDepth) { m_scopeInputDepth = m_scopeInputDepth - 1; }
-	if (charter == ']' && m_scopeInputDepth - 1 < m_scopeInputDepth) { m_scopeInputDepth = m_scopeInputDepth - 1; }
-
-	if (m_inputStringBufferIndex >= m_maxInputStringBufferLength) { return; }
-
-	if (charter == ';') //every symbol has this is the end
-	{
-		unsigned int lagestSymbolMatchSize = 0;
-		IstackUnit unitToPush = IstackUnit();
-
-		for (unsigned int i = 0; i < m_arrayKeywordsLength; i++) //loop thougth words
+		if (charter == ' ') //space are allowed in string which is why this is here
 		{
-			bool sucessfulMatch = true;
-			unsigned int symbolLength = (unsigned int)strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength);
+			return;
+		}
 
-			for (size_t o = 0; o < symbolLength; o++)
+		if (charter == ';') //every symbol has this is the end and this is also allowed in strings
+		{
+			unsigned int lagestSymbolMatchSize = 0;
+			IstackUnit unitToPush = IstackUnit();
+
+			for (unsigned int i = 0; i < m_arrayKeywordsLength; i++) //loop thougth words
 			{
-				if (m_inputStringBuffer[o] != m_arrayKeywords[i][o]) //word dosent match input buffers contents
+				bool sucessfulMatch = true;
+				unsigned int symbolLength = (unsigned int)strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength);
+
+				for (size_t o = 0; o < symbolLength; o++)
 				{
-					sucessfulMatch = false; //failure
-					break;
+					if (m_inputStringBuffer[o] != m_arrayKeywords[i][o]) //word dosent match input buffers contents
+					{
+						sucessfulMatch = false; //failure
+						break;
+					}
+				}
+
+				if (sucessfulMatch == true && symbolLength > lagestSymbolMatchSize) //word dose match but is it the best match
+				{
+					lagestSymbolMatchSize = symbolLength; //it is the bestest match so far but save resuts for later matches
+					unitToPush.m_modualTypeCode = i;
 				}
 			}
 
-			if (sucessfulMatch == true && symbolLength > lagestSymbolMatchSize) //word dose match but is it the best match
+			if (lagestSymbolMatchSize > 0) //was there any matches
 			{
-				lagestSymbolMatchSize = symbolLength; //it is the bestest match so far but save resuts for later matches
-				unitToPush.m_modualTypeCode = i;				
-			}
-		}
+				bool isSucessfulAtParsingData = true;
 
-		if (lagestSymbolMatchSize > 0) //was there any matches
-		{
-			bool isSucessfulAtParsingData = true;
+				if (m_f_DataParseFunc != nullptr)
+				{
+					isSucessfulAtParsingData = m_f_DataParseFunc(m_inputStringBuffer, m_inputStringBufferIndex, &unitToPush);
+				}
 
-			if (m_f_DataParseFunc != nullptr)
-			{
-				isSucessfulAtParsingData = m_f_DataParseFunc(m_inputStringBuffer, m_inputStringBufferIndex, &unitToPush);
+				if (isSucessfulAtParsingData == true) //can parse data
+				{
+					m_outputFrame->UnitPush(unitToPush);
+				}
+				else //no so fail
+				{
+					m_isParsingSucessful = false;
+				}
 			}
-
-			if (isSucessfulAtParsingData == true) //can parse data
-			{
-				m_outputFrame->UnitPush(unitToPush);
-			}
-			else //no so fail
+			else //no matches so fail
 			{
 				m_isParsingSucessful = false;
 			}
-		}
-		else //no matches so fail
-		{
-			m_isParsingSucessful = false;
-		}
 
-		m_scopeInputDepth = 0;
-		m_inputStringBufferIndex = 0;
-		return;
+			m_inputStringBufferIndex = 0;
+			return;
+		}
 	}
 
 	m_inputStringBuffer[m_inputStringBufferIndex] = charter;
