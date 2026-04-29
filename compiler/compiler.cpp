@@ -24,7 +24,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string filePath = "C:\\Users\\e017770n\\Desktop\\iStack\\x64\\Release\\Truth.ist";
+	std::string filePath = "";
 
 	for (int i = 1; i < argc; i++)
 	{
