@@ -95,10 +95,10 @@ namespace ist
 		IstackModuleType* m_moduleTypesArray = nullptr;
 		unsigned int m_moduleTypesArrayLength = 0;
 		
-		unsigned int m_errorCode = 0;
 		unsigned int m_processDepthMax = 1024;
 		unsigned int m_processDepthCurrent = 0;
 
+		unsigned int m_errorCode = 0;
 		bool m_errorSymbolMemoryOverflowed = false; //will be true on error
 
 	public:
@@ -123,6 +123,8 @@ namespace ist
 
 		void CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo);
 		void CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo);
+		void CopyModuleTypeDataFromAndTo(IstackModuleExacuteor* otherExec);
+		void CopyModuleProcessDepthDataFromAndTo(IstackModuleExacuteor* otherExec);
 
 		unsigned int ModuleAddType(IstackModuleType module);
 		IstackModuleType ModuleGetType(unsigned int moduleIndex);

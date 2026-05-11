@@ -477,6 +477,25 @@ void ist::IstackModuleExacuteor::ModuleFreeTypes(void)
 	m_moduleTypesArray = nullptr;
 }
 
+void ist::IstackModuleExacuteor::CopyModuleTypeDataFromAndTo(IstackModuleExacuteor* otherExec)
+{
+	delete[] otherExec->m_moduleTypesArray;
+	otherExec->m_moduleTypesArrayLength = m_moduleTypesArrayLength;
+
+	otherExec->m_moduleTypesArray = new IstackModuleType[otherExec->m_moduleTypesArrayLength];
+
+	for (unsigned int i = 0; i < otherExec->m_moduleTypesArrayLength; i++)
+	{
+		otherExec->m_moduleTypesArray[i] = m_moduleTypesArray[i];
+	}
+}
+
+void ist::IstackModuleExacuteor::CopyModuleProcessDepthDataFromAndTo(IstackModuleExacuteor* otherExec)
+{
+	otherExec->m_processDepthCurrent = m_processDepthCurrent;
+	otherExec->m_processDepthMax = m_processDepthMax;
+}
+
 
 
 void ist::IstackLexParser::PushChar(char charter)
