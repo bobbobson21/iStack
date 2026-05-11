@@ -268,7 +268,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(AddF);
-			if (parser != nullptr) { parser->AddWord("f+"); }
+			if (parser != nullptr) { parser->WordsAdd("f+"); }
 
 
 			ist::IstackModuleType TakeF = ist::IstackModuleType();
@@ -278,7 +278,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(TakeF);
-			if (parser != nullptr) { parser->AddWord("f-"); }
+			if (parser != nullptr) { parser->WordsAdd("f-"); }
 
 
 			ist::IstackModuleType TimesF = ist::IstackModuleType();
@@ -288,7 +288,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(TimesF);
-			if (parser != nullptr) { parser->AddWord("f*"); }
+			if (parser != nullptr) { parser->WordsAdd("f*"); }
 
 
 			ist::IstackModuleType DivideF = ist::IstackModuleType();
@@ -298,7 +298,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(DivideF);
-			if (parser != nullptr) { parser->AddWord("f/"); }
+			if (parser != nullptr) { parser->WordsAdd("f/"); }
 
 
 			ist::IstackModuleType AddI = ist::IstackModuleType();
@@ -308,7 +308,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(AddI);
-			if (parser != nullptr) { parser->AddWord("i+"); }
+			if (parser != nullptr) { parser->WordsAdd("i+"); }
 
 
 			ist::IstackModuleType TakeI = ist::IstackModuleType();
@@ -318,7 +318,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(TakeI);
-			if (parser != nullptr) { parser->AddWord("i-"); }
+			if (parser != nullptr) { parser->WordsAdd("i-"); }
 
 
 			ist::IstackModuleType TimesI = ist::IstackModuleType();
@@ -328,7 +328,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(TimesI);
-			if (parser != nullptr) { parser->AddWord("i*"); }
+			if (parser != nullptr) { parser->WordsAdd("i*"); }
 
 
 			ist::IstackModuleType DivideI = ist::IstackModuleType();
@@ -338,7 +338,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(DivideI);
-			if (parser != nullptr) { parser->AddWord("i/"); }
+			if (parser != nullptr) { parser->WordsAdd("i/"); }
 
 
 			ist::IstackModuleType ModI = ist::IstackModuleType();
@@ -348,7 +348,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(ModI);
-			if (parser != nullptr) { parser->AddWord("i%"); }
+			if (parser != nullptr) { parser->WordsAdd("i%"); }
 
 
 			ist::IstackModuleType PowI = ist::IstackModuleType();
@@ -358,7 +358,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(PowI);
-			if (parser != nullptr) { parser->AddWord("i^"); }
+			if (parser != nullptr) { parser->WordsAdd("i^"); }
 		}
 	}
 }

@@ -229,7 +229,7 @@ namespace ist
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(breakMod);
-			if (parser != nullptr) { parser->AddWord("Break"); }
+			if (parser != nullptr) { parser->WordsAdd("Break"); }
 
 
 			ist::IstackModuleType forMod = ist::IstackModuleType();
@@ -238,7 +238,7 @@ namespace ist
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(forMod);
-			if (parser != nullptr) { parser->AddWord("iFor<<i"); }
+			if (parser != nullptr) { parser->WordsAdd("iFor<<i"); }
 
 
 			ist::IstackModuleType whileMod = ist::IstackModuleType();
@@ -247,7 +247,7 @@ namespace ist
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(whileMod);
-			if (parser != nullptr) { parser->AddWord("While<<i"); }
+			if (parser != nullptr) { parser->WordsAdd("While<<i"); }
 
 
 			ist::IstackModuleType forBreakFailMod = ist::IstackModuleType();
@@ -256,7 +256,7 @@ namespace ist
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(forBreakFailMod);
-			if (parser != nullptr) { parser->AddWord("iForBreakFail<<i"); }
+			if (parser != nullptr) { parser->WordsAdd("iForBreakFail<<i"); }
 
 
 			ist::IstackModuleType forEndFailMod = ist::IstackModuleType();
@@ -265,7 +265,7 @@ namespace ist
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(forEndFailMod);
-			if (parser != nullptr) { parser->AddWord("iForEndFail<<i"); }
+			if (parser != nullptr) { parser->WordsAdd("iForEndFail<<i"); }
 		}
 	}
 }

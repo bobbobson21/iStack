@@ -212,7 +212,7 @@ void ist::IstackStackFrame::UnitFree(void)
 
 ist::IstackModuleExacuteor::IstackModuleExacuteor(unsigned int processDepth)
 {
-	m_maxProcessDepth = processDepth;
+	m_processDepthMax = processDepth;
 }
 
 ist::IstackModuleExacuteor::IstackModuleExacuteor(void)
@@ -237,18 +237,23 @@ unsigned int ist::IstackModuleExacuteor::ErrorGetCode()
 
 bool ist::IstackModuleExacuteor::ErrorProcessDepthOverflowed()
 {
-	return (m_currentProcessDepth > m_maxProcessDepth);
+	return (m_processDepthCurrent > m_processDepthMax);
+}
+
+bool ist::IstackModuleExacuteor::ErrorSymbolMemoryOverflowed()
+{
+	return m_errorSymbolMemoryOverflowed;
 }
 
 
 bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
 {
-	if (m_currentProcessDepth > m_maxProcessDepth) //oh no you overflow how much exacution is allowed didnt you
+	if (m_processDepthCurrent > m_processDepthMax) //oh no you overflow how much exacution is allowed didnt you
 	{
 		return false;
 	}
 
-	m_currentProcessDepth = m_currentProcessDepth + 1; //increeses the depth
+	m_processDepthCurrent = m_processDepthCurrent + 1; //increeses the depth
 
 	while (frameIn->UnitLength() > 0) //proccess code untll theres non left to process
 	{
@@ -256,27 +261,27 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 
 		if ((*frameOut->PipeGet()) == nullptr)
 		{
-			if (unit->m_modualTypeCode >= m_arrayModulesLength)
+			if (unit->m_modualTypeCode >= m_moduleTypesArrayLength)
 			{
-				if (m_currentProcessDepth <= m_maxProcessDepth)  //decresse incase failure shouldnt cause crash
+				if (m_processDepthCurrent <= m_processDepthMax)  //decresse incase failure shouldnt cause crash
 				{ 
-					m_currentProcessDepth = m_currentProcessDepth - 1;  //we only decreese if we are bellow the depth so errors are reported correctly
+					m_processDepthCurrent = m_processDepthCurrent - 1;  //we only decreese if we are bellow the depth so errors are reported correctly
 				}
 
 				return false;
 			}
 
-			if (m_arrayModules[unit->m_modualTypeCode].ValidateStack != nullptr && m_arrayModules[unit->m_modualTypeCode].ValidateStack(frameOut, this, &unit->m_data) == false)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateStack != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateStack(frameOut, this, &unit->m_data) == false)
 			{
-				if (m_currentProcessDepth <= m_maxProcessDepth) //decresse incase failure shouldnt cause crash
+				if (m_processDepthCurrent <= m_processDepthMax) //decresse incase failure shouldnt cause crash
 				{
-					m_currentProcessDepth = m_currentProcessDepth - 1;
+					m_processDepthCurrent = m_processDepthCurrent - 1;
 				}
 
 				return false;
 			}
 
-			if (m_arrayModules[unit->m_modualTypeCode].ValidateSelf == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
 			}
@@ -287,7 +292,7 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 		}
 		else
 		{
-			if (m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
 			}
@@ -296,9 +301,9 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 		frameIn->UnitPop();
 	}
 
-	if (m_currentProcessDepth <= m_maxProcessDepth) //decresse because we reached the end of the funtion
+	if (m_processDepthCurrent <= m_processDepthMax) //decresse because we reached the end of the funtion
 	{
-		m_currentProcessDepth = m_currentProcessDepth - 1;
+		m_processDepthCurrent = m_processDepthCurrent - 1;
 	}
 
 	return true;
@@ -306,31 +311,31 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 
 bool ist::IstackModuleExacuteor::ProcessExacuteFrameAsIfPiped(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
 {
-	if (m_currentProcessDepth > m_maxProcessDepth) //oh no you overflow how much exacution is allowed didnt you
+	if (m_processDepthCurrent > m_processDepthMax) //oh no you overflow how much exacution is allowed didnt you
 	{
 		return false;
 	}
 
-	m_currentProcessDepth = m_currentProcessDepth + 1;
+	m_processDepthCurrent = m_processDepthCurrent + 1;
 
 	while (frameIn->UnitLength() > 0) //proccess code untll theres non left to process
 	{
 		IstackUnit* unit = frameIn->UnitTopPtr();
 
-		if (m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_arrayModules[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
+		if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
 		{
 			frameOut->UnitPush(frameIn->UnitTop());
 		}
 	}
 
-	m_currentProcessDepth = m_currentProcessDepth - 1;
+	m_processDepthCurrent = m_processDepthCurrent - 1;
 
 	return true;
 }
 
 void ist::IstackModuleExacuteor::ProcessFlushDepthContext()
 {
-	m_currentProcessDepth = 0;
+	m_processDepthCurrent = 0;
 }
 
 
@@ -374,18 +379,18 @@ void ist::IstackModuleExacuteor::FreeFrame(IstackStackFrame* frame)
 
 void ist::IstackModuleExacuteor::FreeUnit(IstackUnit* unit)
 {
-	if (m_arrayModules[unit->m_modualTypeCode].FreeData != nullptr)
+	if (m_moduleTypesArray[unit->m_modualTypeCode].FreeData != nullptr)
 	{
-		m_arrayModules[unit->m_modualTypeCode].FreeData(&unit->m_data);
+		m_moduleTypesArray[unit->m_modualTypeCode].FreeData(&unit->m_data);
 	}
 }
 
 
 void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackUnit* copyTo)
 {
-	if (m_arrayModules[copyFrom->m_modualTypeCode].CopyData != nullptr)
+	if (m_moduleTypesArray[copyFrom->m_modualTypeCode].CopyData != nullptr)
 	{
-		m_arrayModules[copyFrom->m_modualTypeCode].CopyData(&copyFrom->m_data, &copyTo->m_data);
+		m_moduleTypesArray[copyFrom->m_modualTypeCode].CopyData(&copyFrom->m_data, &copyTo->m_data);
 	}
 	else
 	{
@@ -428,91 +433,88 @@ void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackSta
 
 unsigned int ist::IstackModuleExacuteor::ModuleAddType(IstackModuleType module)
 {
-
-	IstackModuleType* modulesBuffer = new IstackModuleType[m_arrayModulesLength +1];
-
-	if (m_arrayModules != nullptr)
+	if (m_moduleTypesArrayLength + 1 < m_moduleTypesArrayLength)
 	{
-		memcpy(modulesBuffer, m_arrayModules, sizeof(IstackModuleType) * m_arrayModulesLength);
-		delete[] m_arrayModules;
+		m_errorSymbolMemoryOverflowed = true;
+		return -1; //it will be highest positive value and that will indercate something wnt wrong
 	}
 
-	modulesBuffer[m_arrayModulesLength] = module;
-	m_arrayModules = modulesBuffer;
+	IstackModuleType* modulesBuffer = new IstackModuleType[m_moduleTypesArrayLength +1];
 
-	m_arrayModulesLength = m_arrayModulesLength + 1;
-	return m_arrayModulesLength -1;
+	if (m_moduleTypesArray != nullptr)
+	{
+		memcpy(modulesBuffer, m_moduleTypesArray, sizeof(IstackModuleType) * m_moduleTypesArrayLength);
+		delete[] m_moduleTypesArray;
+	}
+
+	modulesBuffer[m_moduleTypesArrayLength] = module;
+	m_moduleTypesArray = modulesBuffer;
+
+	m_moduleTypesArrayLength = m_moduleTypesArrayLength + 1;
+	return m_moduleTypesArrayLength -1;
 }
 
 ist::IstackModuleType ist::IstackModuleExacuteor::ModuleGetType(unsigned int moduleIndex)
 {
-	return m_arrayModules[moduleIndex];
+	return m_moduleTypesArray[moduleIndex];
 }
 
 ist::IstackModuleType* ist::IstackModuleExacuteor::ModuleGetTypePtr(unsigned int moduleIndex)
 {
-	return &m_arrayModules[moduleIndex];
+	return &m_moduleTypesArray[moduleIndex];
 }
 
 unsigned int ist::IstackModuleExacuteor::ModuleGetTypeCount(void)
 {
-	return m_arrayModulesLength;
+	return m_moduleTypesArrayLength;
 }
 
 void ist::IstackModuleExacuteor::ModuleFreeTypes(void)
 {
-	delete[] m_arrayModules;
+	delete[] m_moduleTypesArray;
 
-	m_arrayModulesLength = 0;
-	m_arrayModules = nullptr;
+	m_moduleTypesArrayLength = 0;
+	m_moduleTypesArray = nullptr;
 }
 
 
 
 void ist::IstackLexParser::PushChar(char charter)
 {
-	if (m_f_CommentParse(m_inputStringBuffer, m_inputStringBufferIndex, charter, this) == false) //comment handling
+	if (m_f_ParseFuncComment(m_inputStringBuffer, m_inputStringBufferIndex, charter, this) == false) //comment handling
 	{
 		return;
 	}
 
-	if (m_inputStringBufferIndex >= m_maxInputStringBufferLength) //string handling
+	if (m_inputStringBufferIndex >= m_inputStringMaxBufferLength) //safty
 	{
 		return;
 	}
 
-	if (charter == '\n') { return; }
-	if (charter == '\r') { return; }
-	if (charter == '\t') { return; }
-	if (charter == '\0') { return; }
+	bool isOutsideOfString = m_f_ParseFuncString(m_inputStringBuffer, m_inputStringBufferIndex, charter);
 
-	//no return in start or end of string blocks incase data paser func needs it
-	if (charter == '\'' && m_inputInStringScope == '\'') { m_inputInStringScope = '\0'; } else //string ended
-	if (charter == '\'' && m_inputInStringScope == '\0') { m_inputInStringScope = '\''; } //string stared
-
-	if (charter == '\"' && m_inputInStringScope == '\"') { m_inputInStringScope = '\0'; } else //string ended
-	if (charter == '\"' && m_inputInStringScope == '\0') { m_inputInStringScope = '\"'; } //string stared
-
-	if (m_inputInStringScope == '\0')
+	if (isOutsideOfString == true)
 	{
-		if (charter == ' ') //space are allowed in string which is why this is here
-		{
-			return;
-		}
+		if (charter == '\n') { return; } //outside a string these charters are ingored but inside one this is not the case
+		if (charter == '\r') { return; }
+		if (charter == '\t') { return; }
+		if (charter == '\0') { return; }
+
+		if (charter == ' ') { return; }
 
 		if (charter == ';') //every symbol has this is the end and this is also allowed in strings
 		{
 			unsigned int lagestSymbolMatchSize = 0;
 			IstackUnit unitToPush = IstackUnit();
 
-			for (unsigned int i = 0; i < m_arrayKeywordsLength; i++) //loop thougth words
+			for (unsigned int i = 0; i < m_keywordsArrayLength; i++) //loop thougth words
 			{
 				bool sucessfulMatch = true;
-				unsigned int symbolLength = (unsigned int)strnlen(m_arrayKeywords[i], m_maxInputStringBufferLength);
+				unsigned int symbolLength = (unsigned int)strnlen(m_keywordsArray[i], m_inputStringMaxBufferLength);
 
 				for (size_t o = 0; o < symbolLength; o++)
 				{
-					if (m_inputStringBuffer[o] != m_arrayKeywords[i][o]) //word dosent match input buffers contents
+					if (m_inputStringBuffer[o] != m_keywordsArray[i][o]) //word dosent match input buffers contents
 					{
 						sucessfulMatch = false; //failure
 						break;
@@ -530,9 +532,9 @@ void ist::IstackLexParser::PushChar(char charter)
 			{
 				bool isSucessfulAtParsingData = true;
 
-				if (m_f_DataParseFunc != nullptr)
+				if (m_f_ParseFuncData != nullptr)
 				{
-					isSucessfulAtParsingData = m_f_DataParseFunc(m_inputStringBuffer, m_inputStringBufferIndex, &unitToPush);
+					isSucessfulAtParsingData = m_f_ParseFuncData(m_inputStringBuffer, m_inputStringBufferIndex, &unitToPush);
 				}
 
 				if (isSucessfulAtParsingData == true) //can parse data
@@ -541,12 +543,12 @@ void ist::IstackLexParser::PushChar(char charter)
 				}
 				else //no so fail
 				{
-					m_isParsingSucessful = false;
+					m_errorIsParsingUnsucessful = true;
 				}
 			}
 			else //no matches so fail
 			{
-				m_isParsingSucessful = false;
+				m_errorIsParsingUnsucessful = true;
 			}
 
 			m_inputStringBufferIndex = 0;
@@ -559,20 +561,19 @@ void ist::IstackLexParser::PushChar(char charter)
 }
 
 
-
 void ist::IstackLexParser::FreeInputBuffer(void)
 {
 	delete[] m_inputStringBuffer;
 
 	m_inputStringBuffer = nullptr;
-	m_maxInputStringBufferLength = 0;
+	m_inputStringMaxBufferLength = 0;
 	m_inputStringBufferIndex = 0;
 }
 
 void ist::IstackLexParser::CreateInputBuffer(unsigned int inputBufferSize)
 {
-	m_maxInputStringBufferLength = inputBufferSize;
-	m_inputStringBuffer = new char[m_maxInputStringBufferLength];
+	m_inputStringMaxBufferLength = inputBufferSize;
+	m_inputStringBuffer = new char[m_inputStringMaxBufferLength];
 }
 
 
@@ -589,54 +590,66 @@ ist::IstackLexParser::IstackLexParser(void)
 ist::IstackLexParser::~IstackLexParser(void)
 {
 	FreeInputBuffer();
-	FreeWords();
+	WordsFree();
 }
 
 
-void ist::IstackLexParser::SetDataParse(bool(*DataParseFunc)(char*, unsigned int, IstackUnit*))
+void ist::IstackLexParser::ParseSetDataFunc(bool(*dataParseFunc)(char*, unsigned int, IstackUnit*))
 {
-	m_f_DataParseFunc = DataParseFunc;
+	m_f_ParseFuncData = dataParseFunc;
 }
 
-void ist::IstackLexParser::SetCommentParse(bool(*CommentParse)(char*, unsigned int, char, IstackLexParser*))
+void ist::IstackLexParser::ParseSetCommentFunc(bool(*commentParse)(char*, unsigned int, char, IstackLexParser*))
 {
-	m_f_CommentParse = CommentParse;
+	m_f_ParseFuncComment = commentParse;
 }
 
-void ist::IstackLexParser::SetFrame(IstackStackFrame* frame)
+void ist::IstackLexParser::ParseSetStringFunc(bool(*stringParse)(char*, unsigned int, char))
+{
+	m_f_ParseFuncString = stringParse;
+}
+
+
+void ist::IstackLexParser::FrameSet(IstackStackFrame* frame)
 {
 	m_outputFrame = frame;
 }
 
-void ist::IstackLexParser::AddWord(const char* keyword)
+void ist::IstackLexParser::WordsAdd(const char* keyword)
 {
-	char** modulesBuffer = new char*[m_arrayKeywordsLength +1];
-
-	if (m_arrayKeywords != nullptr)
+	if (m_keywordsArrayLength + 1 < m_keywordsArrayLength)
 	{
-		memcpy(modulesBuffer, m_arrayKeywords, sizeof(char*) * m_arrayKeywordsLength);
-		delete[] m_arrayKeywords;
+		m_errorSymbolMemoryOverflowed = true;
+		return;
 	}
 
-	modulesBuffer[m_arrayKeywordsLength] = new char[strnlen(keyword, m_maxInputStringBufferLength) +1];
-	memcpy(modulesBuffer[m_arrayKeywordsLength], keyword, strnlen(keyword, m_maxInputStringBufferLength));
-	modulesBuffer[m_arrayKeywordsLength][strnlen(keyword, m_maxInputStringBufferLength)] = '\0';
+	char** modulesBuffer = new char*[m_keywordsArrayLength +1];
 
-	m_arrayKeywords = modulesBuffer;
-	m_arrayKeywordsLength = m_arrayKeywordsLength + 1;
+	if (m_keywordsArray != nullptr)
+	{
+		memcpy(modulesBuffer, m_keywordsArray, sizeof(char*) * m_keywordsArrayLength);
+		delete[] m_keywordsArray;
+	}
+
+	modulesBuffer[m_keywordsArrayLength] = new char[strnlen(keyword, m_inputStringMaxBufferLength) +1];
+	memcpy(modulesBuffer[m_keywordsArrayLength], keyword, strnlen(keyword, m_inputStringMaxBufferLength));
+	modulesBuffer[m_keywordsArrayLength][strnlen(keyword, m_inputStringMaxBufferLength)] = '\0';
+
+	m_keywordsArray = modulesBuffer;
+	m_keywordsArrayLength = m_keywordsArrayLength + 1;
 }
 
-void ist::IstackLexParser::FreeWords(void)
+void ist::IstackLexParser::WordsFree(void)
 {
-	for (unsigned int i = 0; i < m_arrayKeywordsLength; i++)
+	for (unsigned int i = 0; i < m_keywordsArrayLength; i++)
 	{
-		delete[] m_arrayKeywords[i];
+		delete[] m_keywordsArray[i];
 	}
 
-	delete[] m_arrayKeywords;
+	delete[] m_keywordsArray;
 
-	m_arrayKeywords = nullptr;
-	m_arrayKeywordsLength = 0;
+	m_keywordsArray = nullptr;
+	m_keywordsArrayLength = 0;
 }
 
 void ist::IstackLexParser::InputParseStringIntoFrame(const char* string)
@@ -670,23 +683,28 @@ void ist::IstackLexParser::operator<<(char charter)
 
 bool ist::IstackLexParser::ErrorIsParsingUnsucessful()
 {
-	return !m_isParsingSucessful;
+	return m_errorIsParsingUnsucessful;
 }
 
 bool ist::IstackLexParser::ErrorInputBufferOverflowed()
 {
-	return (m_inputStringBufferIndex >= m_maxInputStringBufferLength);
+	return (m_inputStringBufferIndex >= m_inputStringMaxBufferLength);
+}
+
+bool ist::IstackLexParser::ErrorSymbolMemoryOverflowed()
+{
+	return m_errorSymbolMemoryOverflowed;
 }
 
 void ist::IstackLexParser::InputFlushBuffer()
 {
-	m_isParsingSucessful = true;
+	m_errorIsParsingUnsucessful = false;
 	m_inputStringBufferIndex = 0;
 }
 
 
 
-bool ist::includedCommentStyles::CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+bool ist::DefParseFuncs::CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
 {
 	if (inputLength >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '/')
 	{
@@ -715,17 +733,21 @@ bool ist::includedCommentStyles::CppCommentStyle(char* inputBuffer, unsigned int
 	return true;
 }
 
-bool ist::includedCommentStyles::LuaCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+bool ist::DefParseFuncs::LuaStringStyle(char* inputBuffer, unsigned int inputLength, char newChar)
 {
-	if (inputLength >= 2 && inputBuffer[0] == '-' && inputBuffer[1] == '-')
-	{
-		if (newChar == '\n' || newChar == '\r')
-		{
-			parserToModify->InputFlushBuffer();
-		}
+	static char currentStringState = '\0';
 
-		return false;
+	if (inputLength > 0)
+	{
+		char lastCharAdded = inputBuffer[inputLength - 1];
+
+		if (lastCharAdded == '"' && currentStringState == '"') { currentStringState = '\0'; }
+		else if (lastCharAdded == '"' && currentStringState == '\0') { currentStringState = '"'; }
+
+		if (lastCharAdded == '\'' && currentStringState == '\'') { currentStringState = '\0'; }
+		else if (lastCharAdded == '\'' && currentStringState == '\0') { currentStringState = '\''; }
 	}
 
-	return true;
+	return (currentStringState == '\0');
 }
+

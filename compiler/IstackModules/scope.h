@@ -253,7 +253,7 @@ namespace ist
 			scopeStart.ValidateSelfPiped = raw::ValidateSelfPiped_ScopeStart;
 
 			module->ModuleAddType(scopeStart);
-			if (parser != nullptr) { parser->AddWord("}"); }
+			if (parser != nullptr) { parser->WordsAdd("}"); }
 
 
 			ist::IstackModuleType scopeEndFliped = ist::IstackModuleType();
@@ -261,7 +261,7 @@ namespace ist
 			scopeEndFliped.ValidateSelfPiped = raw::ValidateSelfPiped_ScopeEndFliped;
 
 			module->ModuleAddType(scopeEndFliped);
-			if (parser != nullptr) { parser->AddWord("{"); }
+			if (parser != nullptr) { parser->WordsAdd("{"); }
 
 
 			ist::IstackModuleType scopeExecPop = ist::IstackModuleType();
@@ -269,7 +269,7 @@ namespace ist
 			scopeExecPop.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(scopeExecPop);
-			if (parser != nullptr) { parser->AddWord("ExecPop"); }
+			if (parser != nullptr) { parser->WordsAdd("ExecPop"); }
 
 
 			ist::IstackModuleType scopeExec = ist::IstackModuleType();
@@ -277,7 +277,7 @@ namespace ist
 			scopeExec.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(scopeExec);
-			if (parser != nullptr) { parser->AddWord("Exec"); }
+			if (parser != nullptr) { parser->WordsAdd("Exec"); }
 
 
 			ist::IstackModuleType scopeExecReturn = ist::IstackModuleType();
@@ -285,7 +285,7 @@ namespace ist
 			scopeExecReturn.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(scopeExecReturn);
-			if (parser != nullptr) { parser->AddWord("ExecReturn"); }
+			if (parser != nullptr) { parser->WordsAdd("ExecReturn"); }
 
 
 			ist::IstackModuleType scopeExecSwitch = ist::IstackModuleType();
@@ -295,7 +295,7 @@ namespace ist
 			scopeExecSwitch.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(scopeExecSwitch);
-			if (parser != nullptr) { parser->AddWord("SelfExecSwitch"); }
+			if (parser != nullptr) { parser->WordsAdd("SelfExecSwitch"); }
 
 
 			ist::IstackModuleType scopeExecSwitchReturn = ist::IstackModuleType();
@@ -305,7 +305,7 @@ namespace ist
 			scopeExecSwitchReturn.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(scopeExecSwitchReturn);
-			if (parser != nullptr) { parser->AddWord("SelfExecSwitchReturn"); }
+			if (parser != nullptr) { parser->WordsAdd("SelfExecSwitchReturn"); }
 
 
 			ist::IstackModuleType scopeExecSwitchSetIndex = ist::IstackModuleType();
@@ -313,7 +313,7 @@ namespace ist
 			scopeExecSwitchSetIndex.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(scopeExecSwitchSetIndex);
-			if (parser != nullptr) { parser->AddWord("iSetSwitchIndex"); }
+			if (parser != nullptr) { parser->WordsAdd("iSetSwitchIndex"); }
 
 
 			ist::IstackModuleType pullData = ist::IstackModuleType();
@@ -321,7 +321,7 @@ namespace ist
 			pullData.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(pullData);
-			if (parser != nullptr) { parser->AddWord("iPullDataFromScope"); }
+			if (parser != nullptr) { parser->WordsAdd("iPullDataFromScope"); }
 
 
 			ist::IstackModuleType pullDataPop = ist::IstackModuleType();
@@ -329,7 +329,7 @@ namespace ist
 			pullDataPop.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(pullDataPop);
-			if (parser != nullptr) { parser->AddWord("iPullDataFromScopePop"); }
+			if (parser != nullptr) { parser->WordsAdd("iPullDataFromScopePop"); }
 
 		}
 	}

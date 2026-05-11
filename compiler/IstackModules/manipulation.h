@@ -87,7 +87,7 @@ namespace ist
 				return true;
 			}
 
-			bool ValidateStack_DupeRefrence(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			bool ValidateStack_DupePointer(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyManipulation); return false; }
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullManipulation); return false; }
@@ -98,6 +98,13 @@ namespace ist
 				return true;
 			}
 
+			bool ValidateStack_DupeCount(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				(*data) = new int;
+				(*((int*)(*data))) = dumpFrame->UnitLength();
+
+				return true;
+			}
 
 			bool ValidateStack_DupePop(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
@@ -107,16 +114,6 @@ namespace ist
 
 				return true;
 			}
-
-
-			bool ValidateStack_DupeCount(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
-			{
-				(*data) = new int;
-				(*((int*)(*data))) = dumpFrame->UnitLength();
-
-				return true;
-			}
-
 
 			bool ValidateStack_DupeSwap(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
@@ -148,7 +145,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(Bcpy);
-			if (parser != nullptr) { parser->AddWord("&Byte<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&Byte<<"); }
 
 
 			ist::IstackModuleType FBcpy = ist::IstackModuleType();
@@ -158,7 +155,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(FBcpy);
-			if (parser != nullptr) { parser->AddWord("&FourByte<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&FourByte<<"); }
 
 
 			ist::IstackModuleType STRcpy = ist::IstackModuleType();
@@ -168,7 +165,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(STRcpy);
-			if (parser != nullptr) { parser->AddWord("&String<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&String<<"); }
 
 
 			ist::IstackModuleType CPYcpy = ist::IstackModuleType();
@@ -178,34 +175,34 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(CPYcpy);
-			if (parser != nullptr) { parser->AddWord("&DataCpyOrMoveIfFail<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&DataCpyOrPointToIfFail<<"); }
 
 
 			ist::IstackModuleType Ref = ist::IstackModuleType();
-			Ref.ValidateStack = raw::ValidateStack_DupeRefrence;
+			Ref.ValidateStack = raw::ValidateStack_DupePointer;
 			Ref.ValidateSelf = raw::ValidateSelf_Success;
 			Ref.FreeData = raw::FreeData_Fail;
 			Ref.CopyData = raw::CopyData_CopyFail;
 
 			module->ModuleAddType(Ref);
-			if (parser != nullptr) { parser->AddWord("&Pointer<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&Pointer<<"); }
 
 
 			ist::IstackModuleType Count = ist::IstackModuleType();
-			Count.ValidateStack = raw::ValidateStack_DupeSwap;
+			Count.ValidateStack = raw::ValidateStack_DupeCount;
 			Count.ValidateSelf = raw::ValidateSelf_Fail;
 			Count.FreeData = raw::FreeData_Fail;
 
 			module->ModuleAddType(Count);
-			if (parser != nullptr) { parser->AddWord("&Count<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&Count<<"); }
 
 
 			ist::IstackModuleType Pop = ist::IstackModuleType();
-			Pop.ValidateStack = raw::ValidateStack_DupeSwap;
+			Pop.ValidateStack = raw::ValidateStack_DupePop;
 			Pop.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(Pop);
-			if (parser != nullptr) { parser->AddWord("&Pop>>"); }
+			if (parser != nullptr) { parser->WordsAdd("&Pop>>"); }
 
 
 			ist::IstackModuleType Swap = ist::IstackModuleType();
@@ -213,7 +210,7 @@ namespace ist
 			Swap.ValidateSelf = raw::ValidateSelf_Fail;
 
 			module->ModuleAddType(Swap);
-			if (parser != nullptr) { parser->AddWord("&Swap<<"); }
+			if (parser != nullptr) { parser->WordsAdd("&Swap<<"); }
 		}
 	}
 }

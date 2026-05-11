@@ -45,7 +45,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(sys);
-			if (parser != nullptr) { parser->AddWord("strSystem"); }
+			if (parser != nullptr) { parser->WordsAdd("strSystem"); }
 
 
 			ist::IstackModuleType selfSys = ist::IstackModuleType();
@@ -55,7 +55,7 @@ namespace ist
 			selfSys.CopyData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(selfSys);
-			if (parser != nullptr) { parser->AddWord("SelfSystem"); }
+			if (parser != nullptr) { parser->WordsAdd("SelfSystem"); }
 		}
 	}
 }

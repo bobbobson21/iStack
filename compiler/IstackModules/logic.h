@@ -293,7 +293,7 @@ namespace ist
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(ifMod);
-			if (parser != nullptr) { parser->AddWord("If"); }
+			if (parser != nullptr) { parser->WordsAdd("If"); }
 
 
 			ist::IstackModuleType notMod = ist::IstackModuleType();
@@ -303,7 +303,7 @@ namespace ist
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(notMod);
-			if (parser != nullptr) { parser->AddWord("Not"); }
+			if (parser != nullptr) { parser->WordsAdd("Not"); }
 
 
 			ist::IstackModuleType orMod = ist::IstackModuleType();
@@ -312,7 +312,7 @@ namespace ist
 			orMod.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(orMod);
-			if (parser != nullptr) { parser->AddWord("Or"); }
+			if (parser != nullptr) { parser->WordsAdd("Or"); }
 
 
 			ist::IstackModuleType andMod = ist::IstackModuleType();
@@ -321,7 +321,7 @@ namespace ist
 			andMod.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(andMod);
-			if (parser != nullptr) { parser->AddWord("And"); }
+			if (parser != nullptr) { parser->WordsAdd("And"); }
 
 
 			ist::IstackModuleType set = ist::IstackModuleType();
@@ -330,7 +330,7 @@ namespace ist
 			set.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(set);
-			if (parser != nullptr) { parser->AddWord("str=="); }
+			if (parser != nullptr) { parser->WordsAdd("str=="); }
 
 
 			ist::IstackModuleType iet = ist::IstackModuleType();
@@ -339,7 +339,7 @@ namespace ist
 			iet.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(iet);
-			if (parser != nullptr) { parser->AddWord("i=="); }
+			if (parser != nullptr) { parser->WordsAdd("i=="); }
 
 
 			ist::IstackModuleType imt = ist::IstackModuleType();
@@ -348,7 +348,7 @@ namespace ist
 			imt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(imt);
-			if (parser != nullptr) { parser->AddWord("i>"); }
+			if (parser != nullptr) { parser->WordsAdd("i>"); }
 
 
 			ist::IstackModuleType ilt = ist::IstackModuleType();
@@ -357,7 +357,7 @@ namespace ist
 			ilt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(ilt);
-			if (parser != nullptr) { parser->AddWord("i<"); }
+			if (parser != nullptr) { parser->WordsAdd("i<"); }
 
 
 			ist::IstackModuleType fet = ist::IstackModuleType();
@@ -366,7 +366,7 @@ namespace ist
 			fet.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(fet);
-			if (parser != nullptr) { parser->AddWord("f=="); }
+			if (parser != nullptr) { parser->WordsAdd("f=="); }
 
 
 			ist::IstackModuleType fmt = ist::IstackModuleType();
@@ -375,7 +375,7 @@ namespace ist
 			fmt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(fmt);
-			if (parser != nullptr) { parser->AddWord("f>"); }
+			if (parser != nullptr) { parser->WordsAdd("f>"); }
 
 
 			ist::IstackModuleType flt = ist::IstackModuleType();
@@ -384,7 +384,7 @@ namespace ist
 			flt.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(flt);
-			if (parser != nullptr) { parser->AddWord("f<"); }
+			if (parser != nullptr) { parser->WordsAdd("f<"); }
 
 		}
 	}

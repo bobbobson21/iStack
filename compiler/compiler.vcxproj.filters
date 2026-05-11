@@ -15,11 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="compiler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="IstackModules\conversion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,6 +54,9 @@
     <ClInclude Include="lib\istack\istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\istack\istack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />
@@ -68,5 +66,10 @@
     <None Include="lib\istack\istack.exp" />
     <None Include="lib\istack\istack.dll" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="compiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

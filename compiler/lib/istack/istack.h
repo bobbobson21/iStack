@@ -11,7 +11,7 @@
 #endif
 
 /// <summary>
-/// the ist namespace contains thw whole Istack code block system which allows you to put code blocks togeter in a way that leads to some sort of logic exacuting
+/// the ist namespace contains the whole Istack code block system which allows you to put code blocks togeter in a way that leads to some sort of logic exacuting
 /// </summary>
 namespace ist
 {
@@ -40,7 +40,7 @@ namespace ist
 	};
 
 	/// <summary>
-	/// frames are local scopes nohing inside them can access the outside and vise versa
+	/// frames are local scopes of code nohing inside them can access the outside and they can be fed into IstackModuleExacuteor along with a dump frame (an empty frame that holds data) to have there code exacuted 
 	/// </summary>
 	class ISTACK_API IstackStackFrame
 	{
@@ -87,17 +87,19 @@ namespace ist
 	};
 
 	/// <summary>
-	/// feed the code int this and it will run it
+	/// feed a stack frame with code and another frame with nothing into this in order for the code to be exacuted. This also handles a lot of stack frame minulation oparations due to int knowing the bast way to do thoese and it handles error codes from inpropper module useage and it also know what all the moduals mean and what they do.
 	/// </summary>
 	class ISTACK_API IstackModuleExacuteor
 	{
 	private:
-		IstackModuleType* m_arrayModules = nullptr;
-		unsigned int m_arrayModulesLength = 0;
+		IstackModuleType* m_moduleTypesArray = nullptr;
+		unsigned int m_moduleTypesArrayLength = 0;
 		
 		unsigned int m_errorCode = 0;
-		unsigned int m_maxProcessDepth = 1024;
-		unsigned int m_currentProcessDepth = 0;
+		unsigned int m_processDepthMax = 1024;
+		unsigned int m_processDepthCurrent = 0;
+
+		bool m_errorSymbolMemoryOverflowed = false; //will be true on error
 
 	public:
 		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
@@ -109,6 +111,7 @@ namespace ist
 		void ErrorSetCode(unsigned int code);
 		unsigned int ErrorGetCode();
 		bool ErrorProcessDepthOverflowed();
+		bool ErrorSymbolMemoryOverflowed();
 
 		bool ProcessExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
 		bool ProcessExacuteFrameAsIfPiped(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
@@ -134,20 +137,21 @@ namespace ist
 	class ISTACK_API IstackLexParser
 	{
 	private:
-		char** m_arrayKeywords = nullptr;	
-		unsigned int m_arrayKeywordsLength = 0;
+		char** m_keywordsArray = nullptr; ///all the words added to the parser
+		unsigned int m_keywordsArrayLength = 0;
 				
 		IstackStackFrame* m_outputFrame = nullptr;
 		
-		unsigned int m_maxInputStringBufferLength = 1024; //how big the text of a word can be
-		unsigned int m_inputStringBufferIndex = 0; //our place in the buffer
-		char* m_inputStringBuffer = nullptr; //the buffer
-		char m_inputInStringScope = '\0'; //the type of string we are inside of or 0 for not inside a string
+		unsigned int m_inputStringMaxBufferLength = 1024; ///how big the text of a word can be
+		unsigned int m_inputStringBufferIndex = 0; ///our place in the buffer
+		char* m_inputStringBuffer = nullptr; ///the buffer
 
-		bool m_isParsingSucessful = true; //will be false on error
+		bool m_errorIsParsingUnsucessful = false; ///will be true on error
+		bool m_errorSymbolMemoryOverflowed = false; ///will be true on error
 
-		bool(*m_f_DataParseFunc)(char*, unsigned int, IstackUnit*) = nullptr; //parse values
-		bool(*m_f_CommentParse)(char*, unsigned int, char, IstackLexParser*) = nullptr; //parse comment
+		bool(*m_f_ParseFuncData)(char*, unsigned int, IstackUnit*) = nullptr; ///return true to confirm all is working and return false to confirm parsing failure
+		bool(*m_f_ParseFuncComment)(char*, unsigned int, char, IstackLexParser*) = nullptr; ///return true to add text to buffer and return false to block text being added to buffer 
+		bool(*m_f_ParseFuncString)(char*, unsigned int, char) = nullptr; ///return true to say we are outside a sting and false to say we are inside a string and that ingored or controled charater (\t,\n,;) sholud be added to buffer
 
 		void PushChar(char charter);
 		void FreeInputBuffer(void);
@@ -160,12 +164,13 @@ namespace ist
 		IstackLexParser(void);
 		~IstackLexParser(void);
 		
-		void SetDataParse(bool(*DataParseFunc)(char*, unsigned int, IstackUnit*));
-		void SetCommentParse(bool(*CommentParse)(char*, unsigned int, char, IstackLexParser*));
+		void ParseSetDataFunc(bool(*dataParseFunc)(char*, unsigned int, IstackUnit*)); ///has to be done manually there can be no DefParseFuncs for this
+		void ParseSetCommentFunc(bool(*commentParse)(char*, unsigned int, char, IstackLexParser*)); ///use ist::DefParseFuncs::CppCommentStyle
+		void ParseSetStringFunc(bool(*stringParse)(char*, unsigned int, char)); ///use ist::DefParseFuncs::LuaStringStyle
 
-		void SetFrame(IstackStackFrame* frame);
-		void AddWord(const char* keyword);
-		void FreeWords(void);
+		void FrameSet(IstackStackFrame* frame);
+		void WordsAdd(const char* keyword);
+		void WordsFree(void);
 
 		void InputParseStringIntoFrame(const char* sting);
 		void operator<<(char* charters);
@@ -175,12 +180,13 @@ namespace ist
 
 		bool ErrorIsParsingUnsucessful();
 		bool ErrorInputBufferOverflowed();
+		bool ErrorSymbolMemoryOverflowed();
 	};
 
-	namespace includedCommentStyles
+	namespace DefParseFuncs
 	{
 		bool ISTACK_API CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify);
-		bool ISTACK_API LuaCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify);
+		bool ISTACK_API LuaStringStyle(char* inputBuffer, unsigned int inputLength, char newChar);
 	}
 
 }

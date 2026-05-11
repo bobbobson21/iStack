@@ -81,7 +81,7 @@ namespace ist
 			selfPrint.CopyData = raw::CopyData_String;
 
 			module->ModuleAddType(selfPrint);
-			if (parser != nullptr) { parser->AddWord("SelfPrint"); }
+			if (parser != nullptr) { parser->WordsAdd("SelfPrint"); }
 
 
 			ist::IstackModuleType selfPrintNewLine = ist::IstackModuleType();
@@ -89,7 +89,7 @@ namespace ist
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
 			module->ModuleAddType(selfPrintNewLine);
-			if (parser != nullptr) { parser->AddWord("PrintNewLine"); }
+			if (parser != nullptr) { parser->WordsAdd("PrintNewLine"); }
 
 
 			ist::IstackModuleType selfPrintFlush = ist::IstackModuleType();
@@ -97,7 +97,7 @@ namespace ist
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
 			module->ModuleAddType(selfPrintFlush);
-			if (parser != nullptr) { parser->AddWord("PrintFlush"); }
+			if (parser != nullptr) { parser->WordsAdd("PrintFlush"); }
 
 
 			ist::IstackModuleType selfPrintE = ist::IstackModuleType();
@@ -105,7 +105,7 @@ namespace ist
 			//selfPrint.CopyData = raw::CopyData_String; not needed as data will beoverride before its old ptr can be reached or at least it should be
 
 			module->ModuleAddType(selfPrintE);
-			if (parser != nullptr) { parser->AddWord("PrintE"); }
+			if (parser != nullptr) { parser->WordsAdd("PrintE"); }
 			
 
 			ist::IstackModuleType popPrint = ist::IstackModuleType();
@@ -114,14 +114,14 @@ namespace ist
 			//popPrint.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(popPrint);
-			if (parser != nullptr) { parser->AddWord("PopPrint"); }
+			if (parser != nullptr) { parser->WordsAdd("PopPrint"); }
 
 			ist::IstackModuleType selfInput = ist::IstackModuleType();
 			selfInput.ValidateSelf = raw::ValidateSelf_Input;
 			selfInput.FreeData = raw::FreeData_String;
 
 			module->ModuleAddType(selfInput);
-			if (parser != nullptr) { parser->AddWord("Input"); }
+			if (parser != nullptr) { parser->WordsAdd("Input"); }
 		}
 	}
 }

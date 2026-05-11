@@ -20,9 +20,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="compiler.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="compileConfig.h" />
     <ClInclude Include="compileParsering.h" />
     <ClInclude Include="IstackModules\conversion.h" />
@@ -45,6 +42,9 @@
     <None Include="lib\istack\istack.exp" />
     <None Include="lib\istack\istack.pdb" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="compiler.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

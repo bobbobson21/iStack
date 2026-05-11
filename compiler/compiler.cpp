@@ -21,7 +21,6 @@
 
 #include "istack/istack.h"
 
-
 int main(int argc, char* argv[])
 {
 	std::string filePath = "";
@@ -39,12 +38,13 @@ int main(int argc, char* argv[])
 	ist::IstackStackFrame dump = ist::IstackStackFrame();
 
 	ist::IstackLexParser parser = ist::IstackLexParser();
-	parser.SetFrame(&codeScope);
-	parser.SetDataParse(compiler::DataParse); //a function for this cant be included in the dll as it requires data minulation that should only be done on the programs end
-	parser.SetCommentParse(ist::includedCommentStyles::CppCommentStyle); //but this can be done tho
+	parser.FrameSet(&codeScope);
+	parser.ParseSetDataFunc(compiler::DataParse); //a function for this cant be included in the dll as it requires data minulation that should only be done on the programs end
+	parser.ParseSetCommentFunc(ist::DefParseFuncs::CppCommentStyle); //but this can be done tho
+	parser.ParseSetStringFunc(ist::DefParseFuncs::LuaStringStyle);
 
 	ist::IstackModuleExacuteor exec = ist::IstackModuleExacuteor();
-	
+
 	//load modules
 	ist::modules::LoadVarModules(&exec, &parser);
 	ist::modules::LoadManipulationModules(&exec, &parser, 0); //last
@@ -56,6 +56,10 @@ int main(int argc, char* argv[])
 	ist::modules::LoadMathModules(&exec, &parser);
 	ist::modules::LoadIoModules(&exec, &parser);
 
+	if (exec.ErrorSymbolMemoryOverflowed() == true || parser.ErrorSymbolMemoryOverflowed() == true) //you would need 4,294,967,295 modules all of which would need at lest 4,294,967,295 unique functions but they could have two or four unique functions so this would be very difficult to pull of and maybe even impossible
+	{
+		std::cout << "error: exec || parser: to many module types loaded into istack and im honestly inpresed you managed to pull that off" << std::endl;
+	}
 
 	//read in contents of istack file
 	bool canExacuteCodeFrame = compiler::CompileFunc(filePath, &codeScope, &dump, &parser, &exec);

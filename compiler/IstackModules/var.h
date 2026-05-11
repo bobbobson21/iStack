@@ -17,7 +17,7 @@ namespace ist
 			byte.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(byte);
-			if (parser != nullptr) { parser->AddWord("Byte"); }
+			if (parser != nullptr) { parser->WordsAdd("Byte"); }
 
 
 			ist::IstackModuleType fourByte = ist::IstackModuleType();
@@ -25,7 +25,7 @@ namespace ist
 			fourByte.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(fourByte);
-			if (parser != nullptr) { parser->AddWord("FourByte"); }
+			if (parser != nullptr) { parser->WordsAdd("FourByte"); }
 
 
 			ist::IstackModuleType string = ist::IstackModuleType();
@@ -33,7 +33,7 @@ namespace ist
 			string.CopyData = raw::CopyData_String;
 
 			module->ModuleAddType(string);
-			if (parser != nullptr) { parser->AddWord("String"); }
+			if (parser != nullptr) { parser->WordsAdd("String"); }
 		}
 	}
 }
