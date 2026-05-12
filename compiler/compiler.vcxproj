@@ -31,6 +31,7 @@
     <ClInclude Include="IstackModules\math.h" />
     <ClInclude Include="IstackModules\scope.h" />
     <ClInclude Include="IstackModules\system.h" />
+    <ClInclude Include="IstackModules\thread.h" />
     <ClInclude Include="IstackModules\var.h" />
     <ClInclude Include="lib\istack\istack.h" />
   </ItemGroup>

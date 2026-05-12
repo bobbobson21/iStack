@@ -57,6 +57,9 @@
     <ClInclude Include="lib\istack\istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IstackModules\thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />

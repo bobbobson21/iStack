@@ -18,12 +18,12 @@ namespace ist
 
 		namespace raw
 		{
-			static bool m_breakingLoopsForLoopsLib = false;
-			static unsigned int m_varLibLocationForLoopsLib = 0;
+			static bool n_breakingLoopsForLoopsLib = false;
+			static unsigned int n_varLibLocationForLoopsLib = 0;
 
 			bool ValidateStack_Break(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				m_breakingLoopsForLoopsLib = true;
+				n_breakingLoopsForLoopsLib = true;
 				return true;
 			}
 
@@ -36,7 +36,7 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				m_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
@@ -46,7 +46,7 @@ namespace ist
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
 
 					IstackUnit LoopIndexUnit = IstackUnit();
-					LoopIndexUnit.m_modualTypeCode = 1 + m_varLibLocationForLoopsLib; //1 + ?: four byte module 
+					LoopIndexUnit.m_modualTypeCode = 1 + n_varLibLocationForLoopsLib; //1 + ?: four byte module 
 
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = i;
@@ -67,9 +67,9 @@ namespace ist
 						return false;
 					}
 
-					if (m_breakingLoopsForLoopsLib == true) //a break has occored so exit loop and reset brack status
+					if (n_breakingLoopsForLoopsLib == true) //a break has occored so exit loop and reset brack status
 					{
-						m_breakingLoopsForLoopsLib = false;
+						n_breakingLoopsForLoopsLib = false;
 						break;
 					}
 				}
@@ -80,7 +80,7 @@ namespace ist
 			bool ValidateStack_While(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				int loopIndex = 0;
-				m_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib = false;
 
 				while(true)
 				{
@@ -90,7 +90,7 @@ namespace ist
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
 
 					IstackUnit LoopIndexUnit = IstackUnit();
-					LoopIndexUnit.m_modualTypeCode = 1 + m_varLibLocationForLoopsLib; //1 + ?: four byte module 
+					LoopIndexUnit.m_modualTypeCode = 1 + n_varLibLocationForLoopsLib; //1 + ?: four byte module 
 
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = loopIndex;
@@ -111,9 +111,9 @@ namespace ist
 						return false;
 					}
 
-					if (m_breakingLoopsForLoopsLib == true) //a break has occored so exit loop and reset brack status
+					if (n_breakingLoopsForLoopsLib == true) //a break has occored so exit loop and reset brack status
 					{
-						m_breakingLoopsForLoopsLib = false;
+						n_breakingLoopsForLoopsLib = false;
 						break;
 					}
 				}
@@ -131,7 +131,7 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				m_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
@@ -141,7 +141,7 @@ namespace ist
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
 
 					IstackUnit LoopIndexUnit = IstackUnit();
-					LoopIndexUnit.m_modualTypeCode = 1 + m_varLibLocationForLoopsLib; //1 + ?: four byte module 
+					LoopIndexUnit.m_modualTypeCode = 1 + n_varLibLocationForLoopsLib; //1 + ?: four byte module 
 
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = i;
@@ -156,9 +156,9 @@ namespace ist
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
 
-					if (m_breakingLoopsForLoopsLib == true) //a break has occoured so exit the loop and invalidate the stack
+					if (n_breakingLoopsForLoopsLib == true) //a break has occoured so exit the loop and invalidate the stack
 					{
-						m_breakingLoopsForLoopsLib = false;
+						n_breakingLoopsForLoopsLib = false;
 						exec->ErrorSetCode(BreakInBreakFailureLoops);
 						return false;
 					}
@@ -176,7 +176,7 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				m_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
@@ -186,7 +186,7 @@ namespace ist
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();
 
 					IstackUnit LoopIndexUnit = IstackUnit();
-					LoopIndexUnit.m_modualTypeCode = 1 + m_varLibLocationForLoopsLib; //1 + ?: four byte module 
+					LoopIndexUnit.m_modualTypeCode = 1 + n_varLibLocationForLoopsLib; //1 + ?: four byte module 
 
 					LoopIndexUnit.m_data = new int;
 					(*((int*)LoopIndexUnit.m_data)) = i;
@@ -201,19 +201,19 @@ namespace ist
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
 
-					if (m_breakingLoopsForLoopsLib == true) //exiting loop
+					if (n_breakingLoopsForLoopsLib == true) //exiting loop
 					{
 						break;
 					}
 				}
 
-				if (m_breakingLoopsForLoopsLib == false) //was loop exited because it ended
+				if (n_breakingLoopsForLoopsLib == false) //was loop exited because it ended
 				{
 					exec->ErrorSetCode(ExitInEndFailureLoops);
 					return false; //if so invalidate stack
 				}
 
-				m_breakingLoopsForLoopsLib = false; //was loop exited because of break
+				n_breakingLoopsForLoopsLib = false; //was loop exited because of break
 				return true; //if so validate stack
 			}
 
@@ -221,7 +221,7 @@ namespace ist
 
 		void LoadLoopsModules(IstackModuleExacuteor* module, IstackLexParser* parser, unsigned int varLibOffset)
 		{
-			raw::m_varLibLocationForLoopsLib = 0;
+			raw::n_varLibLocationForLoopsLib = 0;
 
 			ist::IstackModuleType breakMod = ist::IstackModuleType();
 			breakMod.ValidateStack = raw::ValidateStack_Break;

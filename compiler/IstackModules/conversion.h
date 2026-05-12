@@ -17,7 +17,7 @@ namespace ist
 
 		namespace raw
 		{
-			static unsigned int m_varLibLocationForConversionLib = 0;
+			static unsigned int n_varLibLocationForConversionLib = 0;
 
 			bool ValidateStack_IntToFloat(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
@@ -30,7 +30,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+				typeToConvertTo.m_modualTypeCode = 1 + n_varLibLocationForConversionLib; //1 + ?: is four byte type
 				typeToConvertTo.m_data = new float;
 				(*((float*)typeToConvertTo.m_data)) = (float)typeToConvertFrom;
 
@@ -49,7 +49,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+				typeToConvertTo.m_modualTypeCode = 1 + n_varLibLocationForConversionLib; //1 + ?: is four byte type
 				typeToConvertTo.m_data = new float;
 				(*((int*)typeToConvertTo.m_data)) = (int)typeToConvertFrom;
 
@@ -68,7 +68,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 2 + m_varLibLocationForConversionLib; //2 + ?: is string type
+				typeToConvertTo.m_modualTypeCode = 2 + n_varLibLocationForConversionLib; //2 + ?: is string type
 				typeToConvertTo.m_data = new std::string;
 				(*((std::string*)typeToConvertTo.m_data)) = std::to_string( typeToConvertFrom );
 
@@ -89,7 +89,7 @@ namespace ist
 				try
 				{
 					ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-					typeToConvertTo.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+					typeToConvertTo.m_modualTypeCode = 1 + n_varLibLocationForConversionLib; //1 + ?: is four byte type
 					typeToConvertTo.m_data = new int;
 					(*((int*)typeToConvertTo.m_data)) = std::stoi(typeToConvertFrom);
 
@@ -115,7 +115,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 2 + m_varLibLocationForConversionLib; //2 + ?: is string type
+				typeToConvertTo.m_modualTypeCode = 2 + n_varLibLocationForConversionLib; //2 + ?: is string type
 				typeToConvertTo.m_data = new std::string;
 				(*((std::string*)typeToConvertTo.m_data)) = std::to_string(typeToConvertFrom);
 
@@ -136,7 +136,7 @@ namespace ist
 				try
 				{
 					ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-					typeToConvertTo.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+					typeToConvertTo.m_modualTypeCode = 1 + n_varLibLocationForConversionLib; //1 + ?: is four byte type
 					typeToConvertTo.m_data = new float;
 					(*((float*)typeToConvertTo.m_data)) = std::stof(typeToConvertFrom);
 
@@ -161,7 +161,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 0 + m_varLibLocationForConversionLib; //0 + ?: is byte type
+				typeToConvertTo.m_modualTypeCode = 0 + n_varLibLocationForConversionLib; //0 + ?: is byte type
 				typeToConvertTo.m_data = new bool;
 				
 				(*((bool*)typeToConvertTo.m_data)) = false;
@@ -185,7 +185,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 2 + m_varLibLocationForConversionLib; //2 + ?: is string type
+				typeToConvertTo.m_modualTypeCode = 2 + n_varLibLocationForConversionLib; //2 + ?: is string type
 				typeToConvertTo.m_data = new std::string;
 				(*((std::string*)typeToConvertTo.m_data)) = "false";
 
@@ -206,7 +206,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 1 + m_varLibLocationForConversionLib; //1 + ?: is four byte type
+				typeToConvertTo.m_modualTypeCode = 1 + n_varLibLocationForConversionLib; //1 + ?: is four byte type
 				typeToConvertTo.m_data = new float;
 				(*((int*)typeToConvertTo.m_data)) = (int)typeToConvertFrom;
 
@@ -225,7 +225,7 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				ist::IstackUnit typeToConvertTo = ist::IstackUnit();
-				typeToConvertTo.m_modualTypeCode = 0 + m_varLibLocationForConversionLib; //0 + ?: is byte type
+				typeToConvertTo.m_modualTypeCode = 0 + n_varLibLocationForConversionLib; //0 + ?: is byte type
 				typeToConvertTo.m_data = new bool;
 				(*((bool*)typeToConvertTo.m_data)) = (bool)typeToConvertFrom;
 
@@ -237,7 +237,7 @@ namespace ist
 
 		void LoadConversionModules(IstackModuleExacuteor* module, IstackLexParser* parser, unsigned int varLibOffset)
 		{
-			raw::m_varLibLocationForConversionLib = varLibOffset;
+			raw::n_varLibLocationForConversionLib = varLibOffset;
 
 			
 			ist::IstackModuleType ItF = ist::IstackModuleType();
