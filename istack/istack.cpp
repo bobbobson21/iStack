@@ -281,6 +281,16 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 				return false;
 			}
 
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateExecution != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateExecution(frameOut, this, &unit->m_data) == false)
+			{
+				if (m_processDepthCurrent <= m_processDepthMax) //decresse incase exit shouldnt cause crash
+				{
+					m_processDepthCurrent = m_processDepthCurrent - 1;
+				}
+
+				return true;
+			}
+
 			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
@@ -309,29 +319,6 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 	return true;
 }
 
-bool ist::IstackModuleExacuteor::ProcessExacuteFrameAsIfPiped(IstackStackFrame* frameIn, IstackStackFrame* frameOut)
-{
-	if (m_processDepthCurrent > m_processDepthMax) //oh no you overflow how much exacution is allowed didnt you
-	{
-		return false;
-	}
-
-	m_processDepthCurrent = m_processDepthCurrent + 1;
-
-	while (frameIn->UnitLength() > 0) //proccess code untll theres non left to process
-	{
-		IstackUnit* unit = frameIn->UnitTopPtr();
-
-		if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
-		{
-			frameOut->UnitPush(frameIn->UnitTop());
-		}
-	}
-
-	m_processDepthCurrent = m_processDepthCurrent - 1;
-
-	return true;
-}
 
 void ist::IstackModuleExacuteor::ProcessFlushDepthContext()
 {

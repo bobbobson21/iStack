@@ -23,12 +23,14 @@
     <ClInclude Include="compileConfig.h" />
     <ClInclude Include="compileParsering.h" />
     <ClInclude Include="IstackModules\conversion.h" />
+    <ClInclude Include="IstackModules\exec.h" />
     <ClInclude Include="IstackModules\generics.h" />
     <ClInclude Include="IstackModules\io.h" />
     <ClInclude Include="IstackModules\logic.h" />
     <ClInclude Include="IstackModules\loops.h" />
     <ClInclude Include="IstackModules\manipulation.h" />
     <ClInclude Include="IstackModules\math.h" />
+    <ClInclude Include="IstackModules\pull.h" />
     <ClInclude Include="IstackModules\scope.h" />
     <ClInclude Include="IstackModules\system.h" />
     <ClInclude Include="IstackModules\thread.h" />

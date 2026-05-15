@@ -60,6 +60,12 @@
     <ClInclude Include="IstackModules\thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IstackModules\exec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IstackModules\pull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />
