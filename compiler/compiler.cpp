@@ -15,6 +15,7 @@
 #include "IstackModules/loops.h"
 #include "IstackModules/manipulation.h"
 #include "IstackModules/system.h"
+#include "IstackModules/thread.h"
 
 #include "compileConfig.h"
 #include "compileParsering.h"
@@ -47,9 +48,10 @@ int main(int argc, char* argv[])
 
 	//load modules
 	ist::modules::LoadVarModules(&exec, &parser);
-	ist::modules::LoadManipulationModules(&exec, &parser, 0); //last
+	ist::modules::LoadManipulationModules(&exec, &parser, 0);
 	ist::modules::LoadConversionModules(&exec, &parser, 0);
 	ist::modules::LoadLoopsModules(&exec, &parser, 0);
+	ist::modules::LoadThreadModules(&exec, &parser); //last
 	ist::modules::LoadSystemModules(&exec, &parser);
 	ist::modules::LoadScopeModules(&exec, &parser);
 	ist::modules::LoadLogicModules(&exec, &parser);
@@ -84,6 +86,8 @@ int main(int argc, char* argv[])
 	}
 
 	//free data
+	ist::modules::FreeAllThreads(); //threes all the threads made over the life time of the program
+
 	exec.FreeFrame(&codeScope);
 	exec.FreeFrameRecursive(&dump);
 
