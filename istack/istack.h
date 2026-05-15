@@ -103,6 +103,7 @@ namespace ist
 		bool m_errorSymbolMemoryOverflowed = false; //will be true on error
 
 	public:
+
 		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
 
 		IstackModuleExacuteor(unsigned int processDepth);

@@ -11,8 +11,6 @@ namespace ist
 	{
 		namespace raw
 		{
-			unsigned int n_switchExecIndex = 0;
-
 			bool ValidateSelf_ScopeStart(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				if ((*dumpFrame->PipeGetCleared()) != nullptr)

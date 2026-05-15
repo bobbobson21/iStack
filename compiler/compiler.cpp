@@ -1,6 +1,8 @@
 // Compiler.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+//created a transfer data module
+
 #include <iostream>
 #include <string>
 #include <cctype>
@@ -16,6 +18,8 @@
 #include "IstackModules/manipulation.h"
 #include "IstackModules/system.h"
 #include "IstackModules/thread.h"
+#include "IstackModules/exec.h"
+#include "IstackModules/pulldata.h"
 
 #include "compileConfig.h"
 #include "compileParsering.h"
@@ -51,11 +55,13 @@ int main(int argc, char* argv[])
 	ist::modules::LoadManipulationModules(&exec, &parser, 0);
 	ist::modules::LoadConversionModules(&exec, &parser, 0);
 	ist::modules::LoadLoopsModules(&exec, &parser, 0);
-	ist::modules::LoadThreadModules(&exec, &parser); //last
+	ist::modules::LoadPullDataModules(&exec, &parser); //last
+	ist::modules::LoadThreadModules(&exec, &parser); 
 	ist::modules::LoadSystemModules(&exec, &parser);
 	ist::modules::LoadScopeModules(&exec, &parser);
 	ist::modules::LoadLogicModules(&exec, &parser);
 	ist::modules::LoadMathModules(&exec, &parser);
+	ist::modules::LoadExecModules(&exec, &parser);
 	ist::modules::LoadIoModules(&exec, &parser);
 
 	if (exec.ErrorSymbolMemoryOverflowed() == true || parser.ErrorSymbolMemoryOverflowed() == true) //you would need 4,294,967,295 modules all of which would need at lest 4,294,967,295 unique functions but they could have two or four unique functions so this would be very difficult to pull of and maybe even impossible

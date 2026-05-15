@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <thread>
+
 #include "generics.h"
 
 namespace ist
@@ -18,12 +21,12 @@ namespace ist
 
 		namespace raw
 		{
-			static bool n_breakingLoopsForLoopsLib = false;
+			static std::map<std::thread::id, bool> n_breakingLoopsForLoopsLib = std::map<std::thread::id, bool>();
 			static unsigned int n_varLibLocationForLoopsLib = 0;
 
 			bool ValidateStack_Break(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				n_breakingLoopsForLoopsLib = true;
+				n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = true;
 				return true;
 			}
 
@@ -36,7 +39,7 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				n_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
@@ -67,9 +70,9 @@ namespace ist
 						return false;
 					}
 
-					if (n_breakingLoopsForLoopsLib == true) //a break has occored so exit loop and reset brack status
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occored so exit loop and reset brack status
 					{
-						n_breakingLoopsForLoopsLib = false;
+						n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 						break;
 					}
 				}
@@ -80,7 +83,7 @@ namespace ist
 			bool ValidateStack_While(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				int loopIndex = 0;
-				n_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 
 				while(true)
 				{
@@ -111,9 +114,9 @@ namespace ist
 						return false;
 					}
 
-					if (n_breakingLoopsForLoopsLib == true) //a break has occored so exit loop and reset brack status
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occored so exit loop and reset brack status
 					{
-						n_breakingLoopsForLoopsLib = false;
+						n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 						break;
 					}
 				}
@@ -131,7 +134,7 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				n_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
@@ -156,9 +159,9 @@ namespace ist
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
 
-					if (n_breakingLoopsForLoopsLib == true) //a break has occoured so exit the loop and invalidate the stack
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occoured so exit the loop and invalidate the stack
 					{
-						n_breakingLoopsForLoopsLib = false;
+						n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 						exec->ErrorSetCode(BreakInBreakFailureLoops);
 						return false;
 					}
@@ -176,7 +179,7 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				n_breakingLoopsForLoopsLib = false;
+				n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
@@ -201,19 +204,19 @@ namespace ist
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
 
-					if (n_breakingLoopsForLoopsLib == true) //exiting loop
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //exiting loop
 					{
 						break;
 					}
 				}
 
-				if (n_breakingLoopsForLoopsLib == false) //was loop exited because it ended
+				if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == false) //was loop exited because it ended
 				{
 					exec->ErrorSetCode(ExitInEndFailureLoops);
 					return false; //if so invalidate stack
 				}
 
-				n_breakingLoopsForLoopsLib = false; //was loop exited because of break
+				n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false; //was loop exited because of break
 				return true; //if so validate stack
 			}
 

@@ -63,7 +63,7 @@
     <ClInclude Include="IstackModules\exec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IstackModules\pull.h">
+    <ClInclude Include="IstackModules\pulldata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

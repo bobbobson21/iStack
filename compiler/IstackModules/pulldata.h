@@ -80,7 +80,7 @@ namespace ist
 
 		}
 
-		void LoadScopeModules(IstackModuleExacuteor* module, IstackLexParser* parser)
+		void LoadPullDataModules(IstackModuleExacuteor* module, IstackLexParser* parser)
 		{
 
 			ist::IstackModuleType pullData = ist::IstackModuleType();
