@@ -76,7 +76,7 @@ namespace ist
 						return false;
 					}
 
-					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occored so exit loop and reset brack status
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) > 0 && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occored so exit loop and reset brack status
 					{
 						n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 						break;
@@ -120,7 +120,7 @@ namespace ist
 						return false;
 					}
 
-					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occored so exit loop and reset brack status
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) > 0 && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occored so exit loop and reset brack status
 					{
 						n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 						break;
@@ -165,7 +165,7 @@ namespace ist
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
 
-					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occoured so exit the loop and invalidate the stack
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) > 0 && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //a break has occoured so exit the loop and invalidate the stack
 					{
 						n_breakingLoopsForLoopsLib[std::this_thread::get_id()] = false;
 						exec->ErrorSetCode(BreakInBreakFailureLoops);
@@ -210,7 +210,7 @@ namespace ist
 					exec->FreeFrameRecursive(&dumpFrameBeta);
 					exec->FreeFrameRecursive(&codeFrameBeta);
 
-					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //exiting loop
+					if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) > 0 && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == true) //exiting loop
 					{
 						break;
 					}
