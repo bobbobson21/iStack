@@ -14,8 +14,6 @@ FourByte(8000);
 	#i>>str;
 
 	&FourByte<<;
-	&FourByte<<;
-	&FourByte<<;
 };
 
 
