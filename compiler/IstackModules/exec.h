@@ -118,13 +118,13 @@ namespace ist
 			if (parser != nullptr) { parser->WordsAdd("SelfExecSwitchReturn"); }
 
 
-			ist::IstackModuleType scopeExecSwitchReturn = ist::IstackModuleType();
-			scopeExecSwitchReturn.ValidateStack = raw::ValidateStack_ScopeSetSwitchIndex;
-			scopeExecSwitchReturn.ValidateSelf = raw::ValidateSelf_Fail;
-			scopeExecSwitchReturn.FreeData = raw::FreeData_Single;
-			scopeExecSwitchReturn.CopyData = raw::CopyData_FourChar;
+			ist::IstackModuleType scopeExecSwitchIndex = ist::IstackModuleType();
+			scopeExecSwitchIndex.ValidateStack = raw::ValidateStack_ScopeSetSwitchIndex;
+			scopeExecSwitchIndex.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeExecSwitchIndex.FreeData = raw::FreeData_Single;
+			scopeExecSwitchIndex.CopyData = raw::CopyData_FourChar;
 
-			module->ModuleAddType(scopeExecSwitchReturn);
+			module->ModuleAddType(scopeExecSwitchIndex);
 			if (parser != nullptr) { parser->WordsAdd("SelfSetSwitchIndex"); }
 		}
 	}

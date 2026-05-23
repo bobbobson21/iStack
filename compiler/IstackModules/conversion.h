@@ -60,8 +60,10 @@ namespace ist
 
 			bool ValidateStack_IntToString(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyConversion); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullConversion); return false; }
+				if (dumpFrame->UnitLength() < 1) { 
+					exec->ErrorSetCode(StackEmptyConversion); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { 
+					exec->ErrorSetCode(DataIsNullConversion); return false; }
 
 				int typeToConvertFrom = (*(int*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());

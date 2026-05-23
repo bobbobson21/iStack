@@ -32,8 +32,12 @@ namespace ist
 
 			bool ValidateStack_For(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyLoops); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullLoops); return false; }
+				if (dumpFrame->UnitLength() < 1) { 
+					exec->ErrorSetCode(StackEmptyLoops); return false; 
+				}
+				if (dumpFrame->UnitTop().m_data == nullptr) {
+					exec->ErrorSetCode(DataIsNullLoops); return false;
+				}
 
 				int LoopAmount = (*(int*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
@@ -43,7 +47,9 @@ namespace ist
 
 				for (int i = 0; i < LoopAmount; i++)
 				{
-					if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(PipeCantBeFoundLoops); return false; }
+					if ((*dumpFrame->PipeGetCleared()) == nullptr) {
+						exec->ErrorSetCode(PipeCantBeFoundLoops); return false; 
+					}
 
 					IstackStackFrame codeFrameBeta = IstackStackFrame();
 					IstackStackFrame dumpFrameBeta = IstackStackFrame();

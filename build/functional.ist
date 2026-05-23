@@ -1,0 +1,79 @@
+
+iFor<<i;
+FourByte(8000);
+{;
+	PrintFlush();
+	PrintNewLine();
+
+	CallExcTop("else");
+	CallExcTop("buzz");
+	CallExcTop("fizz");
+
+	SelfPrint(": ");
+	PopPrint();
+	#i>>str;
+
+	&FourByte<<;
+	&FourByte<<;
+	&FourByte<<;
+};
+
+
+Fn("fizz");
+{;
+	If;
+	i==;
+	FourByte(0);
+	i%;
+	&Swap<<;
+	FourByte(3);
+	{;
+		PrintFlush();
+		SelfPrint("fizz");
+	};
+};
+
+Fn("buzz");
+{;
+	If;
+	i==;
+	FourByte(0);
+	i%;
+	&Swap<<;
+	FourByte(5);
+	{;
+		PrintFlush();
+		SelfPrint("buzz");
+	};
+};
+
+Fn("else");
+{;
+	If;
+	Not;
+	i==;
+	FourByte(0);
+	i%;
+	&Swap<<;
+	FourByte(3);
+	PushDataIntoScope();
+	{;
+		If;
+		Not;
+		i==;
+		FourByte(0);
+		i%;
+		&Swap<<;
+		FourByte(5);
+		PushDataIntoScope();
+		{;
+			PrintFlush();
+			PopPrint();
+			#i>>str;
+		};
+		
+		&FourByte<<;
+	};
+	
+	&FourByte<<;
+};

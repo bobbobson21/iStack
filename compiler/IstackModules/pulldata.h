@@ -11,18 +11,20 @@ namespace ist
 	{
 		enum modulePullErrorCodes : unsigned int
 		{
-			StackEmptyPullDataScope = 903,
-			DataIsNullPullDataScope = 904,
-			PullIsNullPullDataScope = 905,
-			PullIsBeyondStackLengthScope = 906,
+			StackEmptyPullData = 903,
+			DataIsNullPullData = 904,
+			PullIsNullPullData = 905,
+			PullIsBeyondStackLengthPullData = 906,
+
+			StackFrameNotFound = 907,
 		};
 
 		namespace raw
 		{
 			bool ValidateStack_PullData(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyPullDataScope); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullPullDataScope); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyPullData); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullPullData); return false; }
 
 				int popAmount = (*(int*)(dumpFrame->UnitTop().m_data)); //get amount
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
@@ -34,10 +36,10 @@ namespace ist
 				for (int i = 0; i < popAmount; i++) //UnitPop untill amount is reached or untill failure
 				{
 					codeFrameBeta.UnitPop();
-					if (codeFrameBeta.UnitLength() < 1) { exec->ErrorSetCode(PullIsBeyondStackLengthScope); return false; }
+					if (codeFrameBeta.UnitLength() < 1) { exec->ErrorSetCode(PullIsBeyondStackLengthPullData); return false; }
 				}
 
-				if (codeFrameBeta.UnitTop().m_data == nullptr) { exec->ErrorSetCode(PullIsNullPullDataScope); return false; } //is data valid
+				if (codeFrameBeta.UnitTop().m_data == nullptr) { exec->ErrorSetCode(PullIsNullPullData); return false; } //is data valid
 
 				IstackUnit newUnit = IstackUnit();
 				exec->CopyUnitFromAndTo(codeFrameBeta.UnitTopPtr(), &newUnit);
@@ -51,8 +53,8 @@ namespace ist
 
 			bool ValidateStack_PullDataPop(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
-				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyPullDataScope); return false; }
-				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullPullDataScope); return false; }
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyPullData); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(DataIsNullPullData); return false; }
 
 				int popAmount = (*(int*)(dumpFrame->UnitTop().m_data)); //get amount
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
@@ -61,10 +63,10 @@ namespace ist
 				for (int i = 0; i < popAmount; i++) //UnitPop untill amount is reached or untill failure in live dump
 				{
 					(*dumpFrame->PipeGetCleared())->UnitPop();
-					if ((*dumpFrame->PipeGetCleared())->UnitLength() < 1) { exec->ErrorSetCode(PullIsBeyondStackLengthScope); return false; }
+					if ((*dumpFrame->PipeGetCleared())->UnitLength() < 1) { exec->ErrorSetCode(PullIsBeyondStackLengthPullData); return false; }
 				}
 
-				if ((*dumpFrame->PipeGetCleared())->UnitTop().m_data == nullptr) { exec->ErrorSetCode(PullIsNullPullDataScope); return false; } //is data valid
+				if ((*dumpFrame->PipeGetCleared())->UnitTop().m_data == nullptr) { exec->ErrorSetCode(PullIsNullPullData); return false; } //is data valid
 
 				dumpFrame->UnitPush(dumpFrame->UnitTop()); //move data to dump
 				(*dumpFrame->PipeGetCleared())->UnitPop();
@@ -74,6 +76,19 @@ namespace ist
 					exec->FreeFrameRecursive((*dumpFrame->PipeGetCleared()));
 					(*dumpFrame->PipeGetCleared()) = nullptr;
 				}
+
+				return true;
+			}
+
+			bool ValidateStack_PushData(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackEmptyPullData); return false; }
+				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(StackFrameNotFound); return false; }
+
+				ist::IstackUnit toTransfer = dumpFrame->UnitTop();
+				dumpFrame->UnitPop();
+
+				(*dumpFrame->PipeGetCleared())->UnitPush(toTransfer);
 
 				return true;
 			}
@@ -97,6 +112,14 @@ namespace ist
 
 			module->ModuleAddType(pullDataPop);
 			if (parser != nullptr) { parser->WordsAdd("iPullDataFromScopePop"); }
+
+
+			ist::IstackModuleType pushData = ist::IstackModuleType();
+			pushData.ValidateStack = raw::ValidateStack_PushData;
+			pushData.ValidateSelf = raw::ValidateSelf_Fail;
+
+			module->ModuleAddType(pushData);
+			if (parser != nullptr) { parser->WordsAdd("PushDataIntoScope"); }
 
 		}
 	}

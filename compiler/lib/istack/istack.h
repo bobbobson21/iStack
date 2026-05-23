@@ -33,6 +33,7 @@ namespace ist
 	struct ISTACK_API IstackModuleType
 	{
 		bool(*ValidateStack)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///Is the stack valid if not bail on program exacution. Do data modifying here.
+		bool(*ValidateExecution)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///if returns false execution of the current code frame will end
 		bool(*ValidateSelf)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///Is self valid if not bail on data being added to stack.
 		bool(*ValidateSelfPiped)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///can it be added to the sub stack frame and this will also be exacuted in piped stack frames
 		void(*FreeData)(void**) = nullptr; ///frees the data
@@ -102,6 +103,7 @@ namespace ist
 		bool m_errorSymbolMemoryOverflowed = false; //will be true on error
 
 	public:
+
 		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
 
 		IstackModuleExacuteor(unsigned int processDepth);
@@ -114,7 +116,6 @@ namespace ist
 		bool ErrorSymbolMemoryOverflowed();
 
 		bool ProcessExacuteFrame(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
-		bool ProcessExacuteFrameAsIfPiped(IstackStackFrame* frameIn, IstackStackFrame* frameOut);
 		void ProcessFlushDepthContext();
 
 		void FreeFrameRecursive(IstackStackFrame* frame, bool doDeleteOfPipeFramesAsWell = true);

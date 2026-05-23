@@ -167,21 +167,21 @@ namespace ist
 				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidLogic); return false; }
 
-				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 
 				delete (*data);
 
-				(*data) = new int;
-				(*(int*)(*data)) = (A + B);
+				(*data) = new float;
+				(*(float*)(*data)) = (A + B);
 
 				return true;
 			}
@@ -191,21 +191,21 @@ namespace ist
 				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 
 				delete (*data);
 
-				(*data) = new int;
-				(*(int*)(*data)) = (A - B);
+				(*data) = new float;
+				(*(float*)(*data)) = (A - B);
 
 				return true;
 			}
@@ -215,21 +215,21 @@ namespace ist
 				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 
 				delete (*data);
 
-				(*data) = new int;
-				(*(int*)(*data)) = (A * B);
+				(*data) = new float;
+				(*(float*)(*data)) = (A * B);
 
 				return true;
 			}
@@ -239,21 +239,21 @@ namespace ist
 				if (dumpFrame->UnitLength() < 2) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
 
-				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
 
-				int B = (*(int*)(dumpFrame->UnitTop().m_data));
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
 
 				delete (*data);
 
-				(*data) = new int;
-				(*(int*)(*data)) = (A / B);
+				(*data) = new float;
+				(*(float*)(*data)) = (A / B);
 
 				return true;
 			}
