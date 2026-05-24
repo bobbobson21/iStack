@@ -54,14 +54,31 @@ namespace ist
 			{
 				std::string adress = "";
 
-				try
+				if ((*data) != nullptr)
 				{
-					adress = (*(std::string*)(*data));
+					try
+					{
+						adress = (*(std::string*)(*data));
+					}
+					catch (...)
+					{
+						exec->ErrorSetCode(InvalidFunctionNameFunction);
+						return false;
+					}
 				}
-				catch (...)
+				else
 				{
-					exec->ErrorSetCode(UnableToFindFunctionFunction);
-					return false;
+					try
+					{
+						adress = (*(std::string*)(dumpFrame->UnitTop().m_data));
+						exec->FreeUnit(dumpFrame->UnitTopPtr());
+						dumpFrame->UnitPop();
+					}
+					catch (...)
+					{
+						exec->ErrorSetCode(InvalidFunctionNameFunction);
+						return false;
+					}
 				}
 
 				IstackStackFrame codeFrameBeta = IstackStackFrame();
@@ -76,20 +93,39 @@ namespace ist
 
 				exec->FreeFrameRecursive(&dumpFrameBeta);
 				exec->FreeFrameRecursive(&codeFrameBeta);
+
+				return success;
 			}
 
 			bool ValidateStack_CallFunctionWithExtange(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::string adress = "";
 
-				try
+				if ((*data) != nullptr)
 				{
-					adress = (*(std::string*)(*data));
+					try
+					{
+						adress = (*(std::string*)(*data));
+					}
+					catch (...)
+					{
+						exec->ErrorSetCode(InvalidFunctionNameFunction);
+						return false;
+					}
 				}
-				catch (...)
+				else
 				{
-					exec->ErrorSetCode(UnableToFindFunctionFunction);
-					return false;
+					try
+					{
+						adress = (*(std::string*)(dumpFrame->UnitTop().m_data));
+						exec->FreeUnit(dumpFrame->UnitTopPtr());
+						dumpFrame->UnitPop();
+					}
+					catch (...)
+					{
+						exec->ErrorSetCode(InvalidFunctionNameFunction);
+						return false;
+					}
 				}
 
 				IstackStackFrame codeFrameBeta = IstackStackFrame();
@@ -121,7 +157,7 @@ namespace ist
 				}
 				dumpFrameBeta.UnitFree();
 
-
+				exec->FreeFrameRecursive(&dumpFrameBeta);
 				exec->FreeFrameRecursive(&codeFrameBeta);
 				return success;
 			}
@@ -129,15 +165,32 @@ namespace ist
 			bool ValidateStack_CallFunctionWithExtangeTopOnly(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				std::string adress = "";
-
-				try
+				
+				if ((*data) != nullptr)
 				{
-					adress = (*(std::string*)(*data));
+					try
+					{
+						adress = (*(std::string*)(*data));
+					}
+					catch (...)
+					{
+						exec->ErrorSetCode(InvalidFunctionNameFunction);
+						return false;
+					}
 				}
-				catch (...)
+				else
 				{
-					exec->ErrorSetCode(UnableToFindFunctionFunction);
-					return false;
+					try
+					{
+						adress = (*(std::string*)(dumpFrame->UnitTop().m_data));
+						exec->FreeUnit(dumpFrame->UnitTopPtr());
+						dumpFrame->UnitPop();
+					}
+					catch (...)
+					{
+						exec->ErrorSetCode(InvalidFunctionNameFunction);
+						return false;
+					}
 				}
 
 				IstackStackFrame codeFrameBeta = IstackStackFrame();
@@ -165,9 +218,37 @@ namespace ist
 					dumpFrame->UnitPush(tempUnit);
 				}
 
-
+				exec->FreeFrameRecursive(&dumpFrameBeta);
 				exec->FreeFrameRecursive(&codeFrameBeta);
 				return success;
+			}
+		
+			bool ValidateStack_CanCallFunction(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				std::string adress = "";
+
+				try
+				{
+					adress = (*(std::string*)(dumpFrame->UnitTop().m_data));
+					exec->FreeUnit(dumpFrame->UnitTopPtr());
+					dumpFrame->UnitPop();
+				}
+				catch (...)
+				{
+					exec->ErrorSetCode(InvalidFunctionNameFunction);
+					return false;
+				}
+
+				bool result = true;
+
+				delete (*data);
+				(*data) = new bool;
+				(*(bool*)(*data)) = result;
+
+				if (n_functionMap.count(std::this_thread::get_id()) < 1) { result = false; (*(bool*)(*data)) = result; }
+				if (n_functionMap[std::this_thread::get_id()].count(adress) < 1) { result = false; (*(bool*)(*data)) = result; }
+
+				return true;
 			}
 		}
 
@@ -212,6 +293,16 @@ namespace ist
 
 			module->ModuleAddType(callexctop);
 			if (parser != nullptr) { parser->WordsAdd("CallExcTop"); }
+
+
+			ist::IstackModuleType canFn = ist::IstackModuleType();
+			canFn.ValidateStack = raw::ValidateStack_CanCallFunction;
+			canFn.ValidateSelf = raw::ValidateSelf_Success;
+			canFn.FreeData = raw::FreeData_Single;
+			canFn.CopyData = raw::CopyData_Char;
+
+			module->ModuleAddType(canFn);
+			if (parser != nullptr) { parser->WordsAdd("CanCallFn"); }
 
 		}
 

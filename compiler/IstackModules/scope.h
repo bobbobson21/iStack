@@ -16,7 +16,7 @@ namespace ist
 				if ((*dumpFrame->PipeGetCleared()) != nullptr)
 				{
 					exec->FreeFrameRecursive((*dumpFrame->PipeGetCleared()));
-					(*dumpFrame->PipeGetCleared()) = nullptr;
+					dumpFrame->PipeClearedFree();
 				}
 
 				dumpFrame->PipeCreate();

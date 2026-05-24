@@ -119,6 +119,7 @@ namespace ist
 			ist::IstackModuleType selfInput = ist::IstackModuleType();
 			selfInput.ValidateSelf = raw::ValidateSelf_Input;
 			selfInput.FreeData = raw::FreeData_String;
+			selfInput.CopyData = raw::CopyData_String;
 
 			module->ModuleAddType(selfInput);
 			if (parser != nullptr) { parser->WordsAdd("Input"); }

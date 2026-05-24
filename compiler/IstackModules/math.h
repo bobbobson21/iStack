@@ -265,7 +265,7 @@ namespace ist
 			AddF.ValidateStack = raw::ValidateStack_FloatAdd;
 			AddF.ValidateSelf = raw::ValidateSelf_Success;
 			AddF.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			AddF.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(AddF);
 			if (parser != nullptr) { parser->WordsAdd("f+"); }
@@ -275,7 +275,7 @@ namespace ist
 			TakeF.ValidateStack = raw::ValidateStack_FloatTake;
 			TakeF.ValidateSelf = raw::ValidateSelf_Success;
 			TakeF.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			TakeF.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(TakeF);
 			if (parser != nullptr) { parser->WordsAdd("f-"); }
@@ -285,7 +285,7 @@ namespace ist
 			TimesF.ValidateStack = raw::ValidateStack_FloatTimes;
 			TimesF.ValidateSelf = raw::ValidateSelf_Success;
 			TimesF.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			TimesF.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(TimesF);
 			if (parser != nullptr) { parser->WordsAdd("f*"); }
@@ -295,7 +295,7 @@ namespace ist
 			DivideF.ValidateStack = raw::ValidateStack_FloatDivide;
 			DivideF.ValidateSelf = raw::ValidateSelf_Success;
 			DivideF.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			DivideF.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(DivideF);
 			if (parser != nullptr) { parser->WordsAdd("f/"); }
@@ -305,7 +305,7 @@ namespace ist
 			AddI.ValidateStack = raw::ValidateStack_IntAdd;
 			AddI.ValidateSelf = raw::ValidateSelf_Success;
 			AddI.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			AddI.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(AddI);
 			if (parser != nullptr) { parser->WordsAdd("i+"); }
@@ -315,7 +315,7 @@ namespace ist
 			TakeI.ValidateStack = raw::ValidateStack_IntTake;
 			TakeI.ValidateSelf = raw::ValidateSelf_Success;
 			TakeI.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			TakeI.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(TakeI);
 			if (parser != nullptr) { parser->WordsAdd("i-"); }
@@ -325,7 +325,7 @@ namespace ist
 			TimesI.ValidateStack = raw::ValidateStack_IntTimes;
 			TimesI.ValidateSelf = raw::ValidateSelf_Success;
 			TimesI.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			TimesI.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(TimesI);
 			if (parser != nullptr) { parser->WordsAdd("i*"); }
@@ -335,7 +335,7 @@ namespace ist
 			DivideI.ValidateStack = raw::ValidateStack_IntDivide;
 			DivideI.ValidateSelf = raw::ValidateSelf_Success;
 			DivideI.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			DivideI.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(DivideI);
 			if (parser != nullptr) { parser->WordsAdd("i/"); }
@@ -345,7 +345,7 @@ namespace ist
 			ModI.ValidateStack = raw::ValidateStack_IntMod;
 			ModI.ValidateSelf = raw::ValidateSelf_Success;
 			ModI.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			ModI.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(ModI);
 			if (parser != nullptr) { parser->WordsAdd("i%"); }
@@ -355,7 +355,7 @@ namespace ist
 			PowI.ValidateStack = raw::ValidateStack_IntPow;
 			PowI.ValidateSelf = raw::ValidateSelf_Success;
 			PowI.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			PowI.CopyData = raw::CopyData_FourChar;
 
 			module->ModuleAddType(PowI);
 			if (parser != nullptr) { parser->WordsAdd("i^"); }

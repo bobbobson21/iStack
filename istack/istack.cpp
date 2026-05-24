@@ -18,6 +18,18 @@ void ist::IstackStackFrame::PipeCreate()
 	m_pipeTo = new IstackStackFrame();
 }
 
+void ist::IstackStackFrame::PipeFree()
+{
+	delete m_pipeTo;
+	m_pipeTo = nullptr;
+}
+
+void ist::IstackStackFrame::PipeClearedFree()
+{
+	delete m_pipeCleared;
+	m_pipeCleared = nullptr;
+}
+
 void ist::IstackStackFrame::PipeSet(IstackStackFrame* otherFrame)
 {
 	if (m_pipeTo != nullptr) { m_pipeCleared = m_pipeTo; }

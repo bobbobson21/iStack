@@ -1,0 +1,48 @@
+
+While<<i;
+{;
+    PrintNewLine();
+    
+    If;
+    CanCallFn();
+    PushDataIntoScope();
+    {;
+        Call();
+    };
+
+    &String<<;
+    Input();
+    SelfPrint("input oparation: ");
+};
+
+
+Fn("+");
+{;
+    PrintNewLine();
+    SelfPrint("bob");
+};
+
+Fn("-");
+{;
+
+};
+
+Fn("/");
+{;
+
+};
+
+Fn("*");
+{;
+
+};
+
+Fn("%");
+{;
+
+};
+
+Fn("^");
+{;
+
+};

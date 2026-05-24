@@ -62,6 +62,8 @@ namespace ist
 		~IstackStackFrame(void);
 
 		void PipeCreate();
+		void PipeFree();
+		void PipeClearedFree();
 		void PipeSet(IstackStackFrame* otherFrame);
 		IstackStackFrame** PipeGet(void);
 		IstackStackFrame** PipeGetCleared(void);

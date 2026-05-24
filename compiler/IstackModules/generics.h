@@ -22,12 +22,18 @@ namespace ist
 
 			void FreeData_Single(void** data)
 			{
-				delete (*data);
+				if ((*data) != nullptr)
+				{
+					delete (*data);
+				}
 			}
 
 			void FreeData_String(void** data)
 			{
-				delete (std::string*)(*data);
+				if ((*data) != nullptr)
+				{
+					delete (std::string*)(*data);
+				}
 			}
 
 			void FreeData_Fail(void** data)
@@ -39,29 +45,41 @@ namespace ist
 			void CopyData_Char(void** copyFrom, void** copyTo)
 			{
 				delete (*copyTo);
-				char* buffer = new char;
 
-				memcpy(buffer, (*copyFrom), sizeof(char) * 1);
-				(*copyTo) = buffer;
+				if ((*copyFrom) != nullptr)
+				{
+					char* buffer = new char;
+
+					memcpy(buffer, (*copyFrom), sizeof(char) * 1);
+					(*copyTo) = buffer;
+				}
 			}
 
 			void CopyData_FourChar(void** copyFrom, void** copyTo)
 			{
 				delete (*copyTo);
-				char* buffer = new char[4];
 
-				memcpy(buffer, (*copyFrom), sizeof(char) * 4);
-				(*copyTo) = buffer;
+				if ((*copyFrom) != nullptr)
+				{
+					char* buffer = new char[4];
+
+					memcpy(buffer, (*copyFrom), sizeof(char) * 4);
+					(*copyTo) = buffer;
+				}
 			}
 
 			void CopyData_String(void** copyFrom, void** copyTo)
 			{
 				delete (*copyTo);
-				(*copyTo) = new std::string;
 
-				for (size_t i = 0; i < (*(std::string*)(*copyFrom)).size(); i++)
+				if ((*copyFrom) != nullptr)
 				{
-					(*(std::string*)(*copyTo)) += (*(std::string*)(*copyFrom))[i];
+					(*copyTo) = new std::string;
+
+					for (size_t i = 0; i < (*(std::string*)(*copyFrom)).size(); i++)
+					{
+						(*(std::string*)(*copyTo)) += (*(std::string*)(*copyFrom))[i];
+					}
 				}
 			}
 

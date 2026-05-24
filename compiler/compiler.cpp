@@ -29,7 +29,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string filePath = "";
+	std::string filePath = "C:\\Users\\dsbkh\\OneDrive\\Desktop\\github projects\\iStack\\build\\functional.ist";
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 	//free data
 	ist::modules::KillFunctionModule(&exec);
 
-	exec.FreeFrame(&codeScope);
+	exec.FreeFrameRecursive(&codeScope);
 	exec.FreeFrameRecursive(&dump);
 
 	return 0;

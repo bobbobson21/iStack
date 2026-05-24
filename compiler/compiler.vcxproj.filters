@@ -57,28 +57,28 @@
     <ClInclude Include="IstackModules\pulldata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\istack\istack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\istack\istack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IstackModules\function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\istack\istack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\istack\istack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\istack.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\istack\istack.pdb" />
-    <None Include="lib\istack\istack.exp" />
-    <None Include="lib\istack\istack.dll" />
     <None Include="packages.config" />
+    <None Include="lib\istack\istack.dll" />
+    <None Include="lib\istack\istack.exp" />
+    <None Include="lib\istack\istack.pdb" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\istack.lib" />
   </ItemGroup>
 </Project>

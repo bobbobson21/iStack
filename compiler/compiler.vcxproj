@@ -38,9 +38,6 @@
     <ClInclude Include="lib\istack\istack.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\istack.lib" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="lib\istack\istack.dll" />
     <None Include="lib\istack\istack.exp" />
     <None Include="lib\istack\istack.pdb" />
@@ -48,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="compiler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\istack.lib" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
