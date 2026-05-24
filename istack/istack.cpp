@@ -303,13 +303,9 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 				return true;
 			}
 
-			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
-			}
-			else
-			{
-				FreeUnit(frameIn->UnitTopPtr());
 			}
 		}
 		else
@@ -390,10 +386,6 @@ void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackU
 	if (m_moduleTypesArray[copyFrom->m_modualTypeCode].CopyData != nullptr)
 	{
 		m_moduleTypesArray[copyFrom->m_modualTypeCode].CopyData(&copyFrom->m_data, &copyTo->m_data);
-	}
-	else
-	{
-		copyTo->m_data = copyFrom->m_data;
 	}
 
 	copyTo->m_modualTypeCode = copyFrom->m_modualTypeCode;

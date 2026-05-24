@@ -300,7 +300,7 @@ namespace ist
 			notMod.ValidateStack = raw::ValidateStack_Not;
 			notMod.ValidateSelf = raw::ValidateSelf_Success;
 			notMod.FreeData = raw::FreeData_Single;
-			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			notMod.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(notMod);
 			if (parser != nullptr) { parser->WordsAdd("Not"); }
@@ -310,6 +310,7 @@ namespace ist
 			orMod.ValidateStack = raw::ValidateStack_Or;
 			orMod.ValidateSelf = raw::ValidateSelf_Success;
 			orMod.FreeData = raw::FreeData_Single;
+			orMod.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(orMod);
 			if (parser != nullptr) { parser->WordsAdd("Or"); }
@@ -319,6 +320,7 @@ namespace ist
 			andMod.ValidateStack = raw::ValidateStack_And;
 			andMod.ValidateSelf = raw::ValidateSelf_Success;
 			andMod.FreeData = raw::FreeData_Single;
+			andMod.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(andMod);
 			if (parser != nullptr) { parser->WordsAdd("And"); }
@@ -328,6 +330,7 @@ namespace ist
 			set.ValidateStack = raw::ValidateStack_StringEqualThan;
 			set.ValidateSelf = raw::ValidateSelf_Success;
 			set.FreeData = raw::FreeData_Single;
+			set.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(set);
 			if (parser != nullptr) { parser->WordsAdd("str=="); }
@@ -337,6 +340,7 @@ namespace ist
 			iet.ValidateStack = raw::ValidateStack_IntEqualThan;
 			iet.ValidateSelf = raw::ValidateSelf_Success;
 			iet.FreeData = raw::FreeData_Single;
+			iet.CopyData = raw::CopyData_CopyFail;
 
 			module->ModuleAddType(iet);
 			if (parser != nullptr) { parser->WordsAdd("i=="); }
@@ -346,6 +350,7 @@ namespace ist
 			imt.ValidateStack = raw::ValidateStack_IntMoreThan;
 			imt.ValidateSelf = raw::ValidateSelf_Success;
 			imt.FreeData = raw::FreeData_Single;
+			imt.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(imt);
 			if (parser != nullptr) { parser->WordsAdd("i>"); }
@@ -355,6 +360,7 @@ namespace ist
 			ilt.ValidateStack = raw::ValidateStack_IntLessThan;
 			ilt.ValidateSelf = raw::ValidateSelf_Success;
 			ilt.FreeData = raw::FreeData_Single;
+			ilt.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(ilt);
 			if (parser != nullptr) { parser->WordsAdd("i<"); }
@@ -364,6 +370,7 @@ namespace ist
 			fet.ValidateStack = raw::ValidateStack_FloatEqualThan;
 			fet.ValidateSelf = raw::ValidateSelf_Success;
 			fet.FreeData = raw::FreeData_Single;
+			fet.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(fet);
 			if (parser != nullptr) { parser->WordsAdd("f=="); }
@@ -373,6 +380,7 @@ namespace ist
 			fmt.ValidateStack = raw::ValidateStack_FloatMoreThan;
 			fmt.ValidateSelf = raw::ValidateSelf_Success;
 			fmt.FreeData = raw::FreeData_Single;
+			fmt.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(fmt);
 			if (parser != nullptr) { parser->WordsAdd("f>"); }
@@ -382,6 +390,7 @@ namespace ist
 			flt.ValidateStack = raw::ValidateStack_FloatLessThan;
 			flt.ValidateSelf = raw::ValidateSelf_Success;
 			flt.FreeData = raw::FreeData_Single;
+			flt.CopyData = raw::CopyData_Char;
 
 			module->ModuleAddType(flt);
 			if (parser != nullptr) { parser->WordsAdd("f<"); }

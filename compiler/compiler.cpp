@@ -29,7 +29,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string filePath = "C:\\Users\\dsbkh\\OneDrive\\Desktop\\github projects\\iStack\\build\\functional.ist";
+	std::string filePath = "";
 
 	for (int i = 1; i < argc; i++)
 	{

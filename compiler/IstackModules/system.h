@@ -52,7 +52,7 @@ namespace ist
 			selfSys.ValidateStack = raw::ValidateStack_strSelfSystem;
 			selfSys.ValidateSelf = raw::ValidateSelf_Fail;
 			selfSys.FreeData = raw::FreeData_String;
-			selfSys.CopyData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
+			selfSys.CopyData = raw::CopyData_String; //not needed due to validate stack exacuting before any data can be read
 
 			module->ModuleAddType(selfSys);
 			if (parser != nullptr) { parser->WordsAdd("SelfSystem"); }
