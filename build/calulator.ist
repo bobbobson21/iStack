@@ -19,30 +19,105 @@ While<<i;
 Fn("+");
 {;
     PrintNewLine();
-    SelfPrint("bob");
+    PopPrint();
+    #i>>str;
+    i+;
+
+    #str>>i;
+    #str>>i;
+
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
 };
 
 Fn("-");
 {;
+    PrintNewLine();
+    PopPrint();
+    #i>>str;
+    i-;
 
+    #str>>i;
+    #str>>i;
+
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
 };
 
 Fn("/");
 {;
+    PrintNewLine();
+    PopPrint();
+    #i>>str;
+    i/;
 
+    #str>>i;
+    #str>>i;
+
+    Input();
+    SelfPrint("input oparad: ");
+    Input();
+    SelfPrint("input oparad: ");
 };
 
 Fn("*");
 {;
+    PrintNewLine();
+    PopPrint();
+    #i>>str;
+    i*;
 
+    #str>>i;
+    #str>>i;
+
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
 };
 
 Fn("%");
 {;
+    PrintNewLine();
+    PopPrint();
+    #i>>str;
+    i%;
 
+    #str>>i;
+    #str>>i;
+
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
 };
 
 Fn("^");
 {;
+    PrintNewLine();
+    PopPrint();
+    #i>>str;
+    i^;
 
+    #str>>i;
+    #str>>i;
+
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
+    PrintNewLine();
+    Input();
+    SelfPrint("input oparad: ");
 };
