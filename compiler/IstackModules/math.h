@@ -156,7 +156,7 @@ namespace ist
 				delete (*data);
 
 				(*data) = new int;
-				(*(int*)(*data)) = (A ^ B);
+				(*(int*)(*data)) = std::pow(A, B);
 
 				return true;
 			}

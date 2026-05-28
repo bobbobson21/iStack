@@ -306,7 +306,7 @@ namespace ist
 
 		}
 
-		void KillFunctionModule(IstackModuleExacuteor* module)
+		void KillFunctionModule(IstackModuleExacuteor* exec)
 		{
 			std::map<std::thread::id, std::map<std::string, ist::IstackStackFrame>>::iterator it;
 			std::map<std::string, ist::IstackStackFrame>::iterator its;
@@ -315,9 +315,30 @@ namespace ist
 			{
 				for (its = raw::n_functionMap[it->first].begin(); its != raw::n_functionMap[it->first].end(); its++)
 				{
-					module->FreeFrameRecursive(&its->second);
+					exec->FreeFrameRecursive(&its->second);
 				}
 			}
+		}
+
+		bool CallFunctionInIstCode(std::string fnName, std::thread::id threadFunctionIsBindedTo, IstackUnit* argumentsArray, unsigned int arrayLength, IstackModuleExacuteor* exec)
+		{
+			IstackStackFrame codeFrameBeta = IstackStackFrame();
+			IstackStackFrame dumpFrameBeta = IstackStackFrame();
+			
+			if (argumentsArray != nullptr)
+			{
+				for (unsigned int i = 0; i < arrayLength; i++)
+				{
+					dumpFrameBeta.UnitPush(argumentsArray[i]);
+				}
+			}
+
+			exec->CopyIstackFrameAndModuleDataFromAndTo(&raw::n_functionMap[threadFunctionIsBindedTo][fnName], &codeFrameBeta);
+			bool success = exec->ProcessExacuteFrame(&codeFrameBeta, &dumpFrameBeta);
+
+			exec->FreeFrameRecursive(&dumpFrameBeta);
+			exec->FreeFrameRecursive(&codeFrameBeta);
+			return success;
 		}
 	}
 }

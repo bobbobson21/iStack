@@ -24,12 +24,10 @@ Fn("+");
     i+;
 
     #str>>i;
-    #str>>i;
-
-    PrintNewLine();
     Input();
     SelfPrint("input oparad: ");
-    PrintNewLine();
+	
+	#str>>i;
     Input();
     SelfPrint("input oparad: ");
 };
@@ -42,12 +40,10 @@ Fn("-");
     i-;
 
     #str>>i;
-    #str>>i;
-
-    PrintNewLine();
     Input();
     SelfPrint("input oparad: ");
-    PrintNewLine();
+	
+	#str>>i;
     Input();
     SelfPrint("input oparad: ");
 };
@@ -60,10 +56,10 @@ Fn("/");
     i/;
 
     #str>>i;
-    #str>>i;
-
     Input();
     SelfPrint("input oparad: ");
+	
+	#str>>i;
     Input();
     SelfPrint("input oparad: ");
 };
@@ -76,12 +72,10 @@ Fn("*");
     i*;
 
     #str>>i;
-    #str>>i;
-
-    PrintNewLine();
     Input();
     SelfPrint("input oparad: ");
-    PrintNewLine();
+	
+	#str>>i;
     Input();
     SelfPrint("input oparad: ");
 };
@@ -94,12 +88,10 @@ Fn("%");
     i%;
 
     #str>>i;
-    #str>>i;
-
-    PrintNewLine();
     Input();
     SelfPrint("input oparad: ");
-    PrintNewLine();
+	
+	#str>>i;
     Input();
     SelfPrint("input oparad: ");
 };
@@ -112,12 +104,10 @@ Fn("^");
     i^;
 
     #str>>i;
-    #str>>i;
-
-    PrintNewLine();
     Input();
     SelfPrint("input oparad: ");
-    PrintNewLine();
+	
+	#str>>i;
     Input();
     SelfPrint("input oparad: ");
 };
