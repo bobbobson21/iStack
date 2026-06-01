@@ -66,6 +66,12 @@
     <ClInclude Include="lib\istack\istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IstackModules\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IstackModules\stringmod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

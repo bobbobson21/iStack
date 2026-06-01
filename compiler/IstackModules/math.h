@@ -257,6 +257,140 @@ namespace ist
 
 				return true;
 			}
+
+
+			bool ValidateStack_FloatSin(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				delete (*data);
+
+				(*data) = new float;
+				(*(float*)(*data)) = std::sinf(A);
+
+				return true;
+			}
+
+			bool ValidateStack_FloatCos(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				delete (*data);
+
+				(*data) = new float;
+				(*(float*)(*data)) = std::cosf(A);
+
+				return true;
+			}
+
+			bool ValidateStack_FloatAbs(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				delete (*data);
+
+				(*data) = new float;
+				(*(float*)(*data)) = std::abs(A);
+
+				return true;
+			}
+
+			bool ValidateStack_FloatFloor(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				delete (*data);
+
+				(*data) = new float;
+				(*(float*)(*data)) = std::floorf(A);
+
+				return true;
+			}
+
+			bool ValidateStack_FloatCeil(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				delete (*data);
+
+				(*data) = new float;
+				(*(float*)(*data)) = std::ceilf(A);
+
+				return true;
+			}
+
+			bool ValidateStack_FloatRandomRange(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				float A = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementSecondInvalidMath); return false; }
+
+				float B = (*(float*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				delete (*data);
+
+
+				float randomNumber = A;
+				
+				if (A < B)
+				{
+					int decimalDetail = RAND_MAX;
+					randomNumber = randomNumber + (rand() % (int)(std::floorf(B - A)));
+					randomNumber = randomNumber + (((float)(rand() % decimalDetail)) / ((float)(decimalDetail)));
+				}
+
+				(*data) = new float;
+				(*(float*)(*data)) = randomNumber;
+
+				return true;
+			}
+
+			bool ValidateStack_IntSetSeed(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				if (dumpFrame->UnitLength() < 1) { exec->ErrorSetCode(StackElementSizeNotMetMath); return false; }
+				if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StackElementFirstInvalidMath); return false; }
+
+				int A = (*(int*)(dumpFrame->UnitTop().m_data));
+				exec->FreeUnit(dumpFrame->UnitTopPtr());
+				dumpFrame->UnitPop();
+
+				srand(A);
+
+				return true;
+			}
 		}
 
 		void LoadMathModules(IstackModuleExacuteor* module, IstackLexParser* parser)
@@ -359,6 +493,76 @@ namespace ist
 
 			module->ModuleAddType(PowI);
 			if (parser != nullptr) { parser->WordsAdd("i^"); }
+
+
+			ist::IstackModuleType sinF = ist::IstackModuleType();
+			sinF.ValidateStack = raw::ValidateStack_FloatSin;
+			sinF.ValidateSelf = raw::ValidateSelf_Success;
+			sinF.FreeData = raw::FreeData_Single;
+			sinF.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(sinF);
+			if (parser != nullptr) { parser->WordsAdd("fSinf"); }
+
+
+			ist::IstackModuleType cosF = ist::IstackModuleType();
+			cosF.ValidateStack = raw::ValidateStack_FloatCos;
+			cosF.ValidateSelf = raw::ValidateSelf_Success;
+			cosF.FreeData = raw::FreeData_Single;
+			cosF.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(cosF);
+			if (parser != nullptr) { parser->WordsAdd("fCosf"); }
+
+
+			ist::IstackModuleType absF = ist::IstackModuleType();
+			absF.ValidateStack = raw::ValidateStack_FloatAbs;
+			absF.ValidateSelf = raw::ValidateSelf_Success;
+			absF.FreeData = raw::FreeData_Single;
+			absF.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(absF);
+			if (parser != nullptr) { parser->WordsAdd("fAbsf"); }
+
+
+			ist::IstackModuleType floorF = ist::IstackModuleType();
+			floorF.ValidateStack = raw::ValidateStack_FloatFloor;
+			floorF.ValidateSelf = raw::ValidateSelf_Success;
+			floorF.FreeData = raw::FreeData_Single;
+			floorF.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(floorF);
+			if (parser != nullptr) { parser->WordsAdd("fFloorf"); }
+
+
+			ist::IstackModuleType ceilF = ist::IstackModuleType();
+			ceilF.ValidateStack = raw::ValidateStack_FloatCeil;
+			ceilF.ValidateSelf = raw::ValidateSelf_Success;
+			ceilF.FreeData = raw::FreeData_Single;
+			ceilF.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(ceilF);
+			if (parser != nullptr) { parser->WordsAdd("fCeilf"); }
+
+
+			ist::IstackModuleType RandomRangeF = ist::IstackModuleType();
+			RandomRangeF.ValidateStack = raw::ValidateStack_FloatRandomRange;
+			RandomRangeF.ValidateSelf = raw::ValidateSelf_Success;
+			RandomRangeF.FreeData = raw::FreeData_Single;
+			RandomRangeF.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(RandomRangeF);
+			if (parser != nullptr) { parser->WordsAdd("ffRandomRangef"); }
+
+
+			ist::IstackModuleType ISetRandomSeed = ist::IstackModuleType();
+			ISetRandomSeed.ValidateStack = raw::ValidateStack_IntSetSeed;
+			ISetRandomSeed.ValidateSelf = raw::ValidateSelf_Success;
+			ISetRandomSeed.FreeData = raw::FreeData_Single;
+			ISetRandomSeed.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(ISetRandomSeed);
+			if (parser != nullptr) { parser->WordsAdd("iSetRandomSeed"); }
 		}
 	}
 }

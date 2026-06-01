@@ -20,6 +20,7 @@
 #include "IstackModules/exec.h"
 #include "IstackModules/pulldata.h"
 #include "IstackModules/function.h"
+#include "IstackModules/file.h"
 
 #include "compileConfig.h"
 #include "compileParsering.h"
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
 	ist::modules::LoadManipulationModules(&exec, &parser, 0); //7 -> 15
 	ist::modules::LoadConversionModules(&exec, &parser, 0); //15 -> 25
 	ist::modules::LoadLoopsModules(&exec, &parser, 0); //25 -> 30
-	ist::modules::LoadPullDataModules(&exec, &parser); //30 -> 33 //last
+	ist::modules::LoadPullDataModules(&exec, &parser); //30 -> 33
 	ist::modules::LoadSystemModules(&exec, &parser); //33 -> 35
 	ist::modules::LoadScopeModules(&exec, &parser); //35 -> 37
 	ist::modules::LoadLogicModules(&exec, &parser); //37 -> 48
@@ -64,6 +65,7 @@ int main(int argc, char* argv[])
 	ist::modules::LoadExecModules(&exec, &parser); //58 -> 61
 	ist::modules::LoadIoModules(&exec, &parser); //61 -> 67
 	ist::modules::LoadFunctionModules(&exec, &parser); //67 -> 71
+	ist::modules::LoadFileModules(&exec, &parser); //71 -> 74 //last
 
 	if (exec.ErrorSymbolMemoryOverflowed() == true || parser.ErrorSymbolMemoryOverflowed() == true) //you would need 4,294,967,295 modules all of which would need at lest 4,294,967,295 unique functions but they could have two or four unique functions so this would be very difficult to pull of and maybe even impossible
 	{

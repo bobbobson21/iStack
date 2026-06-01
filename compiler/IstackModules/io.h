@@ -71,6 +71,16 @@ namespace ist
 
 				return true;
 			}
+
+			bool ValidateSelf_Time(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			{
+				delete (*data);
+
+				(*data) = new int;
+				*((int*)(*data)) = ((int)time(NULL));
+
+				return true;
+			}
 		}
 
 		void LoadIoModules(IstackModuleExacuteor* module, IstackLexParser* parser)
@@ -116,6 +126,7 @@ namespace ist
 			module->ModuleAddType(popPrint);
 			if (parser != nullptr) { parser->WordsAdd("PopPrint"); }
 
+
 			ist::IstackModuleType selfInput = ist::IstackModuleType();
 			selfInput.ValidateSelf = raw::ValidateSelf_Input;
 			selfInput.FreeData = raw::FreeData_String;
@@ -123,6 +134,15 @@ namespace ist
 
 			module->ModuleAddType(selfInput);
 			if (parser != nullptr) { parser->WordsAdd("Input"); }
+
+
+			ist::IstackModuleType selfTime = ist::IstackModuleType();
+			selfTime.ValidateSelf = raw::ValidateSelf_Time;
+			selfTime.FreeData = raw::FreeData_Single;
+			selfTime.CopyData = raw::CopyData_FourChar;
+
+			module->ModuleAddType(selfTime);
+			if (parser != nullptr) { parser->WordsAdd("Timei"); }
 		}
 	}
 }
