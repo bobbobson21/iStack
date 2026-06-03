@@ -38,6 +38,7 @@
     <ClInclude Include="IstackModules\system.h" />
     <ClInclude Include="IstackModules\var.h" />
     <ClInclude Include="lib\istack\istack.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\istack\istack.dll" />
@@ -50,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="compiler.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

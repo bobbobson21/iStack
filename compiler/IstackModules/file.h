@@ -231,13 +231,13 @@ namespace ist
 			if (parser != nullptr) { parser->WordsAdd("FileWrite"); }
 
 
-			ist::IstackModuleType fileWrite = ist::IstackModuleType();
-			fileWrite.ValidateStack = raw::ValidateStack_FileAppend;
-			fileWrite.ValidateSelf = raw::ValidateSelf_Fail;
-			fileWrite.CopyData = raw::CopyData_String;
-			fileWrite.FreeData = raw::FreeData_String;
+			ist::IstackModuleType fileAppend = ist::IstackModuleType();
+			fileAppend.ValidateStack = raw::ValidateStack_FileAppend;
+			fileAppend.ValidateSelf = raw::ValidateSelf_Fail;
+			fileAppend.CopyData = raw::CopyData_String;
+			fileAppend.FreeData = raw::FreeData_String;
 
-			module->ModuleAddType(fileWrite);
+			module->ModuleAddType(fileAppend);
 			if (parser != nullptr) { parser->WordsAdd("FileAppend"); }
 		}
 	}
