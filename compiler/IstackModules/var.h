@@ -45,6 +45,8 @@ namespace ist
 				if (n_varObjectMap.count(std::this_thread::get_id()) < 1) { n_varObjectMap[std::this_thread::get_id()] = std::map<std::string, ist::IstackUnit>(); }
 				n_varObjectMap[std::this_thread::get_id()][adress];
 
+				return true;
+
 			}
 
 			bool ValidateStack_PopVar(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
@@ -90,6 +92,7 @@ namespace ist
 				if (n_varObjectMap.count(std::this_thread::get_id()) < 1) { n_varObjectMap[std::this_thread::get_id()] = std::map<std::string, ist::IstackUnit>(); }
 				n_varObjectMap[std::this_thread::get_id()][adress];
 
+				return true;
 			}
 
 			bool ValidateStack_SelfPopVar(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
@@ -116,6 +119,8 @@ namespace ist
 		void LoadVarModules(IstackModuleExacuteor* module, IstackLexParser* parser)
 		{
 			ist::IstackModuleType byte = ist::IstackModuleType();
+			byte.ValidateSelf = raw::Validate_Success;
+			byte.ValidateStack = raw::Validate_Success;
 			byte.FreeData = raw::FreeData_Single;
 			byte.CopyData = raw::CopyData_Char;
 
@@ -124,6 +129,8 @@ namespace ist
 
 
 			ist::IstackModuleType fourByte = ist::IstackModuleType();
+			fourByte.ValidateSelf = raw::Validate_Success;
+			fourByte.ValidateStack = raw::Validate_Success;
 			fourByte.FreeData = raw::FreeData_Single;
 			fourByte.CopyData = raw::CopyData_FourChar;
 
@@ -132,6 +139,8 @@ namespace ist
 
 
 			ist::IstackModuleType string = ist::IstackModuleType();
+			string.ValidateSelf = raw::Validate_Success;
+			string.ValidateStack = raw::Validate_Success;
 			string.FreeData = raw::FreeData_String;
 			string.CopyData = raw::CopyData_String;
 
@@ -141,6 +150,7 @@ namespace ist
 
 			ist::IstackModuleType pushSelf = ist::IstackModuleType();
 			pushSelf.ValidateStack = raw::ValidateStack_SelfPushVar;
+			pushSelf.ValidateSelf = raw::Validate_Fail;
 			pushSelf.FreeData = raw::FreeData_String;
 			pushSelf.CopyData = raw::CopyData_String;
 
@@ -150,6 +160,7 @@ namespace ist
 
 			ist::IstackModuleType popSelf = ist::IstackModuleType();
 			popSelf.ValidateStack = raw::ValidateStack_SelfPopVar;
+			popSelf.ValidateSelf = raw::Validate_Fail;
 			popSelf.FreeData = raw::FreeData_String;
 			popSelf.CopyData = raw::CopyData_String;
 
@@ -159,6 +170,7 @@ namespace ist
 
 			ist::IstackModuleType push = ist::IstackModuleType();
 			push.ValidateStack = raw::ValidateStack_PushVar;
+			push.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(push);
 			if (parser != nullptr) { parser->WordsAdd("PushVar"); }
@@ -166,8 +178,7 @@ namespace ist
 
 			ist::IstackModuleType pop = ist::IstackModuleType();
 			pop.ValidateStack = raw::ValidateStack_PopVar;
-			pop.FreeData = raw::FreeData_String;
-			pop.CopyData = raw::CopyData_String;
+			pop.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(pop);
 			if (parser != nullptr) { parser->WordsAdd("PopVar"); }

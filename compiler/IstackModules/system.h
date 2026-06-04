@@ -40,7 +40,7 @@ namespace ist
 		{
 			ist::IstackModuleType sys = ist::IstackModuleType();
 			sys.ValidateStack = raw::ValidateStack_strSystem;
-			sys.ValidateSelf = raw::ValidateSelf_Fail;
+			sys.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -50,7 +50,7 @@ namespace ist
 
 			ist::IstackModuleType selfSys = ist::IstackModuleType();
 			selfSys.ValidateStack = raw::ValidateStack_strSelfSystem;
-			selfSys.ValidateSelf = raw::ValidateSelf_Fail;
+			selfSys.ValidateSelf = raw::Validate_Fail;
 			selfSys.FreeData = raw::FreeData_String;
 			selfSys.CopyData = raw::CopyData_String; //not needed due to validate stack exacuting before any data can be read
 

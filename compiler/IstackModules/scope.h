@@ -57,7 +57,7 @@ namespace ist
 
 
 			ist::IstackModuleType scopeEndFliped = ist::IstackModuleType();
-			scopeEndFliped.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeEndFliped.ValidateSelf = raw::Validate_Fail;
 			scopeEndFliped.ValidateSelfPiped = raw::ValidateSelfPiped_ScopeEndFliped;
 
 			module->ModuleAddType(scopeEndFliped);

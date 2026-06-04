@@ -100,7 +100,7 @@ namespace ist
 
 			ist::IstackModuleType pullData = ist::IstackModuleType();
 			pullData.ValidateStack = raw::ValidateStack_PullData;
-			pullData.ValidateSelf = raw::ValidateSelf_Fail;
+			pullData.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(pullData);
 			if (parser != nullptr) { parser->WordsAdd("iPullDataFromScope"); }
@@ -108,7 +108,7 @@ namespace ist
 
 			ist::IstackModuleType pullDataPop = ist::IstackModuleType();
 			pullDataPop.ValidateStack = raw::ValidateStack_PullDataPop;
-			pullDataPop.ValidateSelf = raw::ValidateSelf_Fail;
+			pullDataPop.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(pullDataPop);
 			if (parser != nullptr) { parser->WordsAdd("iPullDataFromScopePop"); }
@@ -116,7 +116,7 @@ namespace ist
 
 			ist::IstackModuleType pushData = ist::IstackModuleType();
 			pushData.ValidateStack = raw::ValidateStack_PushData;
-			pushData.ValidateSelf = raw::ValidateSelf_Fail;
+			pushData.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(pushData);
 			if (parser != nullptr) { parser->WordsAdd("PushDataIntoScope"); }

@@ -120,7 +120,7 @@ namespace ist
 
 			ist::IstackModuleType popPrint = ist::IstackModuleType();
 			popPrint.ValidateStack = raw::ValidateStack_PopPrint;
-			popPrint.ValidateSelf = raw::ValidateSelf_Fail;
+			popPrint.ValidateSelf = raw::Validate_Fail;
 			//popPrint.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(popPrint);

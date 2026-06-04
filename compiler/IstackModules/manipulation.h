@@ -140,7 +140,7 @@ namespace ist
 
 			ist::IstackModuleType Bcpy = ist::IstackModuleType();
 			Bcpy.ValidateStack = raw::ValidateStack_DupeByte;
-			Bcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			Bcpy.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -150,7 +150,7 @@ namespace ist
 
 			ist::IstackModuleType FBcpy = ist::IstackModuleType();
 			FBcpy.ValidateStack = raw::ValidateStack_DupeFourByte;
-			FBcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			FBcpy.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -160,7 +160,7 @@ namespace ist
 
 			ist::IstackModuleType STRcpy = ist::IstackModuleType();
 			STRcpy.ValidateStack = raw::ValidateStack_DupeString;
-			STRcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			STRcpy.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -170,7 +170,7 @@ namespace ist
 
 			ist::IstackModuleType CPYcpy = ist::IstackModuleType();
 			CPYcpy.ValidateStack = raw::ValidateStack_DupeUniversalCopy;
-			CPYcpy.ValidateSelf = raw::ValidateSelf_Fail;
+			CPYcpy.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -180,7 +180,7 @@ namespace ist
 
 			ist::IstackModuleType Ref = ist::IstackModuleType();
 			Ref.ValidateStack = raw::ValidateStack_DupePointer;
-			Ref.ValidateSelf = raw::ValidateSelf_Success;
+			Ref.ValidateSelf = raw::Validate_Success;
 			Ref.FreeData = raw::FreeData_Fail;
 			Ref.CopyData = raw::CopyData_CopyFail;
 
@@ -190,7 +190,7 @@ namespace ist
 
 			ist::IstackModuleType Count = ist::IstackModuleType();
 			Count.ValidateStack = raw::ValidateStack_DupeCount;
-			Count.ValidateSelf = raw::ValidateSelf_Fail;
+			Count.ValidateSelf = raw::Validate_Fail;
 			Count.FreeData = raw::FreeData_Fail;
 
 			module->ModuleAddType(Count);
@@ -199,7 +199,7 @@ namespace ist
 
 			ist::IstackModuleType Pop = ist::IstackModuleType();
 			Pop.ValidateStack = raw::ValidateStack_DupePop;
-			Pop.ValidateSelf = raw::ValidateSelf_Fail;
+			Pop.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(Pop);
 			if (parser != nullptr) { parser->WordsAdd("&Pop>>"); }
@@ -207,7 +207,7 @@ namespace ist
 
 			ist::IstackModuleType Swap = ist::IstackModuleType();
 			Swap.ValidateStack = raw::ValidateStack_DupeSwap;
-			Swap.ValidateSelf = raw::ValidateSelf_Fail;
+			Swap.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(Swap);
 			if (parser != nullptr) { parser->WordsAdd("&Swap<<"); }

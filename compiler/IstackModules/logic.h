@@ -289,7 +289,7 @@ namespace ist
 		{
 			ist::IstackModuleType ifMod = ist::IstackModuleType();
 			ifMod.ValidateStack = raw::ValidateStack_If;
-			ifMod.ValidateSelf = raw::ValidateSelf_Fail;
+			ifMod.ValidateSelf = raw::Validate_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(ifMod);
@@ -298,7 +298,7 @@ namespace ist
 
 			ist::IstackModuleType notMod = ist::IstackModuleType();
 			notMod.ValidateStack = raw::ValidateStack_Not;
-			notMod.ValidateSelf = raw::ValidateSelf_Success;
+			notMod.ValidateSelf = raw::Validate_Success;
 			notMod.FreeData = raw::FreeData_Single;
 			notMod.CopyData = raw::CopyData_Char;
 
@@ -308,7 +308,7 @@ namespace ist
 
 			ist::IstackModuleType orMod = ist::IstackModuleType();
 			orMod.ValidateStack = raw::ValidateStack_Or;
-			orMod.ValidateSelf = raw::ValidateSelf_Success;
+			orMod.ValidateSelf = raw::Validate_Success;
 			orMod.FreeData = raw::FreeData_Single;
 			orMod.CopyData = raw::CopyData_Char;
 
@@ -318,7 +318,7 @@ namespace ist
 
 			ist::IstackModuleType andMod = ist::IstackModuleType();
 			andMod.ValidateStack = raw::ValidateStack_And;
-			andMod.ValidateSelf = raw::ValidateSelf_Success;
+			andMod.ValidateSelf = raw::Validate_Success;
 			andMod.FreeData = raw::FreeData_Single;
 			andMod.CopyData = raw::CopyData_Char;
 
@@ -328,7 +328,7 @@ namespace ist
 
 			ist::IstackModuleType set = ist::IstackModuleType();
 			set.ValidateStack = raw::ValidateStack_StringEqualThan;
-			set.ValidateSelf = raw::ValidateSelf_Success;
+			set.ValidateSelf = raw::Validate_Success;
 			set.FreeData = raw::FreeData_Single;
 			set.CopyData = raw::CopyData_Char;
 
@@ -338,7 +338,7 @@ namespace ist
 
 			ist::IstackModuleType iet = ist::IstackModuleType();
 			iet.ValidateStack = raw::ValidateStack_IntEqualThan;
-			iet.ValidateSelf = raw::ValidateSelf_Success;
+			iet.ValidateSelf = raw::Validate_Success;
 			iet.FreeData = raw::FreeData_Single;
 			iet.CopyData = raw::CopyData_CopyFail;
 
@@ -348,7 +348,7 @@ namespace ist
 
 			ist::IstackModuleType imt = ist::IstackModuleType();
 			imt.ValidateStack = raw::ValidateStack_IntMoreThan;
-			imt.ValidateSelf = raw::ValidateSelf_Success;
+			imt.ValidateSelf = raw::Validate_Success;
 			imt.FreeData = raw::FreeData_Single;
 			imt.CopyData = raw::CopyData_Char;
 
@@ -358,7 +358,7 @@ namespace ist
 
 			ist::IstackModuleType ilt = ist::IstackModuleType();
 			ilt.ValidateStack = raw::ValidateStack_IntLessThan;
-			ilt.ValidateSelf = raw::ValidateSelf_Success;
+			ilt.ValidateSelf = raw::Validate_Success;
 			ilt.FreeData = raw::FreeData_Single;
 			ilt.CopyData = raw::CopyData_Char;
 
@@ -368,7 +368,7 @@ namespace ist
 
 			ist::IstackModuleType fet = ist::IstackModuleType();
 			fet.ValidateStack = raw::ValidateStack_FloatEqualThan;
-			fet.ValidateSelf = raw::ValidateSelf_Success;
+			fet.ValidateSelf = raw::Validate_Success;
 			fet.FreeData = raw::FreeData_Single;
 			fet.CopyData = raw::CopyData_Char;
 
@@ -378,7 +378,7 @@ namespace ist
 
 			ist::IstackModuleType fmt = ist::IstackModuleType();
 			fmt.ValidateStack = raw::ValidateStack_FloatMoreThan;
-			fmt.ValidateSelf = raw::ValidateSelf_Success;
+			fmt.ValidateSelf = raw::Validate_Success;
 			fmt.FreeData = raw::FreeData_Single;
 			fmt.CopyData = raw::CopyData_Char;
 
@@ -388,7 +388,7 @@ namespace ist
 
 			ist::IstackModuleType flt = ist::IstackModuleType();
 			flt.ValidateStack = raw::ValidateStack_FloatLessThan;
-			flt.ValidateSelf = raw::ValidateSelf_Success;
+			flt.ValidateSelf = raw::Validate_Success;
 			flt.FreeData = raw::FreeData_Single;
 			flt.CopyData = raw::CopyData_Char;
 

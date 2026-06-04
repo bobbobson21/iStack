@@ -397,7 +397,7 @@ namespace ist
 		{
 			ist::IstackModuleType AddF = ist::IstackModuleType();
 			AddF.ValidateStack = raw::ValidateStack_FloatAdd;
-			AddF.ValidateSelf = raw::ValidateSelf_Success;
+			AddF.ValidateSelf = raw::Validate_Success;
 			AddF.FreeData = raw::FreeData_Single;
 			AddF.CopyData = raw::CopyData_FourChar;
 
@@ -407,7 +407,7 @@ namespace ist
 
 			ist::IstackModuleType TakeF = ist::IstackModuleType();
 			TakeF.ValidateStack = raw::ValidateStack_FloatTake;
-			TakeF.ValidateSelf = raw::ValidateSelf_Success;
+			TakeF.ValidateSelf = raw::Validate_Success;
 			TakeF.FreeData = raw::FreeData_Single;
 			TakeF.CopyData = raw::CopyData_FourChar;
 
@@ -417,7 +417,7 @@ namespace ist
 
 			ist::IstackModuleType TimesF = ist::IstackModuleType();
 			TimesF.ValidateStack = raw::ValidateStack_FloatTimes;
-			TimesF.ValidateSelf = raw::ValidateSelf_Success;
+			TimesF.ValidateSelf = raw::Validate_Success;
 			TimesF.FreeData = raw::FreeData_Single;
 			TimesF.CopyData = raw::CopyData_FourChar;
 
@@ -427,7 +427,7 @@ namespace ist
 
 			ist::IstackModuleType DivideF = ist::IstackModuleType();
 			DivideF.ValidateStack = raw::ValidateStack_FloatDivide;
-			DivideF.ValidateSelf = raw::ValidateSelf_Success;
+			DivideF.ValidateSelf = raw::Validate_Success;
 			DivideF.FreeData = raw::FreeData_Single;
 			DivideF.CopyData = raw::CopyData_FourChar;
 
@@ -437,7 +437,7 @@ namespace ist
 
 			ist::IstackModuleType AddI = ist::IstackModuleType();
 			AddI.ValidateStack = raw::ValidateStack_IntAdd;
-			AddI.ValidateSelf = raw::ValidateSelf_Success;
+			AddI.ValidateSelf = raw::Validate_Success;
 			AddI.FreeData = raw::FreeData_Single;
 			AddI.CopyData = raw::CopyData_FourChar;
 
@@ -447,7 +447,7 @@ namespace ist
 
 			ist::IstackModuleType TakeI = ist::IstackModuleType();
 			TakeI.ValidateStack = raw::ValidateStack_IntTake;
-			TakeI.ValidateSelf = raw::ValidateSelf_Success;
+			TakeI.ValidateSelf = raw::Validate_Success;
 			TakeI.FreeData = raw::FreeData_Single;
 			TakeI.CopyData = raw::CopyData_FourChar;
 
@@ -457,7 +457,7 @@ namespace ist
 
 			ist::IstackModuleType TimesI = ist::IstackModuleType();
 			TimesI.ValidateStack = raw::ValidateStack_IntTimes;
-			TimesI.ValidateSelf = raw::ValidateSelf_Success;
+			TimesI.ValidateSelf = raw::Validate_Success;
 			TimesI.FreeData = raw::FreeData_Single;
 			TimesI.CopyData = raw::CopyData_FourChar;
 
@@ -467,7 +467,7 @@ namespace ist
 
 			ist::IstackModuleType DivideI = ist::IstackModuleType();
 			DivideI.ValidateStack = raw::ValidateStack_IntDivide;
-			DivideI.ValidateSelf = raw::ValidateSelf_Success;
+			DivideI.ValidateSelf = raw::Validate_Success;
 			DivideI.FreeData = raw::FreeData_Single;
 			DivideI.CopyData = raw::CopyData_FourChar;
 
@@ -477,7 +477,7 @@ namespace ist
 
 			ist::IstackModuleType ModI = ist::IstackModuleType();
 			ModI.ValidateStack = raw::ValidateStack_IntMod;
-			ModI.ValidateSelf = raw::ValidateSelf_Success;
+			ModI.ValidateSelf = raw::Validate_Success;
 			ModI.FreeData = raw::FreeData_Single;
 			ModI.CopyData = raw::CopyData_FourChar;
 
@@ -487,7 +487,7 @@ namespace ist
 
 			ist::IstackModuleType PowI = ist::IstackModuleType();
 			PowI.ValidateStack = raw::ValidateStack_IntPow;
-			PowI.ValidateSelf = raw::ValidateSelf_Success;
+			PowI.ValidateSelf = raw::Validate_Success;
 			PowI.FreeData = raw::FreeData_Single;
 			PowI.CopyData = raw::CopyData_FourChar;
 
@@ -497,7 +497,7 @@ namespace ist
 
 			ist::IstackModuleType sinF = ist::IstackModuleType();
 			sinF.ValidateStack = raw::ValidateStack_FloatSin;
-			sinF.ValidateSelf = raw::ValidateSelf_Success;
+			sinF.ValidateSelf = raw::Validate_Success;
 			sinF.FreeData = raw::FreeData_Single;
 			sinF.CopyData = raw::CopyData_FourChar;
 
@@ -507,7 +507,7 @@ namespace ist
 
 			ist::IstackModuleType cosF = ist::IstackModuleType();
 			cosF.ValidateStack = raw::ValidateStack_FloatCos;
-			cosF.ValidateSelf = raw::ValidateSelf_Success;
+			cosF.ValidateSelf = raw::Validate_Success;
 			cosF.FreeData = raw::FreeData_Single;
 			cosF.CopyData = raw::CopyData_FourChar;
 
@@ -517,7 +517,7 @@ namespace ist
 
 			ist::IstackModuleType absF = ist::IstackModuleType();
 			absF.ValidateStack = raw::ValidateStack_FloatAbs;
-			absF.ValidateSelf = raw::ValidateSelf_Success;
+			absF.ValidateSelf = raw::Validate_Success;
 			absF.FreeData = raw::FreeData_Single;
 			absF.CopyData = raw::CopyData_FourChar;
 
@@ -527,7 +527,7 @@ namespace ist
 
 			ist::IstackModuleType floorF = ist::IstackModuleType();
 			floorF.ValidateStack = raw::ValidateStack_FloatFloor;
-			floorF.ValidateSelf = raw::ValidateSelf_Success;
+			floorF.ValidateSelf = raw::Validate_Success;
 			floorF.FreeData = raw::FreeData_Single;
 			floorF.CopyData = raw::CopyData_FourChar;
 
@@ -537,7 +537,7 @@ namespace ist
 
 			ist::IstackModuleType ceilF = ist::IstackModuleType();
 			ceilF.ValidateStack = raw::ValidateStack_FloatCeil;
-			ceilF.ValidateSelf = raw::ValidateSelf_Success;
+			ceilF.ValidateSelf = raw::Validate_Success;
 			ceilF.FreeData = raw::FreeData_Single;
 			ceilF.CopyData = raw::CopyData_FourChar;
 
@@ -547,7 +547,7 @@ namespace ist
 
 			ist::IstackModuleType RandomRangeF = ist::IstackModuleType();
 			RandomRangeF.ValidateStack = raw::ValidateStack_FloatRandomRange;
-			RandomRangeF.ValidateSelf = raw::ValidateSelf_Success;
+			RandomRangeF.ValidateSelf = raw::Validate_Success;
 			RandomRangeF.FreeData = raw::FreeData_Single;
 			RandomRangeF.CopyData = raw::CopyData_FourChar;
 
@@ -557,7 +557,7 @@ namespace ist
 
 			ist::IstackModuleType ISetRandomSeed = ist::IstackModuleType();
 			ISetRandomSeed.ValidateStack = raw::ValidateStack_IntSetSeed;
-			ISetRandomSeed.ValidateSelf = raw::ValidateSelf_Success;
+			ISetRandomSeed.ValidateSelf = raw::Validate_Success;
 			ISetRandomSeed.FreeData = raw::FreeData_Single;
 			ISetRandomSeed.CopyData = raw::CopyData_FourChar;
 

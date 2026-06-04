@@ -213,7 +213,7 @@ namespace ist
 		{
 			ist::IstackModuleType fileRead = ist::IstackModuleType();
 			fileRead.ValidateStack = raw::ValidateStack_FileRead;
-			fileRead.ValidateSelf = raw::ValidateSelf_Fail;
+			fileRead.ValidateSelf = raw::Validate_Fail;
 			fileRead.CopyData = raw::CopyData_String;
 			fileRead.FreeData = raw::FreeData_String;
 
@@ -223,7 +223,7 @@ namespace ist
 
 			ist::IstackModuleType fileWrite = ist::IstackModuleType();
 			fileWrite.ValidateStack = raw::ValidateStack_FileWrite;
-			fileWrite.ValidateSelf = raw::ValidateSelf_Fail;
+			fileWrite.ValidateSelf = raw::Validate_Fail;
 			fileWrite.CopyData = raw::CopyData_String;
 			fileWrite.FreeData = raw::FreeData_String;
 
@@ -233,7 +233,7 @@ namespace ist
 
 			ist::IstackModuleType fileAppend = ist::IstackModuleType();
 			fileAppend.ValidateStack = raw::ValidateStack_FileAppend;
-			fileAppend.ValidateSelf = raw::ValidateSelf_Fail;
+			fileAppend.ValidateSelf = raw::Validate_Fail;
 			fileAppend.CopyData = raw::CopyData_String;
 			fileAppend.FreeData = raw::FreeData_String;
 

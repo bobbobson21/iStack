@@ -95,6 +95,8 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				n_switchExecIndex[std::this_thread::get_id()] = switchIndex;
+
+				return true;
 			}
 		}
 
@@ -102,7 +104,7 @@ namespace ist
 		{
 			ist::IstackModuleType scopeExecReturn = ist::IstackModuleType();
 			scopeExecReturn.ValidateStack = raw::ValidateStack_ScopeExecReturn;
-			scopeExecReturn.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeExecReturn.ValidateSelf = raw::Validate_Fail;
 
 			module->ModuleAddType(scopeExecReturn);
 			if (parser != nullptr) { parser->WordsAdd("ExecReturn"); }
@@ -110,7 +112,7 @@ namespace ist
 
 			ist::IstackModuleType scopeExecSwitchReturn = ist::IstackModuleType();
 			scopeExecSwitchReturn.ValidateStack = raw::ValidateStack_ScopeSelfSwitchExecReturn;
-			scopeExecSwitchReturn.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeExecSwitchReturn.ValidateSelf = raw::Validate_Fail;
 			scopeExecSwitchReturn.FreeData = raw::FreeData_Single;
 			scopeExecSwitchReturn.CopyData = raw::CopyData_FourChar;
 
@@ -120,7 +122,7 @@ namespace ist
 
 			ist::IstackModuleType scopeExecSwitchIndex = ist::IstackModuleType();
 			scopeExecSwitchIndex.ValidateStack = raw::ValidateStack_ScopeSetSwitchIndex;
-			scopeExecSwitchIndex.ValidateSelf = raw::ValidateSelf_Fail;
+			scopeExecSwitchIndex.ValidateSelf = raw::Validate_Fail;
 			scopeExecSwitchIndex.FreeData = raw::FreeData_Single;
 			scopeExecSwitchIndex.CopyData = raw::CopyData_FourChar;
 

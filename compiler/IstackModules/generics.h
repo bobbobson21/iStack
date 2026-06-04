@@ -10,12 +10,12 @@ namespace ist
 	{
 		namespace raw
 		{
-			bool ValidateSelf_Fail(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			bool Validate_Fail(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				return false;
 			}
 
-			bool ValidateSelf_Success(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
+			bool Validate_Success(IstackStackFrame* dumpFrame, IstackModuleExacuteor* exec, void** data)
 			{
 				return true;
 			}

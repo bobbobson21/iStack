@@ -234,7 +234,7 @@ namespace ist
 
 			ist::IstackModuleType breakMod = ist::IstackModuleType();
 			breakMod.ValidateStack = raw::ValidateStack_Break;
-			breakMod.ValidateSelf = raw::ValidateSelf_Fail;
+			breakMod.ValidateSelf = raw::Validate_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(breakMod);
@@ -243,7 +243,7 @@ namespace ist
 
 			ist::IstackModuleType forMod = ist::IstackModuleType();
 			forMod.ValidateStack = raw::ValidateStack_For;
-			forMod.ValidateSelf = raw::ValidateSelf_Fail;
+			forMod.ValidateSelf = raw::Validate_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(forMod);
@@ -252,7 +252,7 @@ namespace ist
 
 			ist::IstackModuleType whileMod = ist::IstackModuleType();
 			whileMod.ValidateStack = raw::ValidateStack_While;
-			whileMod.ValidateSelf = raw::ValidateSelf_Fail;
+			whileMod.ValidateSelf = raw::Validate_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(whileMod);
@@ -261,7 +261,7 @@ namespace ist
 
 			ist::IstackModuleType forBreakFailMod = ist::IstackModuleType();
 			forBreakFailMod.ValidateStack = raw::ValidateStack_ForBreakFail;
-			forBreakFailMod.ValidateSelf = raw::ValidateSelf_Fail;
+			forBreakFailMod.ValidateSelf = raw::Validate_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(forBreakFailMod);
@@ -270,7 +270,7 @@ namespace ist
 
 			ist::IstackModuleType forEndFailMod = ist::IstackModuleType();
 			forEndFailMod.ValidateStack = raw::ValidateStack_ForEndFail;
-			forEndFailMod.ValidateSelf = raw::ValidateSelf_Fail;
+			forEndFailMod.ValidateSelf = raw::Validate_Fail;
 			//ifMod.FreeData = raw::FreeData_Single; //not needed as the if module can not contain data
 
 			module->ModuleAddType(forEndFailMod);

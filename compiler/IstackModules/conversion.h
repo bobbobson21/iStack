@@ -244,7 +244,7 @@ namespace ist
 			
 			ist::IstackModuleType ItF = ist::IstackModuleType();
 			ItF.ValidateStack = raw::ValidateStack_IntToFloat;
-			ItF.ValidateSelf = raw::ValidateSelf_Fail;
+			ItF.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -254,7 +254,7 @@ namespace ist
 
 			ist::IstackModuleType FtI = ist::IstackModuleType();
 			FtI.ValidateStack = raw::ValidateStack_FloatToInt;
-			FtI.ValidateSelf = raw::ValidateSelf_Fail;
+			FtI.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -264,7 +264,7 @@ namespace ist
 
 			ist::IstackModuleType ItS = ist::IstackModuleType();
 			ItS.ValidateStack = raw::ValidateStack_IntToString;
-			ItS.ValidateSelf = raw::ValidateSelf_Fail;
+			ItS.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -274,7 +274,7 @@ namespace ist
 
 			ist::IstackModuleType StI = ist::IstackModuleType();
 			StI.ValidateStack = raw::ValidateStack_StringToInt;
-			StI.ValidateSelf = raw::ValidateSelf_Fail;
+			StI.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -284,7 +284,7 @@ namespace ist
 
 			ist::IstackModuleType FtS = ist::IstackModuleType();
 			FtS.ValidateStack = raw::ValidateStack_FloatToString;
-			FtS.ValidateSelf = raw::ValidateSelf_Fail;
+			FtS.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -294,7 +294,7 @@ namespace ist
 
 			ist::IstackModuleType StF = ist::IstackModuleType();
 			StF.ValidateStack = raw::ValidateStack_StringToFloat;
-			StF.ValidateSelf = raw::ValidateSelf_Fail;
+			StF.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -304,7 +304,7 @@ namespace ist
 
 			ist::IstackModuleType StB = ist::IstackModuleType();
 			StB.ValidateStack = raw::ValidateStack_StringToBool;
-			StB.ValidateSelf = raw::ValidateSelf_Fail;
+			StB.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -314,7 +314,7 @@ namespace ist
 
 			ist::IstackModuleType BtS = ist::IstackModuleType();
 			BtS.ValidateStack = raw::ValidateStack_BoolToString;
-			BtS.ValidateSelf = raw::ValidateSelf_Fail;
+			BtS.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -324,7 +324,7 @@ namespace ist
 
 			ist::IstackModuleType BtI = ist::IstackModuleType();
 			BtI.ValidateStack = raw::ValidateStack_BoolToInt;
-			BtI.ValidateSelf = raw::ValidateSelf_Fail;
+			BtI.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 
@@ -334,7 +334,7 @@ namespace ist
 
 			ist::IstackModuleType ItB = ist::IstackModuleType();
 			ItB.ValidateStack = raw::ValidateStack_IntToBool;
-			ItB.ValidateSelf = raw::ValidateSelf_Fail;
+			ItB.ValidateSelf = raw::Validate_Fail;
 			//ItF.FreeData = raw::FreeData_Single; //not needed conversion has no data
 			//notMod.FreeData = raw::CopyData_Char; //not needed due to validate stack exacuting before any data can be read
 

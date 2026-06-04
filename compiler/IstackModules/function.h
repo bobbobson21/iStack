@@ -257,7 +257,7 @@ namespace ist
 
 			ist::IstackModuleType fn = ist::IstackModuleType();
 			fn.ValidateStack = raw::ValidateStack_CreateFunction;
-			fn.ValidateSelf = raw::ValidateSelf_Fail;
+			fn.ValidateSelf = raw::Validate_Fail;
 			fn.FreeData = raw::FreeData_String;
 			fn.CopyData = raw::CopyData_String;
 
@@ -267,7 +267,7 @@ namespace ist
 
 			ist::IstackModuleType call = ist::IstackModuleType();
 			call.ValidateStack = raw::ValidateStack_CallFunction;
-			call.ValidateSelf = raw::ValidateSelf_Fail;
+			call.ValidateSelf = raw::Validate_Fail;
 			call.FreeData = raw::FreeData_String;
 			call.CopyData = raw::CopyData_String;
 
@@ -277,7 +277,7 @@ namespace ist
 
 			ist::IstackModuleType callexc = ist::IstackModuleType();
 			callexc.ValidateStack = raw::ValidateStack_CallFunctionWithExtange;
-			callexc.ValidateSelf = raw::ValidateSelf_Fail;
+			callexc.ValidateSelf = raw::Validate_Fail;
 			callexc.FreeData = raw::FreeData_String;
 			callexc.CopyData = raw::CopyData_String;
 
@@ -287,7 +287,7 @@ namespace ist
 
 			ist::IstackModuleType callexctop = ist::IstackModuleType();
 			callexctop.ValidateStack = raw::ValidateStack_CallFunctionWithExtangeTopOnly;
-			callexctop.ValidateSelf = raw::ValidateSelf_Fail;
+			callexctop.ValidateSelf = raw::Validate_Fail;
 			callexctop.FreeData = raw::FreeData_String;
 			callexctop.CopyData = raw::CopyData_String;
 
@@ -297,7 +297,7 @@ namespace ist
 
 			ist::IstackModuleType canFn = ist::IstackModuleType();
 			canFn.ValidateStack = raw::ValidateStack_CanCallFunction;
-			canFn.ValidateSelf = raw::ValidateSelf_Success;
+			canFn.ValidateSelf = raw::Validate_Success;
 			canFn.FreeData = raw::FreeData_Single;
 			canFn.CopyData = raw::CopyData_Char;
 

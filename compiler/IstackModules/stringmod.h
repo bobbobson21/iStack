@@ -311,7 +311,7 @@ namespace ist
 		{
 			ist::IstackModuleType strAdd = ist::IstackModuleType();
 			strAdd.ValidateStack = raw::ValidateStack_StringCombine;
-			strAdd.ValidateSelf = raw::ValidateSelf_Fail;
+			strAdd.ValidateSelf = raw::Validate_Fail;
 			strAdd.CopyData = raw::CopyData_String;
 			strAdd.FreeData = raw::FreeData_String;
 
@@ -321,7 +321,7 @@ namespace ist
 
 			ist::IstackModuleType strLen = ist::IstackModuleType();
 			strLen.ValidateStack = raw::ValidateStack_StringLength;
-			strLen.ValidateSelf = raw::ValidateSelf_Fail;
+			strLen.ValidateSelf = raw::Validate_Fail;
 			strLen.CopyData = raw::CopyData_FourChar;
 			strLen.FreeData = raw::FreeData_Single;
 
@@ -331,7 +331,7 @@ namespace ist
 
 			ist::IstackModuleType strUpper = ist::IstackModuleType();
 			strUpper.ValidateStack = raw::ValidateStack_StringUpper;
-			strUpper.ValidateSelf = raw::ValidateSelf_Fail;
+			strUpper.ValidateSelf = raw::Validate_Fail;
 			strUpper.CopyData = raw::CopyData_String;
 			strUpper.FreeData = raw::FreeData_String;
 
@@ -341,7 +341,7 @@ namespace ist
 
 			ist::IstackModuleType strLower = ist::IstackModuleType();
 			strLower.ValidateStack = raw::ValidateStack_StringLower;
-			strLower.ValidateSelf = raw::ValidateSelf_Fail;
+			strLower.ValidateSelf = raw::Validate_Fail;
 			strLower.CopyData = raw::CopyData_String;
 			strLower.FreeData = raw::FreeData_String;
 
@@ -351,7 +351,7 @@ namespace ist
 
 			ist::IstackModuleType strCon = ist::IstackModuleType();
 			strCon.ValidateStack = raw::ValidateStack_StringLower;
-			strCon.ValidateSelf = raw::ValidateSelf_Fail;
+			strCon.ValidateSelf = raw::Validate_Fail;
 			strCon.CopyData = raw::CopyData_String;
 			strCon.FreeData = raw::FreeData_String;
 
@@ -361,7 +361,7 @@ namespace ist
 
 			ist::IstackModuleType strCon = ist::IstackModuleType();
 			strCon.ValidateStack = raw::ValidateStack_StringLower;
-			strCon.ValidateSelf = raw::ValidateSelf_Fail;
+			strCon.ValidateSelf = raw::Validate_Fail;
 			strCon.CopyData = raw::CopyData_Char;
 			strCon.FreeData = raw::FreeData_Single;
 
@@ -371,7 +371,7 @@ namespace ist
 
 			ist::IstackModuleType strFind = ist::IstackModuleType();
 			strFind.ValidateStack = raw::ValidateStack_StringFind;
-			strFind.ValidateSelf = raw::ValidateSelf_Fail;
+			strFind.ValidateSelf = raw::Validate_Fail;
 			strFind.CopyData = raw::CopyData_FourChar;
 			strFind.FreeData = raw::FreeData_Single;
 
@@ -381,7 +381,7 @@ namespace ist
 
 			ist::IstackModuleType strSub = ist::IstackModuleType();
 			strSub.ValidateStack = raw::ValidateStack_StringSub;
-			strSub.ValidateSelf = raw::ValidateSelf_Fail;
+			strSub.ValidateSelf = raw::Validate_Fail;
 			strSub.CopyData = raw::CopyData_String;
 			strSub.FreeData = raw::FreeData_String;
 
@@ -391,7 +391,7 @@ namespace ist
 
 			ist::IstackModuleType strRep = ist::IstackModuleType();
 			strRep.ValidateStack = raw::ValidateStack_StringReplace;
-			strRep.ValidateSelf = raw::ValidateSelf_Fail;
+			strRep.ValidateSelf = raw::Validate_Fail;
 			strRep.CopyData = raw::CopyData_String;
 			strRep.FreeData = raw::FreeData_String;
 
