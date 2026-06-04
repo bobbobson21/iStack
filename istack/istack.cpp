@@ -77,21 +77,21 @@ void ist::IstackStackFrame::UnitPush(IstackUnit unit)
 		return;
 	}
 
-	if (m_stackIndex >= m_stackTotalLength)
+	if (m_stackIndex >= m_stackTotalLength) // we exceeded the max length so we now need to make it bigger
 	{
 		IstackUnit* stackBuffer = new IstackUnit[m_stackTotalLength +1];
 
-		if (m_stackUnits != nullptr)
+		if (m_stackUnits != nullptr) // just incase it was exceeded from 0
 		{
 			memcpy(stackBuffer, m_stackUnits, sizeof(IstackUnit) * m_stackTotalLength);
 			delete[] m_stackUnits;
 		}
 
-		m_stackUnits = stackBuffer;
+		m_stackUnits = stackBuffer; //set the new memory to the old one
 		m_stackTotalLength = m_stackTotalLength + 1;
 	}
 
-	m_stackUnits[m_stackIndex] = unit;
+	m_stackUnits[m_stackIndex] = unit; //adds itme
 	m_stackIndex = m_stackIndex + 1;
 }
 
@@ -100,26 +100,33 @@ void ist::IstackStackFrame::UnitPop(void)
 	if (m_pipeTo != nullptr)
 	{
 		m_pipeTo->UnitPop();
+		return;
 	}
 
-	m_stackIndex = m_stackIndex - 1;
+	m_stackIndex = m_stackIndex - 1; //its so simple
 }
 
 void ist::IstackStackFrame::UnitFlip(void)
 {
-	if (m_stackUnits == nullptr)
+	if (m_pipeTo != nullptr)
+	{
+		m_pipeTo->UnitFlip();
+		return;
+	}
+
+	if (m_stackUnits == nullptr) //fast exit that also pervents memory issues
 	{
 		return;
 	}
 
-	IstackUnit* stackBuffer = new IstackUnit[m_stackIndex];
+	IstackUnit* stackBuffer = new IstackUnit[m_stackIndex]; //an array that can be used to flip the stazck
 	
-	for (unsigned int i = 0; i < m_stackIndex; i++)
+	for (unsigned int i = 0; i < m_stackIndex; i++) //put it all in back to front
 	{
 		stackBuffer[(m_stackIndex -1) -i] = m_stackUnits[i];
 	}
 
-	delete[] m_stackUnits;
+	delete[] m_stackUnits; //make the array the stack
 	m_stackUnits = stackBuffer;
 	m_stackTotalLength = m_stackIndex;
 }
@@ -157,9 +164,15 @@ unsigned int ist::IstackStackFrame::UnitLength(void)
 
 void ist::IstackStackFrame::UnitAddToExtent(unsigned int addToTheAvalibleStackMemoryForNewPushes)
 {
-	IstackUnit* stackBuffer = new IstackUnit[m_stackTotalLength + addToTheAvalibleStackMemoryForNewPushes];
+	if (m_pipeTo != nullptr)
+	{
+		m_pipeTo->UnitAddToExtent(addToTheAvalibleStackMemoryForNewPushes);
+		return;
+	}
 
-	if (m_stackUnits != nullptr)
+	IstackUnit* stackBuffer = new IstackUnit[m_stackTotalLength + addToTheAvalibleStackMemoryForNewPushes]; //creates the array but with the extral length
+
+	if (m_stackUnits != nullptr) //copying
 	{
 		memcpy(stackBuffer, m_stackUnits, sizeof(IstackUnit) * m_stackTotalLength);
 		delete[] m_stackUnits;
@@ -196,17 +209,23 @@ void ist::IstackStackFrame::CopyPipeDataTo(IstackStackFrame* otherFrame)
 
 void ist::IstackStackFrame::UnitFlush(void)
 {
+	if (m_pipeTo != nullptr)
+	{
+		m_pipeTo->UnitFlush();
+		return;
+	}
+
 	if (m_stackUnits == nullptr)
 	{
 		return;
 	}
 
-	IstackUnit* stackBuffer = new IstackUnit[m_stackIndex];
+	IstackUnit* stackBuffer = new IstackUnit[m_stackIndex]; //creates the stack but with slots only up to m_stackIndex
 
 	memcpy(stackBuffer, m_stackUnits, sizeof(IstackUnit) * m_stackIndex);
-	delete[] m_stackUnits;
+	delete[] m_stackUnits; //deletes the old inaccessible data
 
-	m_stackUnits = stackBuffer;
+	m_stackUnits = stackBuffer; //sets the stack to the new buffer
 	m_stackTotalLength = m_stackIndex;
 }
 
@@ -338,11 +357,11 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 {
 	if ((*frame->PipeGet()) != nullptr)
 	{
-		FreeFrameRecursive((*frame->PipeGet()), doDeleteOfPipeFramesAsWell);
+		FreeFrameRecursive((*frame->PipeGet()), doDeleteOfPipeFramesAsWell); //recursion
 		
-		if (doDeleteOfPipeFramesAsWell == true)
+		if (doDeleteOfPipeFramesAsWell == true) 
 		{
-			delete (IstackStackFrame*)(*frame->PipeGet());
+			delete (IstackStackFrame*)(*frame->PipeGet()); //delete pipe after units
 			(*frame->PipeGet()) = nullptr;
 		}
 	}
@@ -358,18 +377,18 @@ void ist::IstackModuleExacuteor::FreeFrameRecursive(IstackStackFrame* frame, boo
 		}
 	}
 
-	FreeFrame(frame);
+	FreeFrame(frame); //empty the frame and the units correctly
 }
 
 void ist::IstackModuleExacuteor::FreeFrame(IstackStackFrame* frame)
 {
-	while (frame->UnitLength() > 0)
+	while (frame->UnitLength() > 0) // gose thougth all the units
 	{
-		FreeUnit(frame->UnitTopPtr());
-		frame->UnitPop();
+		FreeUnit(frame->UnitTopPtr()); //frees them correctly
+		frame->UnitPop(); // so we can reach them all
 	}
 
-	frame->UnitFree();
+	frame->UnitFree(); //then frees the memory correctly
 }
 
 void ist::IstackModuleExacuteor::FreeUnit(IstackUnit* unit)
@@ -393,15 +412,15 @@ void ist::IstackModuleExacuteor::CopyUnitFromAndTo(IstackUnit* copyFrom, IstackU
 
 void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackStackFrame* copyFrom, IstackStackFrame* copyTo)
 {
-	FreeFrame(copyTo);
+	FreeFrame(copyTo); //empties the copy
 
-	IstackUnit* transferBuffer = new IstackUnit[copyFrom->UnitLength()];
-	IstackStackFrame transferFrame = IstackStackFrame();
+	IstackUnit* transferBuffer = new IstackUnit[copyFrom->UnitLength()]; //a buffer that will cotain all the units being copied
+	IstackStackFrame transferFrame = IstackStackFrame(); //a temp frame that will cantain a bad copy
 	unsigned int transferIndex = copyFrom->UnitLength() -1;
 	
 	copyFrom->CopyIStackTo(&transferFrame);
 
-	while (transferFrame.UnitLength() > 0 && transferIndex >= 0)
+	while (transferFrame.UnitLength() > 0 && transferIndex >= 0) //moves stuff from the temp frame to the buffer
 	{
 		transferBuffer[transferIndex] = transferFrame.UnitTop();
 		transferIndex--;
@@ -409,7 +428,7 @@ void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackSta
 		transferFrame.UnitPop();
 	}
 
-	for (unsigned int i = 0; i < copyFrom->UnitLength(); i++)
+	for (unsigned int i = 0; i < copyFrom->UnitLength(); i++) //copies the buffer into the new frame with all issues fixed
 	{
 		IstackUnit newUnit = IstackUnit();
 		CopyUnitFromAndTo(&transferBuffer[i], &newUnit);
@@ -417,7 +436,7 @@ void ist::IstackModuleExacuteor::CopyIstackFrameAndModuleDataFromAndTo(IstackSta
 		copyTo->UnitPush(newUnit);
 	}
 
-	transferFrame.UnitFree();
+	transferFrame.UnitFree(); //it is done this way so we dont break the frem we copied from by breaking its data which exec frame will do
 	delete[] transferBuffer;
 }
 
@@ -430,18 +449,18 @@ unsigned int ist::IstackModuleExacuteor::ModuleAddType(IstackModuleType module)
 		return -1; //it will be highest positive value and that will indercate something wnt wrong
 	}
 
-	IstackModuleType* modulesBuffer = new IstackModuleType[m_moduleTypesArrayLength +1];
+	IstackModuleType* modulesBuffer = new IstackModuleType[m_moduleTypesArrayLength +1]; //extens the module type array length
 
-	if (m_moduleTypesArray != nullptr)
+	if (m_moduleTypesArray != nullptr) //makes sure all modules are in the bigger array
 	{
 		memcpy(modulesBuffer, m_moduleTypesArray, sizeof(IstackModuleType) * m_moduleTypesArrayLength);
 		delete[] m_moduleTypesArray;
 	}
 
-	modulesBuffer[m_moduleTypesArrayLength] = module;
+	modulesBuffer[m_moduleTypesArrayLength] = module; //adds module
 	m_moduleTypesArray = modulesBuffer;
 
-	m_moduleTypesArrayLength = m_moduleTypesArrayLength + 1;
+	m_moduleTypesArrayLength = m_moduleTypesArrayLength + 1; //increese length
 	return m_moduleTypesArrayLength -1;
 }
 
@@ -471,7 +490,7 @@ void ist::IstackModuleExacuteor::ModuleFreeTypes(void)
 void ist::IstackModuleExacuteor::CopyModuleTypeDataFromAndTo(IstackModuleExacuteor* otherExec)
 {
 	delete[] otherExec->m_moduleTypesArray;
-	otherExec->m_moduleTypesArrayLength = m_moduleTypesArrayLength;
+	otherExec->m_moduleTypesArrayLength = m_moduleTypesArrayLength; //copies the module type data
 
 	otherExec->m_moduleTypesArray = new IstackModuleType[otherExec->m_moduleTypesArrayLength];
 
@@ -549,7 +568,14 @@ void ist::IstackLexParser::PushChar(char charter)
 
 				if (isSucessfulAtParsingData == true) //can parse data
 				{
-					m_outputFrame->UnitPush(unitToPush);
+					if (m_outputFrame != nullptr)
+					{
+						m_outputFrame->UnitPush(unitToPush);
+					}
+					else
+					{
+						m_errorFrameInvalid = true;
+					}
 				}
 				else //no so fail
 				{
@@ -633,7 +659,7 @@ void ist::IstackLexParser::WordsAdd(const char* keyword)
 		return;
 	}
 
-	char** modulesBuffer = new char*[m_keywordsArrayLength +1];
+	char** modulesBuffer = new char*[m_keywordsArrayLength +1]; //complicated I know
 
 	if (m_keywordsArray != nullptr)
 	{
@@ -641,7 +667,7 @@ void ist::IstackLexParser::WordsAdd(const char* keyword)
 		delete[] m_keywordsArray;
 	}
 
-	modulesBuffer[m_keywordsArrayLength] = new char[strnlen(keyword, m_inputStringMaxBufferLength) +1];
+	modulesBuffer[m_keywordsArrayLength] = new char[strnlen(keyword, m_inputStringMaxBufferLength) +1]; //manages makeing sure new stuff is added correctly
 	memcpy(modulesBuffer[m_keywordsArrayLength], keyword, strnlen(keyword, m_inputStringMaxBufferLength));
 	modulesBuffer[m_keywordsArrayLength][strnlen(keyword, m_inputStringMaxBufferLength)] = '\0';
 
@@ -696,6 +722,11 @@ bool ist::IstackLexParser::ErrorIsParsingUnsucessful()
 	return m_errorIsParsingUnsucessful;
 }
 
+bool ist::IstackLexParser::ErrorFrameUnableToBeFound()
+{
+	return m_errorFrameInvalid;
+}
+
 bool ist::IstackLexParser::ErrorInputBufferOverflowed()
 {
 	return (m_inputStringBufferIndex >= m_inputStringMaxBufferLength);
@@ -708,6 +739,7 @@ bool ist::IstackLexParser::ErrorSymbolMemoryOverflowed()
 
 void ist::IstackLexParser::InputFlushBuffer()
 {
+	m_errorFrameInvalid = false;
 	m_errorIsParsingUnsucessful = false;
 	m_inputStringBufferIndex = 0;
 }
