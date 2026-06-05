@@ -69,7 +69,7 @@ namespace ist
 
 					if (dumpFrame->UnitTop().m_data == nullptr) { exec->ErrorSetCode(StringIsNullStringMod); return false; }
 
-					delete (*data)
+					delete (*data);
 					(*data) = new int;
 					(*(int*)(*data)) = (A.length());
 				}
