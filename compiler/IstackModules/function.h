@@ -44,7 +44,9 @@ namespace ist
 				if (n_functionMap[std::this_thread::get_id()].count(adress) > 1) { exec->ErrorSetCode(FunctionNameAlreadyInUse); return false; }
 				if ((*dumpFrame->PipeGetCleared()) == nullptr) { exec->ErrorSetCode(UnableToFindFrameFunction); return false; }
 
-				n_functionMap[std::this_thread::get_id()][adress] = ist::IstackStackFrame();
+				ist::IstackStackFrame tempStack = ist::IstackStackFrame();
+
+				n_functionMap[std::this_thread::get_id()].emplace(std::make_pair(adress, std::move(tempStack)));
 				exec->CopyIstackFrameAndModuleDataFromAndTo((*dumpFrame->PipeGetCleared()), &n_functionMap[std::this_thread::get_id()][adress]);
 
 				return true;

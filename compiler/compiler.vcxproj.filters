@@ -60,9 +60,6 @@
     <ClInclude Include="IstackModules\function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib\istack\istack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IstackModules\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -70,6 +67,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\istack\istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\istack\istack.h">
@@ -96,7 +96,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon1.ico">
+    <Image Include="istack.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

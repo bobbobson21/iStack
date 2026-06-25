@@ -8,8 +8,7 @@ FourByte(8000);
 
 	CallExcTop("else");
 	CallExcTop("buzz");
-	CallExcTop(); //if used without a string inside it, it will access the item at the top of the stack [which for our purpouses is String("fizz")] and use that to find the function it should be exacuting
-	String("fizz");
+	CallExcTop("fizz");
 
 	SelfPrint(": ");
 	PopPrint();

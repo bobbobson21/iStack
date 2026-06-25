@@ -21,7 +21,7 @@ namespace compiler
 		fileReader.open(filePath, std::ios::binary);
 		unsigned int currentLineInParsing = 0;
 
-		while (fileReader.good() == true && fileReader.good() == true && fileReader.eof() == false)
+		while (fileReader.is_open() == true && fileReader.good() == true && fileReader.eof() == false)
 		{
 			std::string parserLine = "";
 			std::getline(fileReader, parserLine);

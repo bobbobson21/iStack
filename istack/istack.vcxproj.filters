@@ -18,10 +18,10 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="istack.h">
+    <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="istack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

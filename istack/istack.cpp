@@ -292,7 +292,7 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 
 		if ((*frameOut->PipeGet()) == nullptr)
 		{
-			if (unit->m_modualTypeCode >= m_moduleTypesArrayLength)
+			if (unit->m_modualTypeCode >= m_moduleTypesArrayLength) //error invalid moudule made it into exacution
 			{
 				if (m_processDepthCurrent <= m_processDepthMax)  //decresse incase failure shouldnt cause crash
 				{ 
@@ -302,7 +302,7 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 				return false;
 			}
 
-			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateStack != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateStack(frameOut, this, &unit->m_data) == false)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateStack != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateStack(frameOut, this, &unit->m_data) == false) //error module failed to exacute successfully
 			{
 				if (m_processDepthCurrent <= m_processDepthMax) //decresse incase failure shouldnt cause crash
 				{
@@ -312,24 +312,14 @@ bool ist::IstackModuleExacuteor::ProcessExacuteFrame(IstackStackFrame* frameIn, 
 				return false;
 			}
 
-			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateExecution != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateExecution(frameOut, this, &unit->m_data) == false)
-			{
-				if (m_processDepthCurrent <= m_processDepthMax) //decresse incase exit shouldnt cause crash
-				{
-					m_processDepthCurrent = m_processDepthCurrent - 1;
-				}
-
-				return true;
-			}
-
-			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf != nullptr && m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelf(frameOut, this, &unit->m_data) == true) //should module be added to dump stack
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
 			}
 		}
 		else
 		{
-			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true)
+			if (m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped == nullptr || m_moduleTypesArray[unit->m_modualTypeCode].ValidateSelfPiped(frameOut, this, &unit->m_data) == true) //pipe tracking
 			{
 				frameOut->UnitPush(frameIn->UnitTop());
 			}

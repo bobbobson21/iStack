@@ -33,7 +33,6 @@ namespace ist
 	struct ISTACK_API IstackModuleType
 	{
 		bool(*ValidateStack)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///Is the stack valid if not bail on program exacution. Do data modifying here.
-		bool(*ValidateExecution)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///if returns false execution of the current code frame will end
 		bool(*ValidateSelf)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///Is self valid if not bail on data being added to stack.
 		bool(*ValidateSelfPiped)(IstackStackFrame*, IstackModuleExacuteor*, void**) = nullptr; ///can it be added to the sub stack frame and this will also be exacuted in piped stack frames
 		void(*FreeData)(void**) = nullptr; ///frees the data
@@ -41,7 +40,7 @@ namespace ist
 	};
 
 	/**
-	* @brief frames are local scopes of code nohing inside them can access the outside and they can be fed into IstackModuleExacuteor along with a dump frame (an empty frame that holds data) to have there code exacuted 
+	* @brief frames are local scopes of code nothing inside them can access the outside and they can be fed into IstackModuleExacuteor along with a dump frame (an empty frame that holds data) to have there code exacuted 
 	*/
 	class ISTACK_API IstackStackFrame
 	{
@@ -55,11 +54,11 @@ namespace ist
 		unsigned int m_pipeDepthContext = 0; ///used to ensure everything can work correctly involving pipeing
 
 	public:
-
-		IstackModuleType& operator=(const IstackModuleType& t) = delete;
-
 		IstackStackFrame(void);
 		~IstackStackFrame(void);
+		IstackStackFrame& operator=(const IstackStackFrame& t) = delete;
+		IstackStackFrame(IstackStackFrame const&) = delete;
+		IstackStackFrame(IstackStackFrame&& h) = default;
 
 		/**
 		* @brief creates a IstackStackFrame which will result in all new units pushed to this frame being insted pushed to that one. SHOULD ONLY BE FREE'D with PipeFree OR PipeClearedFree
@@ -208,12 +207,12 @@ namespace ist
 		bool m_errorSymbolMemoryOverflowed = false; //will be true on error
 
 	public:
-
-		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
-
 		IstackModuleExacuteor(unsigned int processDepth);
 		IstackModuleExacuteor(void);
 		~IstackModuleExacuteor(void);
+		IstackModuleExacuteor& operator=(const IstackModuleExacuteor& t) = delete;
+		IstackModuleExacuteor(IstackModuleExacuteor const&) = delete;
+		IstackModuleExacuteor(IstackModuleExacuteor&& h) = default;
 
 		/**
 		* @brief sets the error that occored
@@ -396,12 +395,12 @@ namespace ist
 		void CreateInputBuffer(unsigned int inputBufferSize);
 
 	public:
-		IstackLexParser& operator=(const IstackLexParser& t) = delete;
-
 		IstackLexParser(unsigned int inputBufferSize);
 		IstackLexParser(void);
 		~IstackLexParser(void);
-		
+		IstackLexParser& operator=(const IstackLexParser& t) = delete;
+		IstackLexParser(IstackLexParser const&) = delete;
+		IstackLexParser(IstackLexParser&& h) = default;
 
 		/**
 		* @brief sets the function that pases the data ie 42/"hohoh"/true and has to be done manually there can be no DefParseFuncs for this
