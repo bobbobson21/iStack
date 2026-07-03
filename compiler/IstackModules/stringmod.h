@@ -307,7 +307,7 @@ namespace ist
 			}
 		}
 
-		void LoadFileModules(IstackModuleExacuteor* module, IstackLexParser* parser)
+		void LoadStringModModules(IstackModuleExacuteor* module, IstackLexParser* parser)
 		{
 			ist::IstackModuleType strAdd = ist::IstackModuleType();
 			strAdd.ValidateStack = raw::ValidateStack_StringCombine;
@@ -350,20 +350,10 @@ namespace ist
 
 
 			ist::IstackModuleType strCon = ist::IstackModuleType();
-			strCon.ValidateStack = raw::ValidateStack_StringLower;
+			strCon.ValidateStack = raw::ValidateStack_StringContains;
 			strCon.ValidateSelf = raw::Validate_Fail;
 			strCon.CopyData = raw::CopyData_String;
 			strCon.FreeData = raw::FreeData_String;
-
-			module->ModuleAddType(strCon);
-			if (parser != nullptr) { parser->WordsAdd("strContains"); }
-
-
-			ist::IstackModuleType strCon = ist::IstackModuleType();
-			strCon.ValidateStack = raw::ValidateStack_StringLower;
-			strCon.ValidateSelf = raw::Validate_Fail;
-			strCon.CopyData = raw::CopyData_Char;
-			strCon.FreeData = raw::FreeData_Single;
 
 			module->ModuleAddType(strCon);
 			if (parser != nullptr) { parser->WordsAdd("strContains"); }

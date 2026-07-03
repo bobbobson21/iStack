@@ -500,28 +500,21 @@ void ist::IstackModuleExacuteor::CopyModuleProcessDepthDataFromAndTo(IstackModul
 
 void ist::IstackLexParser::PushChar(char charter)
 {
-	if (m_f_ParseFuncComment(m_inputStringBuffer, m_inputStringBufferIndex, charter, this) == false) //comment handling
-	{
-		return;
-	}
-
 	if (m_inputStringBufferIndex >= m_inputStringMaxBufferLength) //safty
 	{
 		return;
 	}
 
-	bool isOutsideOfString = m_f_ParseFuncString(m_inputStringBuffer, m_inputStringBufferIndex, charter);
+	bool isOutsideOfString = m_f_ParseFuncString(m_inputStringBuffer, &m_inputStringBufferIndex, charter, this);
 
 	if (isOutsideOfString == true)
 	{
-		if (charter == '\n') { return; } //outside a string these charters are ingored but inside one this is not the case
-		if (charter == '\r') { return; }
-		if (charter == '\t') { return; }
-		if (charter == '\0') { return; }
+		if (m_f_ParseFuncComment(m_inputStringBuffer, &m_inputStringBufferIndex, charter, this) == true) //comment handling as well as (\n,\t,\r)
+		{
+			return;
+		}
 
-		if (charter == ' ') { return; }
-
-		if (charter == ';') //every symbol has this is the end and this is also allowed in strings
+		if (m_f_ParseFuncModuleSeparator(m_inputStringBuffer, &m_inputStringBufferIndex, charter, this) == true) //every symbol has has to have this at the end
 		{
 			unsigned int lagestSymbolMatchSize = 0;
 			IstackUnit unitToPush = IstackUnit();
@@ -553,7 +546,7 @@ void ist::IstackLexParser::PushChar(char charter)
 
 				if (m_f_ParseFuncData != nullptr)
 				{
-					isSucessfulAtParsingData = m_f_ParseFuncData(m_inputStringBuffer, m_inputStringBufferIndex, &unitToPush);
+					isSucessfulAtParsingData = m_f_ParseFuncData(m_inputStringBuffer, &m_inputStringBufferIndex, &unitToPush);
 				}
 
 				if (isSucessfulAtParsingData == true) //can parse data
@@ -620,19 +613,24 @@ ist::IstackLexParser::~IstackLexParser(void)
 }
 
 
-void ist::IstackLexParser::ParseSetDataFunc(bool(*dataParseFunc)(char*, unsigned int, IstackUnit*))
+void ist::IstackLexParser::ParseSetDataFunc(bool(*dataParseFunc)(char*, unsigned int*, IstackUnit*))
 {
 	m_f_ParseFuncData = dataParseFunc;
 }
 
-void ist::IstackLexParser::ParseSetCommentFunc(bool(*commentParse)(char*, unsigned int, char, IstackLexParser*))
+void ist::IstackLexParser::ParseSetCommentFunc(bool(*commentParse)(char*, unsigned int*, char, IstackLexParser*))
 {
 	m_f_ParseFuncComment = commentParse;
 }
 
-void ist::IstackLexParser::ParseSetStringFunc(bool(*stringParse)(char*, unsigned int, char))
+void ist::IstackLexParser::ParseSetStringFunc(bool(*stringParse)(char*, unsigned int*, char, IstackLexParser*))
 {
 	m_f_ParseFuncString = stringParse;
+}
+
+void ist::IstackLexParser::ParseSetSeparatorFunc(bool(*sepratorParse)(char*, unsigned int*, char, IstackLexParser*))
+{
+	m_f_ParseFuncModuleSeparator = sepratorParse;
 }
 
 
@@ -736,42 +734,65 @@ void ist::IstackLexParser::InputFlushBuffer()
 
 
 
-bool ist::DefParseFuncs::CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify)
+bool ist::DefParseFuncs::CppCommentStyle(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify)
 {
-	if (inputLength >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '/')
+	if (newChar == '\n') { return true; } //outside a string these charters are ingored but inside one this is not the case
+	if (newChar == '\r') { return true; }
+	if (newChar == '\t') { return true; }
+	if (newChar == '\0') { return true; }
+	if (newChar == ' ') { return true; }
+
+
+	if ((*inputLength) >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '/')
 	{
 		if (newChar == '\n' || newChar == '\r')
 		{
 			parserToModify->InputFlushBuffer();
 		}
 
-		return false;
+		return true;
 	}
 
-	if (inputLength >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '*')
+	if ((*inputLength) >= 2 && inputBuffer[0] == '/' && inputBuffer[1] == '*')
 	{
-		if (inputBuffer[inputLength - 2] == '*' && inputBuffer[inputLength - 1] == '/')
+		if (inputBuffer[(*inputLength) - 2] == '*' && inputBuffer[(*inputLength) - 1] == '/')
 		{
 			parserToModify->InputFlushBuffer();
-			return true;
+			return false;
 		}
 
 		if (newChar != '*' && newChar != '/')
 		{
-			return false;
+			return true;
 		}
 	}
 
-	return true;
+	return false;
 }
 
-bool ist::DefParseFuncs::LuaStringStyle(char* inputBuffer, unsigned int inputLength, char newChar)
+bool ist::DefParseFuncs::CppModuleSeparator(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify)
+{
+	if (newChar == ':' && inputBuffer[(*inputLength) -1] == ':')
+	{
+		(*inputLength) = (*inputLength) - 1;
+		return true;
+	}
+
+	return (newChar == ';');
+}
+
+bool ist::DefParseFuncs::LuaModuleSeparator(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify)
+{
+	return (newChar == ';' || newChar == '.');
+}
+
+bool ist::DefParseFuncs::LuaStringStyle(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify)
 {
 	static char currentStringState = '\0';
 
-	if (inputLength > 0)
+	if ((*inputLength) > 0)
 	{
-		char lastCharAdded = inputBuffer[inputLength - 1];
+		char lastCharAdded = inputBuffer[(*inputLength) - 1];
 
 		if (lastCharAdded == '"' && currentStringState == '"') { currentStringState = '\0'; }
 		else if (lastCharAdded == '"' && currentStringState == '\0') { currentStringState = '"'; }

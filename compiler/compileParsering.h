@@ -9,13 +9,13 @@ namespace compiler
 {
 	std::string n_lastAguments = "";
 
-	bool DataParse(char* string, unsigned int stringLength, ist::IstackUnit* unit)
+	bool DataParse(char* string, unsigned int* stringLength, ist::IstackUnit* unit)
 	{
 		std::string stringName = "";
 		std::string stringArg = "";
 		int parsingMode = 0; //parse mode 0 = parseing module name, parse mode 1 = parsing argument, parse mode 2 = null
 
-		for (size_t i = 0; i < stringLength; i++)
+		for (size_t i = 0; i < (*stringLength); i++)
 		{
 			if (string[i] == ')') { parsingMode = 2; }
 

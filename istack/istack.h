@@ -370,10 +370,10 @@ namespace ist
 		bool m_errorSymbolMemoryOverflowed = false; ///will be true on error
 		bool m_errorFrameInvalid = false; ///will be true on error
 
-		bool(*m_f_ParseFuncData)(char*, unsigned int, IstackUnit*) = nullptr; ///return true to confirm all is working and return false to confirm parsing failure
-		bool(*m_f_ParseFuncComment)(char*, unsigned int, char, IstackLexParser*) = nullptr; ///return true to add text to buffer and return false to block text being added to buffer 
-		bool(*m_f_ParseFuncString)(char*, unsigned int, char) = nullptr; ///return true to say we are outside a sting and false to say we are inside a string and that ingored or controled charater (\t,\n,;) sholud be added to buffer
-
+		bool(*m_f_ParseFuncData)(char*, unsigned int*, IstackUnit*) = nullptr; ///return true to confirm all is working and return false to confirm parsing failure
+		bool(*m_f_ParseFuncComment)(char*, unsigned int*, char, IstackLexParser*) = nullptr; ///return true to add text to buffer and return false to block text being added to buffer 
+		bool(*m_f_ParseFuncString)(char*, unsigned int*, char, IstackLexParser*) = nullptr; ///return true to say we are outside a sting and false to say we are inside a string and that ingored or controled charater (\t,\n,;) sholud be added to buffer
+		bool(*m_f_ParseFuncModuleSeparator)(char*, unsigned int*, char, IstackLexParser*) = nullptr; ///return true to say we have the name of the module we are pasing
 
 		/**
 		* @brief adds a letter to the sting buffer and once a ; is added it will that try to find the right module for it
@@ -405,23 +405,30 @@ namespace ist
 		/**
 		* @brief sets the function that pases the data ie 42/"hohoh"/true and has to be done manually there can be no DefParseFuncs for this
 		*
-		* @param[in] dataParseFunc: parses data function params: (char*, unsigned int, IstackUnit*)
+		* @param[in] dataParseFunc: parses data function params: (char* textBuffer, unsigned int* textBufferLength, IstackUnit* IstackLexParser* us)
 		*/
-		void ParseSetDataFunc(bool(*dataParseFunc)(char*, unsigned int, IstackUnit*));
+		void ParseSetDataFunc(bool(*dataParseFunc)(char*, unsigned int*, IstackUnit*));
 
 		/**
 		* @brief use ist::DefParseFuncs::CppCommentStyle
 		*
-		* @param[in] commentParse: the function which parses the comments params: (char*, unsigned int, char, IstackLexParser*)
+		* @param[in] commentParse: the function which parses the comments params: (char* textBuffer, unsigned int textBufferLength, char newLetter, IstackLexParser* us)
 		*/
-		void ParseSetCommentFunc(bool(*commentParse)(char*, unsigned int, char, IstackLexParser*));
+		void ParseSetCommentFunc(bool(*commentParse)(char*, unsigned int*, char, IstackLexParser*));
 
 		/**
 		* @brief use ist::DefParseFuncs::LuaStringStyle
 		*
-		* @param[in] stringParse finds out if we are in a sting or not and sets if chars like \n\t should be ingored or not params: (char*, unsigned int, char)
+		* @param[in] stringParse finds out if we are in a sting or not and sets if chars like \n\t should be ingored or not params: (char* textBuffer, unsigned int textBufferLength, char newLetter, IstackLexParser* us)
 		*/
-		void ParseSetStringFunc(bool(*stringParse)(char*, unsigned int, char));
+		void ParseSetStringFunc(bool(*stringParse)(char*, unsigned int*, char, IstackLexParser*));
+
+		/**
+		* @brief use ist::DefParseFuncs::LuaStringStyle
+		*
+		* @param[in] stringParse finds out if we are in a sting or not and sets if chars like \n\t should be ingored or not params: (char* textBuffer, unsigned int textBufferLength, char newLetter, IstackLexParser* us)
+		*/
+		void ParseSetSeparatorFunc(bool(*sepratorParse)(char*, unsigned int*, char, IstackLexParser*));
 
 
 		/**
@@ -499,8 +506,10 @@ namespace ist
 
 	namespace DefParseFuncs
 	{
-		bool ISTACK_API CppCommentStyle(char* inputBuffer, unsigned int inputLength, char newChar, ist::IstackLexParser* parserToModify);
-		bool ISTACK_API LuaStringStyle(char* inputBuffer, unsigned int inputLength, char newChar);
+		bool ISTACK_API CppCommentStyle(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify);
+		bool ISTACK_API CppModuleSeparator(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify);
+		bool ISTACK_API LuaModuleSeparator(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify);
+		bool ISTACK_API LuaStringStyle(char* inputBuffer, unsigned int* inputLength, char newChar, ist::IstackLexParser* parserToModify);
 	}
 
 }

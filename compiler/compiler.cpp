@@ -21,6 +21,7 @@
 #include "IstackModules/pulldata.h"
 #include "IstackModules/function.h"
 #include "IstackModules/file.h"
+#include "IstackModules/stringmod.h"
 
 #include "compileConfig.h"
 #include "compileParsering.h"
@@ -30,7 +31,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string filePath = "";
+	std::string filePath = "C:\\Users\\dsbkh\\OneDrive\\Desktop\\github projects\\iStack\\examples\\functional.ist";
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -49,6 +50,7 @@ int main(int argc, char* argv[])
 	parser.ParseSetDataFunc(compiler::DataParse); //a function for this cant be included in the dll as it requires data minulation that should only be done on the programs end
 	parser.ParseSetCommentFunc(ist::DefParseFuncs::CppCommentStyle); //but this can be done tho
 	parser.ParseSetStringFunc(ist::DefParseFuncs::LuaStringStyle);
+	parser.ParseSetSeparatorFunc(ist::DefParseFuncs::LuaModuleSeparator);
 
 	ist::IstackModuleExacuteor exec = ist::IstackModuleExacuteor();
 
@@ -65,7 +67,8 @@ int main(int argc, char* argv[])
 	ist::modules::LoadExecModules(&exec, &parser); //58 -> 61
 	ist::modules::LoadIoModules(&exec, &parser); //61 -> 67
 	ist::modules::LoadFunctionModules(&exec, &parser); //67 -> 71
-	ist::modules::LoadFileModules(&exec, &parser); //71 -> 74 //last
+	ist::modules::LoadFileModules(&exec, &parser); //71 -> 74
+	ist::modules::LoadStringModModules(&exec, &parser);  //74 -> 83 //last
 
 	if (exec.ErrorSymbolMemoryOverflowed() == true || parser.ErrorSymbolMemoryOverflowed() == true) //you would need 4,294,967,295 modules all of which would need at lest 4,294,967,295 unique functions but they could have two or four unique functions so this would be very difficult to pull of and maybe even impossible
 	{
