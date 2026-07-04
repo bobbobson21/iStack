@@ -154,9 +154,8 @@ namespace ist
 
 
 				delete (*data);
-
 				(*data) = new int;
-				(*(int*)(*data)) = std::pow(A, B);
+				(*(int*)(*data)) = (int)std::pow((int)(A), (int)(B));
 
 				return true;
 			}
@@ -179,7 +178,6 @@ namespace ist
 
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = (A + B);
 
@@ -203,7 +201,6 @@ namespace ist
 
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = (A - B);
 
@@ -227,7 +224,6 @@ namespace ist
 
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = (A * B);
 
@@ -251,7 +247,6 @@ namespace ist
 
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = (A / B);
 
@@ -269,7 +264,6 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = std::sinf(A);
 
@@ -286,7 +280,6 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = std::cosf(A);
 
@@ -303,7 +296,6 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = std::abs(A);
 
@@ -320,7 +312,6 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = std::floorf(A);
 
@@ -337,7 +328,6 @@ namespace ist
 				dumpFrame->UnitPop();
 
 				delete (*data);
-
 				(*data) = new float;
 				(*(float*)(*data)) = std::ceilf(A);
 
@@ -360,9 +350,6 @@ namespace ist
 				exec->FreeUnit(dumpFrame->UnitTopPtr());
 				dumpFrame->UnitPop();
 
-				delete (*data);
-
-
 				float randomNumber = A;
 				
 				if (A < B)
@@ -372,6 +359,7 @@ namespace ist
 					randomNumber = randomNumber + (((float)(rand() % decimalDetail)) / ((float)(decimalDetail)));
 				}
 
+				delete (*data);
 				(*data) = new float;
 				(*(float*)(*data)) = randomNumber;
 

@@ -45,10 +45,10 @@
     <ClInclude Include="IstackModules\system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="compileConfig.h">
+    <ClInclude Include="CompilerCode\compileConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="compileParsering.h">
+    <ClInclude Include="CompilerCode\compileParsering.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IstackModules\exec.h">
@@ -83,7 +83,7 @@
     <None Include="lib\istack\istack.pdb" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="compiler.cpp">
+    <ClCompile Include="CompilerCode\compiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -183,7 +183,8 @@ namespace compiler
 
 				newUnit.m_modualTypeCode = std::stoi(blockInProcessing.substr(0, separator));
 
-				DataParse((char*)blockInProcessing.c_str(), blockInProcessing.length(), &newUnit);
+				unsigned int dataParseLength = blockInProcessing.length();
+				DataParse((char*)blockInProcessing.c_str(), &dataParseLength, &newUnit);
 
 				codeFrame->UnitPush(newUnit);
 				blockInProcessing = "";

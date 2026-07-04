@@ -20,8 +20,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="compileConfig.h" />
-    <ClInclude Include="compileParsering.h" />
+    <ClInclude Include="CompilerCode\compileConfig.h" />
+    <ClInclude Include="CompilerCode\compileParsering.h" />
     <ClInclude Include="IstackModules\conversion.h" />
     <ClInclude Include="IstackModules\exec.h" />
     <ClInclude Include="IstackModules\file.h" />
@@ -47,7 +47,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="compiler.cpp" />
+    <ClCompile Include="CompilerCode\compiler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\istack.lib" />

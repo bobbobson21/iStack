@@ -8,20 +8,20 @@
 #include <cctype>
 #include <fstream>
 
-#include "IstackModules/io.h"
-#include "IstackModules/scope.h"
-#include "IstackModules/var.h"
-#include "IstackModules/logic.h"
-#include "IstackModules/math.h"
-#include "IstackModules/conversion.h"
-#include "IstackModules/loops.h"
-#include "IstackModules/manipulation.h"
-#include "IstackModules/system.h"
-#include "IstackModules/exec.h"
-#include "IstackModules/pulldata.h"
-#include "IstackModules/function.h"
-#include "IstackModules/file.h"
-#include "IstackModules/stringmod.h"
+#include "../IstackModules/io.h"
+#include "../IstackModules/scope.h"
+#include "../IstackModules/var.h"
+#include "../IstackModules/logic.h"
+#include "../IstackModules/math.h"
+#include "../IstackModules/conversion.h"
+#include "../IstackModules/loops.h"
+#include "../IstackModules/manipulation.h"
+#include "../IstackModules/system.h"
+#include "../IstackModules/exec.h"
+#include "../IstackModules/pulldata.h"
+#include "../IstackModules/function.h"
+#include "../IstackModules/file.h"
+#include "../IstackModules/stringmod.h"
 
 #include "compileConfig.h"
 #include "compileParsering.h"
@@ -31,7 +31,7 @@
 
 int main(int argc, char* argv[])
 {
-	std::string filePath = "C:\\Users\\dsbkh\\OneDrive\\Desktop\\github projects\\iStack\\examples\\functional.ist";
+	std::string filePath = "";
 
 	for (int i = 1; i < argc; i++)
 	{
@@ -48,9 +48,7 @@ int main(int argc, char* argv[])
 	ist::IstackLexParser parser = ist::IstackLexParser();
 	parser.FrameSet(&codeScope);
 	parser.ParseSetDataFunc(compiler::DataParse); //a function for this cant be included in the dll as it requires data minulation that should only be done on the programs end
-	parser.ParseSetCommentFunc(ist::DefParseFuncs::CppCommentStyle); //but this can be done tho
-	parser.ParseSetStringFunc(ist::DefParseFuncs::LuaStringStyle);
-	parser.ParseSetSeparatorFunc(ist::DefParseFuncs::LuaModuleSeparator);
+
 
 	ist::IstackModuleExacuteor exec = ist::IstackModuleExacuteor();
 

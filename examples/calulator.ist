@@ -23,6 +23,7 @@ Fn("+");
     #i>>str;
     i+;
 
+	&Swap<<;
     #str>>i;
     Input();
     SelfPrint("input oparad: ");
@@ -39,6 +40,7 @@ Fn("-");
     #i>>str;
     i-;
 
+	&Swap<<;
     #str>>i;
     Input();
     SelfPrint("input oparad: ");
@@ -55,6 +57,7 @@ Fn("/");
     #i>>str;
     i/;
 
+	&Swap<<;
     #str>>i;
     Input();
     SelfPrint("input oparad: ");
@@ -71,6 +74,7 @@ Fn("*");
     #i>>str;
     i*;
 
+	&Swap<<;
     #str>>i;
     Input();
     SelfPrint("input oparad: ");
@@ -87,6 +91,7 @@ Fn("%");
     #i>>str;
     i%;
 
+	&Swap<<;
     #str>>i;
     Input();
     SelfPrint("input oparad: ");
@@ -103,6 +108,7 @@ Fn("^");
     #i>>str;
     i^;
 
+	&Swap<<;
     #str>>i;
     Input();
     SelfPrint("input oparad: ");

@@ -39,11 +39,7 @@ namespace ist
 					exec->FreeUnit(dumpFrame->UnitTopPtr());
 					dumpFrame->UnitPop();
 
-					if ((*data) != nullptr)
-					{
-						delete (std::string*)data;
-					}
-
+					if ((*data) != nullptr){delete (std::string*)(*data);}
 					(*data) = new std::string;
 					(*(std::string*)(*data)) = (A + B);
 				}
@@ -71,7 +67,7 @@ namespace ist
 
 					delete (*data);
 					(*data) = new int;
-					(*(int*)(*data)) = (A.length());
+					(*(int*)(*data)) = (int)(A.length());
 				}
 				catch (...)
 				{
@@ -98,11 +94,7 @@ namespace ist
 						A[i] = toupper(A[i]);
 					}
 
-					if ((*data) != nullptr)
-					{
-						delete (std::string*)data;
-					}
-
+					if ((*data) != nullptr) { delete (std::string*)(*data); }
 					(*data) = new std::string;
 					(*(std::string*)(*data)) = A;
 				}
@@ -131,11 +123,7 @@ namespace ist
 						A[i] = tolower(A[i]);
 					}
 
-					if ((*data) != nullptr)
-					{
-						delete (std::string*)data;
-					}
-
+					if ((*data) != nullptr) { delete (std::string*)(*data); }
 					(*data) = new std::string;
 					(*(std::string*)(*data)) = A;
 				}
@@ -165,7 +153,7 @@ namespace ist
 					exec->FreeUnit(dumpFrame->UnitTopPtr());
 					dumpFrame->UnitPop();
 
-					delete data;
+					delete (*data);
 					(*data) = new bool;
 					(*(bool*)(*data)) = (A.find_first_of(B) != std::string::npos);
 				}
@@ -195,7 +183,7 @@ namespace ist
 					exec->FreeUnit(dumpFrame->UnitTopPtr());
 					dumpFrame->UnitPop();
 
-					delete data;
+					delete (*data);
 					(*data) = new int;
 					(*(int*)(*data)) = (A.find_first_of(B));
 				}
@@ -237,11 +225,7 @@ namespace ist
 						return false;
 					}
 
-					if ((*data) != nullptr)
-					{
-						delete (std::string*)data;
-					}
-
+					if ((*data) != nullptr) { delete (std::string*)(*data); }
 					(*data) = new std::string;
 					(*(std::string*)(*data)) = A.substr(B, C);
 				}
@@ -289,11 +273,7 @@ namespace ist
 						}
 					}
 
-					if ((*data) != nullptr)
-					{
-						delete (std::string*)data;
-					}
-
+					if ((*data) != nullptr) { delete (std::string*)(*data); }
 					(*data) = new std::string;
 					(*(std::string*)(*data)) = resultString;
 				}

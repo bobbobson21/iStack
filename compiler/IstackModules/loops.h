@@ -216,7 +216,7 @@ namespace ist
 					}
 				}
 
-				if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) == true && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == false) //was loop exited because it ended
+				if (n_breakingLoopsForLoopsLib.count(std::this_thread::get_id()) > 0 && n_breakingLoopsForLoopsLib[std::this_thread::get_id()] == false) //was loop exited because it ended
 				{
 					exec->ErrorSetCode(ExitInEndFailureLoops);
 					return false; //if so invalidate stack
